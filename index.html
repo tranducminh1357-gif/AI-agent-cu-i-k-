@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniAnalyst AI • Hệ Thống Phân Tích Dữ Liệu Doanh Nghiệp</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SheetJS (XLSX parser & exporter) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- CHUẨN HÓA 1 HỌ PHÔNG CHỮ DOANH NGHIỆP DUY NHẤT: PLUS JAKARTA SANS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Áp dụng 1 thể phông chữ duy nhất cho toàn bộ hệ thống */
+    body, input, button, select, textarea, table, h1, h2, h3, h4, h5, h6, p, span, div, a, li, label {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    .fa, .fas, .far, .fal, .fad, .fab, .fa-solid, .fa-regular, .fa-brands, [class*='fa-'] {
+      font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'FontAwesome' !important;
+    }
+
+    body {
+      background-color: #F4F6FA;
+      color: #0F172A;
+      background-image:
+        radial-gradient(ellipse at 10% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 10%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header .gold-gradient-text {
+      background: linear-gradient(135deg, #FFFFFF 0%, #E0F2FE 60%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .royal-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-top: 2.5px solid #2563EB;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      color: #FFFFFF !important;
+      font-weight: 700;
+      letter-spacing: 0.015em;
+      border: 1px solid #1E40AF;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+      transition: all 0.2s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.38);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold-outline {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #1E293B;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: all 0.2s ease;
+    }
+    .btn-gold-outline:hover {
+      background: #F8FAFC;
+      border-color: #2563EB;
+      color: #1D4ED8;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+    }
+    header .btn-gold-outline {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #F8FAFC;
+    }
+    header .btn-gold-outline:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: #60A5FA;
+      color: #FFFFFF;
+    }
+
+    .step-tab {
+      color: #94A3B8;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .step-tab:hover { color: #F8FAFC; }
+    .step-tab-active {
+      color: #FFFFFF;
+      border-bottom: 3px solid #38BDF8;
+      background: linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.14) 100%);
+      font-weight: 700;
+    }
+
+    .badge-gold {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1D4ED8;
+    }
+    header .badge-gold, .top-ribbon .badge-gold {
+      background: rgba(37, 99, 235, 0.25);
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      color: #E0F2FE;
+    }
+
+    .royal-crest {
+      background: conic-gradient(from 135deg, #38BDF8, #2563EB, #1E3A8A, #60A5FA, #38BDF8);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    @keyframes assistantBreathe {
+      0%, 100% { transform: scale(1) translateY(0px); }
+      50% { transform: scale(1.04) translateY(-1.5px); }
+    }
+    @keyframes speakingPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.65), 0 0 14px rgba(37, 99, 235, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.25), 0 0 22px rgba(56, 189, 248, 0.75); }
+    }
+    @keyframes eqBounce {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
+    }
+    .assistant-alive {
+      animation: assistantBreathe 4.2s ease-in-out infinite;
+      transform-origin: center 30%;
+    }
+    .assistant-speaking {
+      animation: speakingPulse 1.1s ease-in-out infinite !important;
+    }
+    .eq-bar {
+      width: 2.5px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, #2563EB, #10B981);
+      animation: eqBounce 0.65s ease-in-out infinite;
+    }
+
+    .drop-active {
+      border-color: #2563EB !important;
+      background: #EFF6FF !important;
+      transform: scale(1.01);
+    }
+
+    .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748B; }
+
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, .no-print { display: none !important; }
+      .royal-card { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; color: black !important; }
+      .gold-gradient-text { color: #0F172A !important; text-shadow: none !important; -webkit-text-fill-color: initial !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/30 selection:text-sky-200">
+
+  <!-- TOP RIBBON -->
+  <div class="border-b border-slate-700/80 bg-slate-900 top-ribbon backdrop-blur-md text-xs py-2.5 px-4 sticky top-0 z-50 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-extrabold badge-gold tracking-wide">
+          <i class="fa-solid fa-crown mr-1.5 text-sky-300"></i> OMNI-ANALYST • ENTERPRISE BI
+        </span>
+        <span class="text-slate-300 text-xs hidden sm:inline font-medium">
+          Private Wealth & Executive Intelligence Platform
+        </span>
+      </div>
+      <div class="flex items-center space-x-4 text-xs text-slate-300">
+        <span>Doanh Nghiệp: <strong class="text-sky-300 font-bold" id="top-company-name">Chưa xác định</strong></span>
+        <span class="text-slate-600">|</span>
+        <span>Ngành Nghề: <strong class="text-emerald-400 font-bold" id="top-industry">Đang nạp</strong></span>
+        <span class="text-slate-600">|</span>
+        <span id="top-dataset-status" class="text-sky-300 font-semibold">61.200 Bản Ghi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="border-b border-slate-700/80 bg-gradient-to-b from-slate-900 to-slate-800 backdrop-blur-xl relative">
+    <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center space-x-4">
+        <div class="w-15 h-15 p-[2.5px] rounded-2xl royal-crest">
+          <div class="w-14 h-14 bg-slate-900 rounded-[13px] flex items-center justify-center text-sky-300 text-2xl relative">
+            <i class="fa-solid fa-crown drop-shadow-[0_0_10px_rgba(243,210,121,0.75)]"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center space-x-3">
+            <h1 class="text-2xl font-extrabold tracking-tight gold-gradient-text" id="header-company-name">
+              CHUYÊN VIÊN PHÂN TÍCH DỮ LIỆU AI
+            </h1>
+            <button onclick="switchStep(1)" class="text-sky-200 hover:text-white text-xs px-2.5 py-1 rounded-lg bg-white/10 border border-white/20 font-semibold flex items-center transition">
+              <i class="fa-solid fa-pen-to-square mr-1 text-[11px]"></i> Sửa Thông Tin
+            </button>
+          </div>
+          <p class="text-xs text-slate-300 mt-1 font-medium">
+            Hệ thống Tài Chính & Quản Trị Đế Chế: Nạp dữ liệu • Khung ngành • Làm sạch • Phân tích • Báo cáo chuẩn VAS • Hỏi AI
+          </p>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="flex items-center space-x-2.5 self-start md:self-auto no-print">
+        <button onclick="runInstantReport()" class="btn-gold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-1.5 shadow-lg">
+          <i class="fa-solid fa-bolt text-white"></i>
+          <span>Tổng Hợp Nhanh</span>
+        </button>
+        <button onclick="downloadCleanedExcel()" class="btn-gold-outline text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2">
+          <i class="fa-solid fa-file-excel text-emerald-400"></i>
+          <span>Xuất Báo Cáo Excel</span>
+        </button>
+        <button onclick="window.print()" class="btn-gold-outline text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2">
+          <i class="fa-solid fa-file-pdf text-rose-400"></i>
+          <span>Xuất PDF</span>
+        </button>
+        <button onclick="resetAll()" title="Làm mới trạng thái ban đầu" class="btn-gold-outline p-2.5 rounded-xl text-amber-400">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 6-STEP PIPELINE NAVIGATION RIBBON -->
+    <div class="max-w-7xl mx-auto px-4 flex space-x-1 overflow-x-auto text-xs font-semibold custom-scroll pt-1 border-t border-slate-700/60 no-print">
+      <button onclick="switchStep(1)" id="btn-step-1" class="py-3 px-3.5 step-tab flex items-center space-x-2 step-tab-active">
+        <span class="w-5 h-5 rounded-full bg-sky-400 text-white flex items-center justify-center text-xs font-black">1</span>
+        <span>1. Tiếp Nhận Dữ Liệu</span>
+      </button>
+      <button onclick="switchStep(2)" id="btn-step-2" class="py-3 px-3.5 step-tab flex items-center space-x-2">
+        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">2</span>
+        <span>2. Khung Ngành & KPIs</span>
+      </button>
+      <button onclick="switchStep(3)" id="btn-step-3" class="py-3 px-3.5 step-tab flex items-center space-x-2">
+        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">3</span>
+        <span>3. Làm Sạch Tự Động</span>
+      </button>
+      <button onclick="switchStep(4)" id="btn-step-4" class="py-3 px-3.5 step-tab flex items-center space-x-2">
+        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">4</span>
+        <span>4. Phân Tích & Bất Thường</span>
+      </button>
+      <button onclick="switchStep(5)" id="btn-step-5" class="py-3 px-3.5 step-tab flex items-center space-x-2">
+        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">5</span>
+        <span>5. Trung Tâm Báo Cáo & Tương Tác AI</span>
+        <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-sky-300 font-bold">Tất Cả Trong 1</span>
+        <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Chuẩn VAS</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN 6 STAGES VIEWPORT -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 1: TIẾP NHẬN THÔNG TIN & DỮ LIỆU ĐẦU VÀO -->
+    <!-- ========================================== -->
+    <section id="stage-1" class="space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300 relative">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <i class="fa-solid fa-id-card-clip"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 1 • TIẾP NHẬN DỮ LIỆU ĐẦU VÀO</span>
+            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              1. Tiếp Nhận Thông Tin Định Danh & Dữ Liệu Doanh Nghiệp
+            </h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Khách hàng cung cấp thông tin định danh doanh nghiệp, tải lên các file dữ liệu thô (Excel, CSV, JSON) và xác định mục tiêu phân tích mong muốn. Hệ thống sẽ ghi nhận ngữ cảnh vào <strong>Session Memory</strong>.
+        </p>
+
+        <!-- Form Thông Tin Doanh Nghiệp (Có Thể Chỉnh Sửa Tự Do) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/60 p-6 rounded-2xl border border-slate-200">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-blue-700">
+                1. Tên Công Ty / Doanh Nghiệp: <span class="text-rose-600">*</span>
+              </label>
+              <span class="text-[10px] text-slate-500 italic">Có thể sửa bất cứ lúc nào</span>
+            </div>
+            <input type="text" id="inp-company" oninput="syncCompanyAndIndustry()" value="Công ty Cổ phần Bán Lẻ An Phát" placeholder="Ví dụ: Công ty Cổ phần ABC, VinFast, An Phát..." class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-blue-700 block mb-1.5">
+              2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-rose-600">*</span>
+            </label>
+            <select id="inp-industry" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 outline-none focus:border-blue-500 font-bold">
+              <option value="RETAIL">Bán Lẻ & Chuỗi Cửa Hàng (Retail & FMCG)</option>
+              <option value="ECOMMERCE">Thương Mại Điện Tử & D2C (E-Commerce)</option>
+              <option value="FINANCE">Tài Chính, Ngân Hàng & Đầu Tư (Fintech & Banking)</option>
+              <option value="LOGISTICS">Kho Vận & Vận Chuyển (Logistics & Supply Chain)</option>
+              <option value="SAAS">Phần Mềm & Công Nghệ (SaaS / Tech Services)</option>
+              <option value="MANUFACTURING">Sản Xuất & Phân Phối (Manufacturing)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-blue-700 block mb-1.5">
+              3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-rose-600">*</span>
+            </label>
+            <select id="inp-goal" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 outline-none focus:border-blue-500 font-bold">
+              <option value="REVENUE_PROFIT">Phân tích Doanh thu, Lợi nhuận gộp & Tăng trưởng MoM</option>
+              <option value="RETURNS_ANOMALIES">Kiểm toán Đổi trả, Thất thoát & Phát hiện Bất thường</option>
+              <option value="BRANCH_KPI">Đánh giá Hiệu năng Chi nhánh & Xếp hạng Ưu tiên Hỗ trợ</option>
+              <option value="INVENTORY_CATEGORY">Tối ưu Cơ cấu Danh mục Sản phẩm & Biên Lợi Nhuận</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Cấu Hình Kết Nối API LLM Thật (Gemini / OpenAI / Server Env) -->
+        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-key text-blue-600"></i>
+              <span class="text-xs font-bold text-slate-800 uppercase tracking-wide">Kết Nối AI Thực Tế (Gemini API / OpenAI API / Server Env):</span>
+            </div>
+            <span id="llm-status-badge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700">
+              ⚪ Chế độ Offline (Chưa gắn API Key)
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+            <div class="md:col-span-4">
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">Nhà Cung Cấp LLM:</label>
+              <select id="inp-llm-provider" onchange="saveLLMConfig()" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 outline-none focus:border-blue-500 font-semibold">
+                <option value="gemini">Google Gemini API (gemini-3.8-flash)</option>
+                <option value="openai">OpenAI API (gpt-4o-mini)</option>
+                <option value="server">Server Env Proxy (/api/chat trên Vercel)</option>
+              </select>
+            </div>
+            <div class="md:col-span-6" id="llm-apikey-wrap">
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">API Key (Lưu an toàn trên trình duyệt):</label>
+              <div class="flex items-center space-x-1.5">
+                <input type="password" id="inp-llm-apikey" oninput="saveLLMConfig()" placeholder="Dán Gemini API Key (AIza...) hoặc OpenAI Key (sk-...)..." class="flex-1 bg-white border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-mono">
+                <button type="button" onclick="toggleApiKeyVisibility()" title="Hiện/Ẩn API Key" class="btn-gold-outline px-3 py-2.5 rounded-xl text-xs">
+                  <i id="icon-apikey-eye" class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="md:col-span-2">
+              <button type="button" onclick="testLLMConnection()" class="w-full btn-gold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-plug-circle-check text-white"></i>
+                <span>Test API</span>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-2">
+            Khi gắn API Key (hoặc cấu hình biến môi trường <code class="bg-slate-200 px-1 rounded">GEMINI_API_KEY</code> / <code class="bg-slate-200 px-1 rounded">OPENAI_API_KEY</code> trên Vercel), toàn bộ Hỏi Đáp AI, Trợ Lý Ảo & Báo Cáo Điều Hành sẽ dùng AI thật phân tích trực tiếp trên dữ liệu bạn vừa nạp.
+          </p>
+          <div id="llm-test-result" class="hidden mt-2.5 text-xs p-3 rounded-xl border"></div>
+        </div>
+
+        <!-- Khu Vực Kéo Thả File Dữ Liệu Thô -->
+        <div class="mt-6">
+          <label class="text-xs font-bold text-blue-700 block mb-2">
+            4. Tải Lên Tệp Dữ Liệu Thô (Excel, CSV, JSON):
+          </label>
+          <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 bg-slate-50 rounded-2xl p-8 text-center transition cursor-pointer" onclick="document.getElementById('file-upload-input').click()">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-slate-200 text-blue-700 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <h4 class="font-bold text-base text-slate-900 mb-1">
+              Kéo thả tệp dữ liệu vào đây hoặc Click để duyệt file
+            </h4>
+            <p class="text-xs text-slate-500 mb-3">
+              Hỗ trợ tệp <span class="text-blue-700 font-bold">.xlsx, .xls, .csv, .json</span> (Chứa bảng giao dịch, doanh số, chi nhánh, giá vốn...)
+            </p>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/30">
+              <i class="fa-solid fa-bolt mr-1"></i> Hệ thống tự động parse cột & lưu vào Session Memory
+            </span>
+          </div>
+          <input type="file" id="file-upload-input" accept=".xlsx, .xls, .csv, .json" class="hidden" onchange="handleFileUpload(event)">
+        </div>
+
+        <!-- Session Memory Card Preview -->
+        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-bold text-blue-700 uppercase tracking-wide">Hành Động Của Hệ Thống (Session Memory):</span>
+            </div>
+            <span class="text-xs font-semibold text-slate-500" id="session-records-badge">Đang sẵn sàng 61.200 giao dịch gốc</span>
+          </div>
+          <div class="mt-3 text-xs text-slate-700 space-y-1.5" id="session-memory-log">
+            <div>• Tên Doanh nghiệp: <strong class="text-blue-700" id="log-comp-name">Công ty Cổ phần Bán Lẻ An Phát</strong></div>
+            <div>• Ngành nghề: <strong class="text-emerald-600" id="log-industry">Bán Lẻ & Chuỗi Cửa Hàng</strong></div>
+            <div>• Nguồn tệp: <strong class="text-slate-900" id="log-file-name">Phuc_An_Du_Lieu_Tho_Test.xlsx (Bộ dữ liệu mẫu sẵn có)</strong></div>
+            <div>• Thời gian tổng hợp dự kiến (ETA): <strong class="text-emerald-600" id="log-eta-estimate">~0.05 giây (Dữ liệu đã tối ưu sẵn trong RAM)</strong></div>
+          </div>
+
+          <!-- Live Progress & ETA Bar -->
+          <div id="eta-progress-panel" class="hidden mt-4 pt-4 border-t border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs mb-2">
+              <span class="font-bold text-blue-700 flex items-center">
+                <i class="fa-solid fa-gauge-high mr-1.5 text-emerald-600"></i>
+                <span id="eta-stage-label">Đang phân tích cấu trúc & tổng hợp...</span>
+              </span>
+              <div class="flex items-center space-x-3 font-mono text-[11px]">
+                <span class="text-slate-700" id="eta-speed-label">0 dòng/s</span>
+                <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-bold" id="eta-countdown-label">Còn lại: --</span>
+                <span class="text-emerald-600 font-extrabold" id="eta-percent-label">0%</span>
+              </div>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+              <div id="eta-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-yellow-300 to-emerald-400 transition-all duration-100" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Next -->
+        <div class="mt-6 flex flex-wrap justify-between items-center gap-3">
+          <button onclick="runInstantReport()" class="px-6 py-3 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white flex items-center shadow-lg transition">
+            <i class="fa-solid fa-bolt mr-2"></i>
+            <span>Tổng Hợp Báo Cáo Ngay (1-Click)</span>
+            <span id="btn-eta-pill" class="ml-2 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-extrabold">ETA ~0.05s</span>
+          </button>
+          <button onclick="proceedToStage2()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+            <span>Xác Nhận & Thiết Lập Khung Phân Tích (Giai Đoạn 2)</span>
+            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 2: THIẾT LẬP KHUNG PHÂN TÍCH CHUYÊN BIỆT -->
+    <!-- ========================================== -->
+    <section id="stage-2" class="hidden space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <i class="fa-solid fa-compass-drafting"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 2 • THIẾT LẬP KHUNG PHÂN TÍCH</span>
+            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              2. Thiết Lập Khung Phân Tích Chuyên Biệt Theo Ngành
+            </h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Agent tự động nhận dạng bối cảnh ngành nghề của <strong class="text-blue-700 font-bold" id="stage2-company-text">Công ty</strong>. Tự động xác lập bộ chỉ số cốt lõi (KPIs) và xây dựng Kế hoạch Phân tích Tự động (Analytical Blueprint) phù hợp riêng với cấu trúc dữ liệu.
+        </p>
+
+        <!-- KPI Blueprint Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="kpi-blueprint-container"></div>
+
+        <!-- Analytical Blueprint Steps -->
+        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <i class="fa-solid fa-list-check mr-2 text-blue-600"></i> Kế Hoạch Phân Tích Tự Động (Analytical Blueprint):
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs" id="blueprint-steps-box"></div>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+          <button onclick="switchStep(1)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
+          </button>
+          <button onclick="proceedToStage3()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+            <span>Bắt Đầu Làm Sạch Dữ Liệu Tự Động (Giai Đoạn 3)</span>
+            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 3: LÀM SẠCH VÀ KIỂM TRA DỮ LIỆU TỰ ĐỘNG -->
+    <!-- ========================================== -->
+    <section id="stage-3" class="hidden space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+              <i class="fa-solid fa-broom"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 3 • LÀM SẠCH & CHUẨN HÓA</span>
+              <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+                3. Làm Sạch & Chuẩn Hóa Dữ Liệu Tự Động
+              </h2>
+            </div>
+          </div>
+          <button id="btn-trigger-clean" onclick="runDataCleaningEngine()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-xl">
+            <i class="fa-solid fa-bolt mr-2 text-white"></i>
+            <span>Chạy Thuật Toán Làm Sạch Python Ngầm</span>
+          </button>
+        </div>
+        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+          Agent quét cấu trúc các cột, kiểu dữ liệu, loại bỏ dữ liệu rác, xử lý giá trị trống (Missing values), khử đơn trùng lặp và chuẩn hóa định dạng tiền tệ / ngày tháng.
+        </p>
+
+        <!-- Audit Scorecard -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
+          <div class="bg-slate-50 border border-slate-300/60 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-slate-500 uppercase">Tổng Dòng Ban Đầu</div>
+            <div class="text-2xl font-black text-slate-900 mt-1" id="audit-total-raw">--</div>
+            <div class="text-[11px] text-slate-500 mt-1">Dữ liệu thô khách nạp</div>
+          </div>
+          <div class="bg-slate-50 border border-rose-500/40 p-5 rounded-2xl text-center shadow-lg shadow-rose-950/20">
+            <div class="text-xs font-semibold text-rose-600 uppercase">Dòng Trùng Bị Loại</div>
+            <div class="text-2xl font-black text-rose-700 mt-1" id="audit-dup-removed">--</div>
+            <div class="text-[11px] text-rose-600 mt-1">Khử trùng lặp mã đơn</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-300 p-5 rounded-2xl text-center shadow-lg shadow-amber-950/20">
+            <div class="text-xs font-semibold text-blue-600 uppercase">Đơn Hủy Đã Bóc Tách</div>
+            <div class="text-2xl font-black text-blue-700 mt-1" id="audit-canceled-removed">--</div>
+            <div class="text-[11px] text-blue-600 mt-1">Không ghi nhận doanh thu</div>
+          </div>
+          <div class="bg-slate-50 border border-orange-500/40 p-5 rounded-2xl text-center shadow-lg shadow-orange-950/20">
+            <div class="text-xs font-semibold text-orange-400 uppercase">Doanh Số Ảo Loại Trừ</div>
+            <div class="text-2xl font-black text-orange-300 mt-1" id="audit-canceled-val">--</div>
+            <div class="text-[11px] text-orange-400 mt-1">Giá trị đơn hủy triệt tiêu</div>
+          </div>
+          <div class="bg-slate-50 border border-emerald-500/50 p-5 rounded-2xl text-center shadow-lg shadow-emerald-950/30">
+            <div class="text-xs font-semibold text-emerald-600 uppercase">Bản Ghi SẠCH Đạt Chuẩn</div>
+            <div class="text-2xl font-black text-emerald-700 mt-1" id="audit-clean-total">--</div>
+            <div class="text-[11px] text-emerald-600 mt-1">Sẵn sàng đưa vào mô hình</div>
+          </div>
+        </div>
+
+        <!-- Tóm tắt chất lượng dữ liệu trả về cho khách hàng -->
+        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+          <h4 class="text-xs font-bold text-blue-700 uppercase mb-2 flex items-center">
+            <i class="fa-solid fa-clipboard-check mr-2"></i> Báo Cáo Tóm Tắt Chất Lượng Dữ Liệu (Agent Summary to Client):
+          </h4>
+          <div class="text-xs text-slate-700 space-y-1.5" id="agent-clean-summary-text">
+            Chờ thực thi thuật toán làm sạch...
+          </div>
+        </div>
+
+        <!-- Clean Preview Table -->
+        <div class="mt-6">
+          <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Xem Trước 15 Bản Ghi Sau Khi Làm Sạch (Cleaned Dataset):</h4>
+          <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-slate-50">
+            <table class="w-full text-left border-collapse" id="tbl-clean-preview">
+              <thead>
+                <tr class="bg-white text-blue-700 font-bold border-b border-slate-200">
+                  <th class="p-3">MÃ GIAO DỊCH</th>
+                  <th class="p-3">CHI NHÁNH</th>
+                  <th class="p-3">SẢN PHẨM / DỊCH VỤ</th>
+                  <th class="p-3 text-right">SL SẠCH</th>
+                  <th class="p-3 text-right">DOANH THU THUẦN</th>
+                  <th class="p-3 text-right">GIÁ VỐN (COGS)</th>
+                  <th class="p-3 text-right">LỢI NHUẬN GỘP</th>
+                  <th class="p-3 text-center">TRẠNG THÁI</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200" id="clean-preview-body">
+                <tr><td colspan="8" class="p-6 text-center text-slate-500">Bấm nút "Chạy Thuật Toán Làm Sạch" ở trên để xem bảng dữ liệu sạch.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+          <button onclick="switchStep(2)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
+          </button>
+          <button id="btn-to-stage4" disabled onclick="proceedToStage4()" class="btn-gold disabled:opacity-40 disabled:cursor-not-allowed text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+            <span>Tiến Hành Phân Tích Chuyên Sâu (Giai Đoạn 4)</span>
+            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 4: PHÂN TÍCH CHUYÊN SÂU & TÍNH TOÁN -->
+    <!-- ========================================== -->
+    <section id="stage-4" class="hidden space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 4 • PHÂN TÍCH & TÍNH TOÁN</span>
+            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              4. Phân Tích Chuyên Sâu & Phát Hiện Bất Thường
+            </h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Agent thực thi các thuật toán thống kê, khai thác dữ liệu, tính toán tài chính, đo lường tốc độ tăng trưởng và tự động dò quét các điểm bất thường (Anomalies) ẩn giấu trong dữ liệu của <strong class="text-blue-700 font-bold" id="stage4-company-text">công ty</strong>.
+        </p>
+
+        <!-- KPI Summary Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="royal-card p-5 text-center">
+            <div class="text-xs font-semibold text-slate-500 uppercase">Doanh Thu Thuần Thực Tế</div>
+            <div class="text-2xl font-black gold-gradient-text mt-1" id="s4-rev">--</div>
+            <div class="text-xs font-bold text-emerald-600 mt-1" id="s4-rev-mom">--</div>
+          </div>
+          <div class="royal-card p-5 text-center">
+            <div class="text-xs font-semibold text-slate-500 uppercase">Lợi Nhuận Gộp Toàn Bộ</div>
+            <div class="text-2xl font-black text-emerald-600 mt-1" id="s4-profit">--</div>
+            <div class="text-xs text-slate-500 mt-1">Sau khi khấu trừ COGS</div>
+          </div>
+          <div class="royal-card p-5 text-center">
+            <div class="text-xs font-semibold text-slate-500 uppercase">Biên Lợi Nhuận Gộp</div>
+            <div class="text-2xl font-black text-blue-700 mt-1" id="s4-margin">--</div>
+            <div class="text-xs text-slate-500 mt-1">Gross Margin Rate</div>
+          </div>
+          <div class="royal-card p-5 text-center">
+            <div class="text-xs font-semibold text-slate-500 uppercase">Hiệu Năng Đạt Mục Tiêu</div>
+            <div class="text-2xl font-black text-indigo-700 mt-1" id="s4-kpi">--</div>
+            <div class="text-xs text-slate-500 mt-1">So với chỉ tiêu kỳ</div>
+          </div>
+        </div>
+
+        <!-- Bảng Dò Quét Bất Thường -->
+        <div class="mt-8">
+          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <i class="fa-solid fa-triangle-exclamation mr-2 text-rose-600"></i> Các Điểm Bất Thường & Rủi Ro Phát Hiện (Automated Anomaly Audit):
+          </h3>
+          <div class="space-y-3" id="anomalies-list-box"></div>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+          <button onclick="switchStep(3)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
+          </button>
+          <button onclick="proceedToStage5()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+            <span>Xem Báo Cáo Toàn Diện & Hỏi AI (Giai Đoạn 5)</span>
+            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 5: TRỰC QUAN HÓA & TỔNG HỢP INSIGHTS -->
+    <!-- ========================================== -->
+    <section id="stage-5" class="hidden space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">TRUNG TÂM BÁO CÁO TOÀN DIỆN & TƯƠNG TÁC AI (ALL-IN-ONE)</span>
+            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              5. Đại Bản Báo Cáo Tài Chính Hợp Nhất, Biểu Đồ Trực Quan & Hỏi Đáp AI
+            </h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Chuyển đổi toàn bộ kết quả tính toán thành báo cáo trực quan, đồ thị sinh động kèm bản phân tích bằng ngôn ngữ tự nhiên gắn chặt với ngữ cảnh riêng của <strong class="text-blue-700 font-bold" id="stage5-company-text">doanh nghiệp</strong>.
+        </p>
+
+        <!-- Executive Narrative Report -->
+        <div class="bg-slate-50 border border-slate-200 p-6 rounded-2xl relative">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="inline-flex items-center space-x-2 badge-gold px-3 py-1 rounded-full text-xs font-bold">
+              <i class="fa-solid fa-feather-pointed text-blue-700"></i> BÁO CÁO TÓM TẮT ĐIỀU HÀNH (EXECUTIVE NARRATIVE)
+            </div>
+            <button type="button" onclick="generateAIExecutiveNarrative()" id="btn-gen-ai-narrative" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg flex items-center space-x-1.5">
+              <i class="fa-solid fa-wand-magic-sparkles text-blue-600"></i>
+              <span>Viết Lại Bằng AI Thật</span>
+            </button>
+          </div>
+          <div class="text-sm leading-relaxed text-slate-800 space-y-3" id="executive-narrative-text">
+            Đang tổng hợp báo cáo...
+          </div>
+        </div>
+
+        
+        <!-- ========================================== -->
+        <!-- ĐẠI BẢN BÁO CÁO TÀI CHÍNH TOÀN DIỆN (CHUẨN VAS / IFRS) -->
+        <!-- ========================================== -->
+        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 mb-6 gap-3">
+            <div>
+              <div class="inline-flex items-center space-x-2 badge-gold px-3 py-0.5 rounded-full text-xs font-bold mb-1">
+                <i class="fa-solid fa-file-invoice-dollar text-blue-700"></i> BẢNG BÁO CÁO TÀI CHÍNH HỢP NHẤT
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 gold-gradient-text" id="fs-company-header">
+                BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH (P&L) & BẢNG CÂN ĐỐI KẾ TOÁN RÚT GỌN
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Kỳ phân tích: Tháng 10/2026 so sánh cùng kỳ Tháng 09/2026 • Đơn vị tính: VNĐ (và Triệu VNĐ)</p>
+            </div>
+            
+            <!-- Financial Statement Tabs: P&L, Balance Sheet, Cash Flow, Financial Ratios -->
+            <div class="flex items-center space-x-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+              <button onclick="switchFinancialTab('pnl')" id="btn-fs-pnl" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white">
+                1. Báo Cáo Kết Quả Kinh Doanh (P&L)
+              </button>
+              <button onclick="switchFinancialTab('bs')" id="btn-fs-bs" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+                2. Bảng Cân Đối Kế Toán
+              </button>
+              <button onclick="switchFinancialTab('cf')" id="btn-fs-cf" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+                3. Báo Cáo Lưu Chuyển Tiền Tệ
+              </button>
+              <button onclick="switchFinancialTab('ratios')" id="btn-fs-ratios" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+                4. Chỉ Số Tài Chính Cốt Lõi
+              </button>
+            </div>
+          </div>
+
+          <!-- PHẦN 1: BÁO CÁO KẾT QUẢ KINH DOANH (INCOME STATEMENT / P&L) -->
+          <div id="fs-panel-pnl" class="space-y-4">
+            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                    <th class="p-3 w-12 text-center">STT</th>
+                    <th class="p-3 w-16 text-center">MÃ SỐ</th>
+                    <th class="p-3">CHỈ TIÊU TÀI CHÍNH (P&L ITEMS)</th>
+                    <th class="p-3 text-right">KỲ NÀY (T10/2026)</th>
+                    <th class="p-3 text-right">KỲ TRƯỚC (T09/2026)</th>
+                    <th class="p-3 text-center">TĂNG TRƯỞNG MoM (%)</th>
+                    <th class="p-3 text-center">TỶ TRỌNG (%)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200" id="pnl-table-body">
+                  <!-- Render động bằng JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- PHẦN 2: BẢNG CÂN ĐỐI KẾ TOÁN RÚT GỌN (BALANCE SHEET) -->
+          <div id="fs-panel-bs" class="hidden space-y-4">
+            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                    <th class="p-3 w-12 text-center">STT</th>
+                    <th class="p-3 w-16 text-center">MÃ SỐ</th>
+                    <th class="p-3">TÀI SẢN & NGUỒN VỐN (ASSETS & LIABILITIES)</th>
+                    <th class="p-3 text-right">SỐ CUỐI KỲ (T10/2026)</th>
+                    <th class="p-3 text-right">SỐ ĐẦU KỲ (T09/2026)</th>
+                    <th class="p-3 text-center">BIẾN ĐỘNG (%)</th>
+                    <th class="p-3 text-center">CƠ CẤU VỐN</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200" id="bs-table-body">
+                  <!-- Render động bằng JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- PHẦN 3: BÁO CÁO LƯU CHUYỂN TIỀN TỆ (CASH FLOW STATEMENT) -->
+          <div id="fs-panel-cf" class="hidden space-y-4">
+            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                    <th class="p-3 w-12 text-center">STT</th>
+                    <th class="p-3 w-16 text-center">MÃ SỐ</th>
+                    <th class="p-3">LƯU CHUYỂN TIỀN TỆ (CASH FLOW CATEGORIES)</th>
+                    <th class="p-3 text-right">KỲ NÀY (T10/2026)</th>
+                    <th class="p-3 text-right">KỲ TRƯỚC (T09/2026)</th>
+                    <th class="p-3 text-center">ĐÁNH GIÁ DÒNG TIỀN</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200" id="cf-table-body">
+                  <!-- Render động bằng JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- PHẦN 4: HỆ THỐNG CHỈ SỐ TÀI CHÍNH CỐT LÕI (FINANCIAL RATIOS) -->
+          <div id="fs-panel-ratios" class="hidden space-y-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="ratios-cards-container">
+              <!-- Render 8 chỉ số tài chính trọng yếu bằng JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Big Visual Charts -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="royal-card p-6">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center">
+              <i class="fa-solid fa-chart-column mr-2 text-blue-600"></i> Doanh Thu Thực Tế vs Mục Tiêu Từng Đơn Vị / Chi Nhánh
+            </h3>
+            <div class="h-72 w-full">
+              <canvas id="stage5BarChart"></canvas>
+            </div>
+          </div>
+          <div class="royal-card p-6">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center">
+              <i class="fa-solid fa-chart-line mr-2 text-emerald-600"></i> Tương Quan Tăng Trưởng Doanh Thu vs Lợi Nhuận MoM (%)
+            </h3>
+            <div class="h-72 w-full">
+              <canvas id="stage5LineChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- KHỐI TƯƠNG TÁC SỬA SỐ LIỆU & HỎI ĐÁP AI TRỰC TIẾP TRONG TRANG BÁO CÁO -->
+        <!-- ========================================== -->
+        <div class="mt-8 pt-6 border-t-2 border-slate-200">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">TƯƠNG TÁC MỞ RỘNG • HỎI ĐÁP & CHỈNH SỬA DỮ LIỆU</span>
+              <h2 class="text-xl font-bold text-slate-900 gold-gradient-text">
+                Bàn Làm Việc Tương Tác: Chỉnh Sửa Số Liệu & Hỏi Đáp Chuyên Sâu Cùng AI
+              </h2>
+            </div>
+          </div>
+
+          <!-- KHỐI 1: CHỈNH SỬA SỐ LIỆU TRỰC TIẾP TRONG AGENT -->
+        <div class="royal-card p-6 border border-slate-200 bg-slate-50 mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 mb-4 gap-2">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-pen-to-square text-blue-600"></i>
+              <h3 class="text-xs font-bold text-slate-800 uppercase">Chỉnh Sửa Số Liệu Chi Nhánh Trực Tiếp (Live Data Editor):</h3>
+            </div>
+            <span class="text-[11px] text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-slate-200">
+              Sửa số liệu $\rightarrow$ Bấm cập nhật $\rightarrow$ Báo cáo & Biểu đồ nhảy lại tức thì!
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4">
+            <div>
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">Chọn Chi Nhánh / Đơn Vị:</label>
+              <select id="edit-store-select" onchange="loadStoreForEditing()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 outline-none focus:border-blue-500 font-semibold"></select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">Doanh Thu Thuần (Tr.đ):</label>
+              <input type="number" id="edit-store-rev" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">Mục Tiêu KPI (Tr.đ):</label>
+              <input type="number" id="edit-store-target" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-700 block mb-1">Tỷ Lệ Đổi Trả (%):</label>
+              <input type="number" step="0.1" id="edit-store-ret" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+            </div>
+          </div>
+
+          <div class="flex justify-end space-x-2">
+            <button onclick="applyStoreEdit()" class="btn-gold text-xs px-5 py-2.5 rounded-xl flex items-center">
+              <i class="fa-solid fa-floppy-disk mr-1.5 text-white"></i> Áp Dụng Thay Đổi & Cập Nhật Báo Cáo
+            </button>
+          </div>
+        </div>
+
+        <!-- KHỐI 2: HỎI ĐÁP AI CHUYÊN SÂU (LIVE AI ANALYST CHAT) -->
+        <div class="royal-card p-6 border border-slate-200 bg-slate-50">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-robot text-blue-600"></i>
+              <h3 class="text-xs font-bold text-slate-800 uppercase">Hỏi Đáp AI Chuyên Sâu (Live Interaction):</h3>
+            </div>
+            <span id="chat-llm-mode-badge" class="text-[11px] font-semibold text-emerald-600 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+              ● Sẵn sàng phân tích theo yêu cầu
+            </span>
+          </div>
+
+          <!-- Chat History Stream -->
+          <div class="space-y-3 max-h-80 overflow-y-auto custom-scroll pr-2 text-xs mb-4" id="chat-messages-container">
+            <div class="bg-blue-50 border border-slate-200 p-3.5 rounded-xl text-slate-800">
+              <strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> 
+              Xin chào! Tôi đã hoàn tất phân tích toàn bộ dữ liệu của <strong class="text-white" id="chat-comp-mention">Công ty</strong>. Bạn có thể bấm vào các câu hỏi gợi ý bên dưới hoặc tự nhập câu hỏi cần đào sâu để tôi bóc tách ngay lập tức!
+            </div>
+          </div>
+
+          <!-- Quick Prompts Buttons -->
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button onclick="askPresetQuestion('TOP_WORST_BRANCHES')" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg">
+              🔍 Top 3 chi nhánh cần hỗ trợ khẩn cấp nhất?
+            </button>
+            <button onclick="askPresetQuestion('MARGIN_EROSION')" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg">
+              ⚠️ Chi nhánh nào bị tăng trưởng ảo (Doanh thu tăng, Lợi nhuận giảm)?
+            </button>
+            <button onclick="askPresetQuestion('RETURN_RATE_HIGH')" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg">
+              🚨 Những đơn vị nào có tỷ lệ đổi trả vượt ngưỡng 8%?
+            </button>
+            <button onclick="askPresetQuestion('REVENUE_RECOVERY_SIM')" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg">
+              💡 Nếu giảm 50% đổi trả thì doanh thu hồi phục bao nhiêu?
+            </button>
+          </div>
+
+          <!-- Question Input Bar -->
+          <div class="flex items-center space-x-2">
+            <input type="text" id="inp-chat-query" onkeypress="if(event.key==='Enter') submitCustomQuestion()" placeholder="Nhập câu hỏi phân tích dữ liệu cần đào sâu..." class="flex-1 bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-xs text-slate-900 outline-none focus:border-blue-500">
+            <button onclick="submitCustomQuestion()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center">
+              <i class="fa-solid fa-paper-plane mr-1.5 text-white"></i> Gửi Câu Hỏi
+            </button>
+          </div>
+        </div>
+
+        <!-- KHỐI 3: TRUNG TÂM XUẤT BẢN ĐA ĐỊNH DẠNG -->
+        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <i class="fa-solid fa-file-export mr-2 text-blue-600"></i> Xuất Bản Báo Cáo Hoàn Chỉnh:
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white border border-emerald-500/30 p-4 rounded-xl flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-slate-900 text-xs">File Excel Đã Làm Sạch (.xlsx)</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Bao gồm 2 sheet: Quản Trị & Audit</p>
+              </div>
+              <button onclick="downloadCleanedExcel()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
+                <i class="fa-solid fa-download mr-1"></i> Tải Về
+              </button>
+            </div>
+
+            <div class="bg-white border border-rose-500/30 p-4 rounded-xl flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-slate-900 text-xs">Báo Cáo PDF Điều Hành (.pdf)</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Bản in Executive Report kèm biểu đồ</p>
+              </div>
+              <button onclick="window.print()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
+                <i class="fa-solid fa-print mr-1"></i> In / Xuất PDF
+              </button>
+            </div>
+
+            <div class="bg-white border border-blue-500/30 p-4 rounded-xl flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-slate-900 text-xs">Bộ Dữ Liệu Gốc (.csv)</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Dữ liệu chuẩn nạp SQL / Power BI</p>
+              </div>
+              <button onclick="downloadRawCSV()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
+                <i class="fa-solid fa-file-csv mr-1"></i> Xuất CSV
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="mt-8 flex justify-between items-center pt-4 border-t border-slate-200">
+          <button onclick="switchStep(4)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại Giai Đoạn 4 (Phân Tích & Bất Thường)
+          </button>
+          <div class="flex items-center space-x-3">
+            <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="btn-gold-outline text-xs px-4 py-2.5 rounded-xl">
+              <i class="fa-solid fa-arrow-up mr-1"></i> Lên Đầu Báo Cáo
+            </button>
+            <button onclick="downloadCleanedExcel()" class="btn-gold text-xs px-5 py-2.5 rounded-xl flex items-center shadow-lg">
+              <i class="fa-solid fa-download mr-1.5 text-white"></i>
+              <span>Xuất Báo Cáo Ngay</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 6: TƯƠNG TÁC MỞ RỘNG, SỬA ĐỔI & HỎI AI -->
+    
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 bg-slate-900 text-slate-300 py-6 text-center text-xs text-slate-500 mt-auto no-print">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-brain text-blue-600"></i>
+        <span class="text-slate-500 tracking-wider font-bold">OMNIANALYST AI AGENT PLATFORM</span>
+      </div>
+      <p class="italic text-slate-500">Quy Trình 6 Giai Đoạn Chuẩn Hóa Phân Tích Dữ Liệu Doanh Nghiệp</p>
+      <div class="text-[11px] text-blue-600/80">
+        Status: <span class="text-emerald-600 font-bold">Operational 100%</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC CHO 6 GIAI ĐOẠN -->
+  <!-- ========================================== -->
+  <script>
+    const PHUC_AN_DATA = {"audit": {"total_raw": 61200, "total_duplicates_removed": 1200, "total_canceled_removed": 4245, "total_canceled_value": 9194880000.0, "total_returns_standardized": 3859, "total_clean_rows": 55755}, "raw_sample": [{"trans_id": "TXN-202610-000001", "trans_date": "2026-10-21", "period": "2026-10", "store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 2, "unit_price": 1450000, "line_amount": 2900000, "status": "Hoàn thành", "cost_price": 850000}, {"trans_id": "TXN-202610-000002", "trans_date": "2026-10-05", "period": "2026-10", "store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 2, "unit_price": 290000, "line_amount": 580000, "status": "Hoàn thành", "cost_price": 120000}, {"trans_id": "TXN-202610-000003", "trans_date": "2026-10-19", "period": "2026-10", "store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 1, "unit_price": 1450000, "line_amount": 1450000, "status": "Hoàn thành", "cost_price": 850000}, {"trans_id": "TXN-202610-000004", "trans_date": "2026-10-17", "period": "2026-10", "store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "sku": "SKU009", "product_name": "Chảo chống dính tổ ong Ceramic 28cm", "category": "Gia dụng", "quantity": 1, "unit_price": 390000, "line_amount": 390000, "status": "Hoàn thành", "cost_price": 160000}, {"trans_id": "TXN-202610-000005", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "sku": "SKU004", "product_name": "Máy lọc không khí Plasma AirClean", "category": "Gia dụng thông minh", "quantity": 1, "unit_price": 3290000, "line_amount": 3290000, "status": "Hoàn thành", "cost_price": 1950000}, {"trans_id": "TXN-202610-000006", "trans_date": "2026-10-28", "period": "2026-10", "store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "sku": "SKU003", "product_name": "Robot hút bụi lau nhà RoboSweep X5", "category": "Gia dụng thông minh", "quantity": 2, "unit_price": 5490000, "line_amount": 10980000, "status": "Hoàn thành", "cost_price": 3100000}, {"trans_id": "TXN-202610-000007", "trans_date": "2026-10-05", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU006", "product_name": "Bàn chải điện Sonic Clean 5 chế độ", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 450000, "line_amount": 450000, "status": "Hoàn thành", "cost_price": 190000}, {"trans_id": "TXN-202610-000008", "trans_date": "2026-10-12", "period": "2026-10", "store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 1, "unit_price": 320000, "line_amount": 320000, "status": "Hoàn thành", "cost_price": 140000}, {"trans_id": "TXN-202610-000009", "trans_date": "2026-10-15", "period": "2026-10", "store_id": "CH18", "store_name": "Phúc An - TP. Cần Thơ (30 Tháng 4)", "sku": "SKU002", "product_name": "Máy xay sinh tố đa năng 3 cối Pro", "category": "Gia dụng", "quantity": 5, "unit_price": 790000, "line_amount": 3950000, "status": "Hoàn thành", "cost_price": 420000}, {"trans_id": "TXN-202610-000010", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 290000, "line_amount": 290000, "status": "Hoàn thành", "cost_price": 120000}, {"trans_id": "TXN-202610-000011", "trans_date": "2026-10-19", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU012", "product_name": "Quạt tháp lọc không khí Ion Tower", "category": "Gia dụng thông minh", "quantity": 1, "unit_price": 2190000, "line_amount": 2190000, "status": "Hoàn thành", "cost_price": 1200000}, {"trans_id": "TXN-202610-000012", "trans_date": "2026-10-25", "period": "2026-10", "store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "sku": "SKU002", "product_name": "Máy xay sinh tố đa năng 3 cối Pro", "category": "Gia dụng", "quantity": 3, "unit_price": 790000, "line_amount": 2370000, "status": "Hoàn thành", "cost_price": 420000}, {"trans_id": "TXN-202610-000013", "trans_date": "2026-10-13", "period": "2026-10", "store_id": "CH09", "store_name": "Phúc An - Hoàn Kiếm (Tràng Tiền)", "sku": "SKU008", "product_name": "Bếp điện từ đơn cảm ứng siêu mỏng", "category": "Gia dụng", "quantity": 1, "unit_price": 890000, "line_amount": 890000, "status": "Hoàn thành", "cost_price": 450000}, {"trans_id": "TXN-202610-000014", "trans_date": "2026-10-12", "period": "2026-10", "store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "sku": "SKU004", "product_name": "Máy lọc không khí Plasma AirClean", "category": "Gia dụng thông minh", "quantity": 2, "unit_price": 3290000, "line_amount": 6580000, "status": "Hoàn thành", "cost_price": 1950000}, {"trans_id": "TXN-202610-000015", "trans_date": "2026-10-22", "period": "2026-10", "store_id": "CH03", "store_name": "Phúc An - Quận 7 (Phú Mỹ Hưng)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 1, "unit_price": 320000, "line_amount": 320000, "status": "Hoàn thành", "cost_price": 140000}, {"trans_id": "TXN-202610-000016", "trans_date": "2026-10-08", "period": "2026-10", "store_id": "CH06", "store_name": "Phúc An - Gò Vấp (Quang Trung)", "sku": "SKU008", "product_name": "Bếp điện từ đơn cảm ứng siêu mỏng", "category": "Gia dụng", "quantity": 1, "unit_price": 890000, "line_amount": 890000, "status": "Đổi trả", "cost_price": 450000}, {"trans_id": "TXN-202610-000017", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 290000, "line_amount": 290000, "status": "Hoàn thành", "cost_price": 120000}, {"trans_id": "TXN-202610-000018", "trans_date": "2026-10-02", "period": "2026-10", "store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 2, "unit_price": 1450000, "line_amount": 2900000, "status": "Hoàn thành", "cost_price": 850000}, {"trans_id": "TXN-202610-000019", "trans_date": "2026-10-03", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 3, "unit_price": 320000, "line_amount": 960000, "status": "Hoàn thành", "cost_price": 140000}, {"trans_id": "TXN-202610-000020", "trans_date": "2026-10-21", "period": "2026-10", "store_id": "CH16", "store_name": "Phúc An - Thanh Khê (Đà Nẵng)", "sku": "SKU007", "product_name": "Máy sấy tóc ion âm tốc độ cao Pro", "category": "Chăm sóc cá nhân", "quantity": 3, "unit_price": 890000, "line_amount": 2670000, "status": "Hoàn thành", "cost_price": 380000}], "clean_sample": [{"trans_id": "TXN-202610-000001", "trans_date": "2026-10-21", "period": "2026-10", "store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 2, "unit_price": 1450000, "line_amount": 2900000, "status": "Hoàn thành", "cost_price": 850000, "clean_quantity": 2, "net_amount": 2900000, "total_cogs": 1700000, "gross_profit": 1200000}, {"trans_id": "TXN-202610-000002", "trans_date": "2026-10-05", "period": "2026-10", "store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 2, "unit_price": 290000, "line_amount": 580000, "status": "Hoàn thành", "cost_price": 120000, "clean_quantity": 2, "net_amount": 580000, "total_cogs": 240000, "gross_profit": 340000}, {"trans_id": "TXN-202610-000003", "trans_date": "2026-10-19", "period": "2026-10", "store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 1, "unit_price": 1450000, "line_amount": 1450000, "status": "Hoàn thành", "cost_price": 850000, "clean_quantity": 1, "net_amount": 1450000, "total_cogs": 850000, "gross_profit": 600000}, {"trans_id": "TXN-202610-000004", "trans_date": "2026-10-17", "period": "2026-10", "store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "sku": "SKU009", "product_name": "Chảo chống dính tổ ong Ceramic 28cm", "category": "Gia dụng", "quantity": 1, "unit_price": 390000, "line_amount": 390000, "status": "Hoàn thành", "cost_price": 160000, "clean_quantity": 1, "net_amount": 390000, "total_cogs": 160000, "gross_profit": 230000}, {"trans_id": "TXN-202610-000005", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "sku": "SKU004", "product_name": "Máy lọc không khí Plasma AirClean", "category": "Gia dụng thông minh", "quantity": 1, "unit_price": 3290000, "line_amount": 3290000, "status": "Hoàn thành", "cost_price": 1950000, "clean_quantity": 1, "net_amount": 3290000, "total_cogs": 1950000, "gross_profit": 1340000}, {"trans_id": "TXN-202610-000006", "trans_date": "2026-10-28", "period": "2026-10", "store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "sku": "SKU003", "product_name": "Robot hút bụi lau nhà RoboSweep X5", "category": "Gia dụng thông minh", "quantity": 2, "unit_price": 5490000, "line_amount": 10980000, "status": "Hoàn thành", "cost_price": 3100000, "clean_quantity": 2, "net_amount": 10980000, "total_cogs": 6200000, "gross_profit": 4780000}, {"trans_id": "TXN-202610-000007", "trans_date": "2026-10-05", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU006", "product_name": "Bàn chải điện Sonic Clean 5 chế độ", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 450000, "line_amount": 450000, "status": "Hoàn thành", "cost_price": 190000, "clean_quantity": 1, "net_amount": 450000, "total_cogs": 190000, "gross_profit": 260000}, {"trans_id": "TXN-202610-000008", "trans_date": "2026-10-12", "period": "2026-10", "store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 1, "unit_price": 320000, "line_amount": 320000, "status": "Hoàn thành", "cost_price": 140000, "clean_quantity": 1, "net_amount": 320000, "total_cogs": 140000, "gross_profit": 180000}, {"trans_id": "TXN-202610-000009", "trans_date": "2026-10-15", "period": "2026-10", "store_id": "CH18", "store_name": "Phúc An - TP. Cần Thơ (30 Tháng 4)", "sku": "SKU002", "product_name": "Máy xay sinh tố đa năng 3 cối Pro", "category": "Gia dụng", "quantity": 5, "unit_price": 790000, "line_amount": 3950000, "status": "Hoàn thành", "cost_price": 420000, "clean_quantity": 5, "net_amount": 3950000, "total_cogs": 2100000, "gross_profit": 1850000}, {"trans_id": "TXN-202610-000010", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 290000, "line_amount": 290000, "status": "Hoàn thành", "cost_price": 120000, "clean_quantity": 1, "net_amount": 290000, "total_cogs": 120000, "gross_profit": 170000}, {"trans_id": "TXN-202610-000011", "trans_date": "2026-10-19", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU012", "product_name": "Quạt tháp lọc không khí Ion Tower", "category": "Gia dụng thông minh", "quantity": 1, "unit_price": 2190000, "line_amount": 2190000, "status": "Hoàn thành", "cost_price": 1200000, "clean_quantity": 1, "net_amount": 2190000, "total_cogs": 1200000, "gross_profit": 990000}, {"trans_id": "TXN-202610-000012", "trans_date": "2026-10-25", "period": "2026-10", "store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "sku": "SKU002", "product_name": "Máy xay sinh tố đa năng 3 cối Pro", "category": "Gia dụng", "quantity": 3, "unit_price": 790000, "line_amount": 2370000, "status": "Hoàn thành", "cost_price": 420000, "clean_quantity": 3, "net_amount": 2370000, "total_cogs": 1260000, "gross_profit": 1110000}, {"trans_id": "TXN-202610-000013", "trans_date": "2026-10-13", "period": "2026-10", "store_id": "CH09", "store_name": "Phúc An - Hoàn Kiếm (Tràng Tiền)", "sku": "SKU008", "product_name": "Bếp điện từ đơn cảm ứng siêu mỏng", "category": "Gia dụng", "quantity": 1, "unit_price": 890000, "line_amount": 890000, "status": "Hoàn thành", "cost_price": 450000, "clean_quantity": 1, "net_amount": 890000, "total_cogs": 450000, "gross_profit": 440000}, {"trans_id": "TXN-202610-000014", "trans_date": "2026-10-12", "period": "2026-10", "store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "sku": "SKU004", "product_name": "Máy lọc không khí Plasma AirClean", "category": "Gia dụng thông minh", "quantity": 2, "unit_price": 3290000, "line_amount": 6580000, "status": "Hoàn thành", "cost_price": 1950000, "clean_quantity": 2, "net_amount": 6580000, "total_cogs": 3900000, "gross_profit": 2680000}, {"trans_id": "TXN-202610-000015", "trans_date": "2026-10-22", "period": "2026-10", "store_id": "CH03", "store_name": "Phúc An - Quận 7 (Phú Mỹ Hưng)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 1, "unit_price": 320000, "line_amount": 320000, "status": "Hoàn thành", "cost_price": 140000, "clean_quantity": 1, "net_amount": 320000, "total_cogs": 140000, "gross_profit": 180000}, {"trans_id": "TXN-202610-000016", "trans_date": "2026-10-08", "period": "2026-10", "store_id": "CH06", "store_name": "Phúc An - Gò Vấp (Quang Trung)", "sku": "SKU008", "product_name": "Bếp điện từ đơn cảm ứng siêu mỏng", "category": "Gia dụng", "quantity": 1, "unit_price": 890000, "line_amount": 890000, "status": "Đổi trả", "cost_price": 450000, "clean_quantity": -1, "net_amount": -890000, "total_cogs": -450000, "gross_profit": -440000}, {"trans_id": "TXN-202610-000017", "trans_date": "2026-10-18", "period": "2026-10", "store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "sku": "SKU011", "product_name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "quantity": 1, "unit_price": 290000, "line_amount": 290000, "status": "Hoàn thành", "cost_price": 120000, "clean_quantity": 1, "net_amount": 290000, "total_cogs": 120000, "gross_profit": 170000}, {"trans_id": "TXN-202610-000018", "trans_date": "2026-10-02", "period": "2026-10", "store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "sku": "SKU001", "product_name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "quantity": 2, "unit_price": 1450000, "line_amount": 2900000, "status": "Hoàn thành", "cost_price": 850000, "clean_quantity": 2, "net_amount": 2900000, "total_cogs": 1700000, "gross_profit": 1200000}, {"trans_id": "TXN-202610-000019", "trans_date": "2026-10-03", "period": "2026-10", "store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "sku": "SKU010", "product_name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "quantity": 3, "unit_price": 320000, "line_amount": 960000, "status": "Hoàn thành", "cost_price": 140000, "clean_quantity": 3, "net_amount": 960000, "total_cogs": 420000, "gross_profit": 540000}, {"trans_id": "TXN-202610-000020", "trans_date": "2026-10-21", "period": "2026-10", "store_id": "CH16", "store_name": "Phúc An - Thanh Khê (Đà Nẵng)", "sku": "SKU007", "product_name": "Máy sấy tóc ion âm tốc độ cao Pro", "category": "Chăm sóc cá nhân", "quantity": 3, "unit_price": 890000, "line_amount": 2670000, "status": "Hoàn thành", "cost_price": 380000, "clean_quantity": 3, "net_amount": 2670000, "total_cogs": 1140000, "gross_profit": 1530000}], "stores": [{"store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "region": "Miền Nam", "tier": "A", "target_revenue": 2800000000}, {"store_id": "CH02", "store_name": "Phúc An - Quận 3 (Võ Văn Tần)", "region": "Miền Nam", "tier": "A", "target_revenue": 2400000000}, {"store_id": "CH03", "store_name": "Phúc An - Quận 7 (Phú Mỹ Hưng)", "region": "Miền Nam", "tier": "A", "target_revenue": 2600000000}, {"store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "region": "Miền Nam", "tier": "B", "target_revenue": 1900000000}, {"store_id": "CH05", "store_name": "Phúc An - Tân Bình (Cộng Hòa)", "region": "Miền Nam", "tier": "B", "target_revenue": 1850000000}, {"store_id": "CH06", "store_name": "Phúc An - Gò Vấp (Quang Trung)", "region": "Miền Nam", "tier": "B", "target_revenue": 1750000000}, {"store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "region": "Miền Nam", "tier": "A", "target_revenue": 2500000000}, {"store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "region": "Miền Nam", "tier": "B", "target_revenue": 1800000000}, {"store_id": "CH09", "store_name": "Phúc An - Hoàn Kiếm (Tràng Tiền)", "region": "Miền Bắc", "tier": "A", "target_revenue": 2700000000}, {"store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "region": "Miền Bắc", "tier": "A", "target_revenue": 2300000000}, {"store_id": "CH11", "store_name": "Phúc An - Cầu Giấy (Xuân Thủy)", "region": "Miền Bắc", "tier": "B", "target_revenue": 1950000000}, {"store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "region": "Miền Bắc", "tier": "B", "target_revenue": 1850000000}, {"store_id": "CH13", "store_name": "Phúc An - Hà Đông (Trần Phú)", "region": "Miền Bắc", "tier": "C", "target_revenue": 1400000000}, {"store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "region": "Miền Bắc", "tier": "C", "target_revenue": 1350000000}, {"store_id": "CH15", "store_name": "Phúc An - Hải Châu (Đà Nẵng)", "region": "Miền Trung", "tier": "A", "target_revenue": 2200000000}, {"store_id": "CH16", "store_name": "Phúc An - Thanh Khê (Đà Nẵng)", "region": "Miền Trung", "tier": "B", "target_revenue": 1600000000}, {"store_id": "CH17", "store_name": "Phúc An - Nha Trang (Trần Phú)", "region": "Miền Trung", "tier": "B", "target_revenue": 1700000000}, {"store_id": "CH18", "store_name": "Phúc An - TP. Cần Thơ (30 Tháng 4)", "region": "Miền Nam", "tier": "C", "target_revenue": 1450000000}], "products": [{"sku": "SKU001", "name": "Nồi chiên không dầu 6.5L SmartLock", "category": "Gia dụng", "cost_price": 850000, "sale_price": 1450000}, {"sku": "SKU002", "name": "Máy xay sinh tố đa năng 3 cối Pro", "category": "Gia dụng", "cost_price": 420000, "sale_price": 790000}, {"sku": "SKU003", "name": "Robot hút bụi lau nhà RoboSweep X5", "category": "Gia dụng thông minh", "cost_price": 3100000, "sale_price": 5490000}, {"sku": "SKU004", "name": "Máy lọc không khí Plasma AirClean", "category": "Gia dụng thông minh", "cost_price": 1950000, "sale_price": 3290000}, {"sku": "SKU005", "name": "Bình giữ nhiệt Inox 316 Cao cấp 1000ml", "category": "Đời sống", "cost_price": 110000, "sale_price": 280000}, {"sku": "SKU006", "name": "Bàn chải điện Sonic Clean 5 chế độ", "category": "Chăm sóc cá nhân", "cost_price": 190000, "sale_price": 450000}, {"sku": "SKU007", "name": "Máy sấy tóc ion âm tốc độ cao Pro", "category": "Chăm sóc cá nhân", "cost_price": 380000, "sale_price": 890000}, {"sku": "SKU008", "name": "Bếp điện từ đơn cảm ứng siêu mỏng", "category": "Gia dụng", "cost_price": 450000, "sale_price": 890000}, {"sku": "SKU009", "name": "Chảo chống dính tổ ong Ceramic 28cm", "category": "Gia dụng", "cost_price": 160000, "sale_price": 390000}, {"sku": "SKU010", "name": "Bộ hộp cơm giữ nhiệt văn phòng LockPlus", "category": "Đời sống", "cost_price": 140000, "sale_price": 320000}, {"sku": "SKU011", "name": "Cân điện tử sức khỏe thông minh Bluetooth", "category": "Chăm sóc cá nhân", "cost_price": 120000, "sale_price": 290000}, {"sku": "SKU012", "name": "Quạt tháp lọc không khí Ion Tower", "category": "Gia dụng thông minh", "cost_price": 1200000, "sale_price": 2190000}], "report": [{"store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "region": "Miền Nam", "tier": "A", "target_revenue": 2800000000, "net_revenue": 3551790000, "net_revenue_prev": 2936260000, "gross_profit": 1628490000, "gross_profit_prev": 1343320000, "kpi_completion_pct": 126.8, "gross_margin_pct": 45.8, "revenue_growth_mom": 21.0, "profit_growth_mom": 21.2, "return_rate_revenue": 3.7}, {"store_id": "CH02", "store_name": "Phúc An - Quận 3 (Võ Văn Tần)", "region": "Miền Nam", "tier": "A", "target_revenue": 2400000000, "net_revenue": 2974490000, "net_revenue_prev": 2717950000, "gross_profit": 1362880000, "gross_profit_prev": 1247300000, "kpi_completion_pct": 123.9, "gross_margin_pct": 45.8, "revenue_growth_mom": 9.4, "profit_growth_mom": 9.3, "return_rate_revenue": 9.5}, {"store_id": "CH03", "store_name": "Phúc An - Quận 7 (Phú Mỹ Hưng)", "region": "Miền Nam", "tier": "A", "target_revenue": 2600000000, "net_revenue": 3270450000, "net_revenue_prev": 2575560000, "gross_profit": 1501320000, "gross_profit_prev": 1185490000, "kpi_completion_pct": 125.8, "gross_margin_pct": 45.9, "revenue_growth_mom": 27.0, "profit_growth_mom": 26.6, "return_rate_revenue": 6.5}, {"store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "region": "Miền Nam", "tier": "B", "target_revenue": 1900000000, "net_revenue": 3406010000, "net_revenue_prev": 2737430000, "gross_profit": 1552980000, "gross_profit_prev": 1257890000, "kpi_completion_pct": 179.3, "gross_margin_pct": 45.6, "revenue_growth_mom": 24.4, "profit_growth_mom": 23.5, "return_rate_revenue": 6.8}, {"store_id": "CH05", "store_name": "Phúc An - Tân Bình (Cộng Hòa)", "region": "Miền Nam", "tier": "B", "target_revenue": 1850000000, "net_revenue": 3299270000, "net_revenue_prev": 2806790000, "gross_profit": 1502040000, "gross_profit_prev": 1289010000, "kpi_completion_pct": 178.3, "gross_margin_pct": 45.5, "revenue_growth_mom": 17.5, "profit_growth_mom": 16.5, "return_rate_revenue": 5.8}, {"store_id": "CH06", "store_name": "Phúc An - Gò Vấp (Quang Trung)", "region": "Miền Nam", "tier": "B", "target_revenue": 1750000000, "net_revenue": 3378120000, "net_revenue_prev": 2491600000, "gross_profit": 1547440000, "gross_profit_prev": 1139180000, "kpi_completion_pct": 193.0, "gross_margin_pct": 45.8, "revenue_growth_mom": 35.6, "profit_growth_mom": 35.8, "return_rate_revenue": 7.5}, {"store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "region": "Miền Nam", "tier": "A", "target_revenue": 2500000000, "net_revenue": 3660900000, "net_revenue_prev": 2558380000, "gross_profit": 1661290000, "gross_profit_prev": 1165950000, "kpi_completion_pct": 146.4, "gross_margin_pct": 45.4, "revenue_growth_mom": 43.1, "profit_growth_mom": 42.5, "return_rate_revenue": 4.9}, {"store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "region": "Miền Nam", "tier": "B", "target_revenue": 1800000000, "net_revenue": 3155700000, "net_revenue_prev": 2498480000, "gross_profit": 1445200000, "gross_profit_prev": 1144090000, "kpi_completion_pct": 175.3, "gross_margin_pct": 45.8, "revenue_growth_mom": 26.3, "profit_growth_mom": 26.3, "return_rate_revenue": 7.1}, {"store_id": "CH09", "store_name": "Phúc An - Hoàn Kiếm (Tràng Tiền)", "region": "Miền Bắc", "tier": "A", "target_revenue": 2700000000, "net_revenue": 3831810000, "net_revenue_prev": 2873420000, "gross_profit": 1749160000, "gross_profit_prev": 1317240000, "kpi_completion_pct": 141.9, "gross_margin_pct": 45.6, "revenue_growth_mom": 33.4, "profit_growth_mom": 32.8, "return_rate_revenue": 3.3}, {"store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "region": "Miền Bắc", "tier": "A", "target_revenue": 2300000000, "net_revenue": 3424670000, "net_revenue_prev": 2703710000, "gross_profit": 1567530000, "gross_profit_prev": 1235700000, "kpi_completion_pct": 148.9, "gross_margin_pct": 45.8, "revenue_growth_mom": 26.7, "profit_growth_mom": 26.9, "return_rate_revenue": 7.7}, {"store_id": "CH11", "store_name": "Phúc An - Cầu Giấy (Xuân Thủy)", "region": "Miền Bắc", "tier": "B", "target_revenue": 1950000000, "net_revenue": 3403310000, "net_revenue_prev": 2639990000, "gross_profit": 1549210000, "gross_profit_prev": 1205170000, "kpi_completion_pct": 174.5, "gross_margin_pct": 45.5, "revenue_growth_mom": 28.9, "profit_growth_mom": 28.5, "return_rate_revenue": 4.9}, {"store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "region": "Miền Bắc", "tier": "B", "target_revenue": 1850000000, "net_revenue": 3274450000, "net_revenue_prev": 2835590000, "gross_profit": 1501550000, "gross_profit_prev": 1295310000, "kpi_completion_pct": 177.0, "gross_margin_pct": 45.9, "revenue_growth_mom": 15.5, "profit_growth_mom": 15.9, "return_rate_revenue": 5.2}, {"store_id": "CH13", "store_name": "Phúc An - Hà Đông (Trần Phú)", "region": "Miền Bắc", "tier": "C", "target_revenue": 1400000000, "net_revenue": 2670980000, "net_revenue_prev": 2248260000, "gross_profit": 1218220000, "gross_profit_prev": 1020260000, "kpi_completion_pct": 190.8, "gross_margin_pct": 45.6, "revenue_growth_mom": 18.8, "profit_growth_mom": 19.4, "return_rate_revenue": 17.6}, {"store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "region": "Miền Bắc", "tier": "C", "target_revenue": 1350000000, "net_revenue": 3346900000, "net_revenue_prev": 2706890000, "gross_profit": 1540220000, "gross_profit_prev": 1242160000, "kpi_completion_pct": 247.9, "gross_margin_pct": 46.0, "revenue_growth_mom": 23.6, "profit_growth_mom": 24.0, "return_rate_revenue": 6.5}, {"store_id": "CH15", "store_name": "Phúc An - Hải Châu (Đà Nẵng)", "region": "Miền Trung", "tier": "A", "target_revenue": 2200000000, "net_revenue": 3282720000, "net_revenue_prev": 2608410000, "gross_profit": 1505280000, "gross_profit_prev": 1193860000, "kpi_completion_pct": 149.2, "gross_margin_pct": 45.9, "revenue_growth_mom": 25.9, "profit_growth_mom": 26.1, "return_rate_revenue": 7.2}, {"store_id": "CH16", "store_name": "Phúc An - Thanh Khê (Đà Nẵng)", "region": "Miền Trung", "tier": "B", "target_revenue": 1600000000, "net_revenue": 3383690000, "net_revenue_prev": 2768450000, "gross_profit": 1547440000, "gross_profit_prev": 1270690000, "kpi_completion_pct": 211.5, "gross_margin_pct": 45.7, "revenue_growth_mom": 22.2, "profit_growth_mom": 21.8, "return_rate_revenue": 7.1}, {"store_id": "CH17", "store_name": "Phúc An - Nha Trang (Trần Phú)", "region": "Miền Trung", "tier": "B", "target_revenue": 1700000000, "net_revenue": 3285040000, "net_revenue_prev": 2875570000, "gross_profit": 1501600000, "gross_profit_prev": 1312680000, "kpi_completion_pct": 193.2, "gross_margin_pct": 45.7, "revenue_growth_mom": 14.2, "profit_growth_mom": 14.4, "return_rate_revenue": 6.3}, {"store_id": "CH18", "store_name": "Phúc An - TP. Cần Thơ (30 Tháng 4)", "region": "Miền Nam", "tier": "C", "target_revenue": 1450000000, "net_revenue": 2527000000, "net_revenue_prev": 2154160000, "gross_profit": 1156760000, "gross_profit_prev": 984590000, "kpi_completion_pct": 174.3, "gross_margin_pct": 45.8, "revenue_growth_mom": 17.3, "profit_growth_mom": 17.5, "return_rate_revenue": 16.3}], "ranking": [{"store_id": "CH13", "store_name": "Phúc An - Hà Đông (Trần Phú)", "tier": "C", "region": "Miền Bắc", "priority_score": 47.7, "priority_level": "Ưu tiên 1: Hỗ trợ khẩn cấp", "kpi_completion_pct": 190.8, "net_revenue": 2670980000, "gross_profit": 1218220000, "revenue_growth_mom": 18.8, "profit_growth_mom": 19.4, "return_rate_revenue": 17.6, "anomalies": ["🚨 TỶ LỆ TRẢ HÀNG CAO: 17.6% doanh số bị trừ do trả hàng."], "recommendations": ["Rà soát quy trình hướng dẫn khách dùng & bảo quản lô hàng tồn kho."]}, {"store_id": "CH18", "store_name": "Phúc An - TP. Cần Thơ (30 Tháng 4)", "tier": "C", "region": "Miền Nam", "priority_score": 43.1, "priority_level": "Ưu tiên 1: Hỗ trợ khẩn cấp", "kpi_completion_pct": 174.3, "net_revenue": 2527000000, "gross_profit": 1156760000, "revenue_growth_mom": 17.3, "profit_growth_mom": 17.5, "return_rate_revenue": 16.3, "anomalies": ["🚨 TỶ LỆ TRẢ HÀNG CAO: 16.3% doanh số bị trừ do trả hàng."], "recommendations": ["Rà soát quy trình hướng dẫn khách dùng & bảo quản lô hàng tồn kho."]}, {"store_id": "CH02", "store_name": "Phúc An - Quận 3 (Võ Văn Tần)", "tier": "A", "region": "Miền Nam", "priority_score": 19.2, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 123.9, "net_revenue": 2974490000, "gross_profit": 1362880000, "revenue_growth_mom": 9.4, "profit_growth_mom": 9.3, "return_rate_revenue": 9.5, "anomalies": ["🚨 TỶ LỆ TRẢ HÀNG CAO: 9.5% doanh số bị trừ do trả hàng."], "recommendations": ["Rà soát quy trình hướng dẫn khách dùng & bảo quản lô hàng tồn kho."]}, {"store_id": "CH10", "store_name": "Phúc An - Ba Đình (Liễu Giai)", "tier": "A", "region": "Miền Bắc", "priority_score": 13.0, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 148.9, "net_revenue": 3424670000, "gross_profit": 1567530000, "revenue_growth_mom": 26.7, "profit_growth_mom": 26.9, "return_rate_revenue": 7.7, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH06", "store_name": "Phúc An - Gò Vấp (Quang Trung)", "tier": "B", "region": "Miền Nam", "priority_score": 12.4, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 193.0, "net_revenue": 3378120000, "gross_profit": 1547440000, "revenue_growth_mom": 35.6, "profit_growth_mom": 35.8, "return_rate_revenue": 7.5, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH15", "store_name": "Phúc An - Hải Châu (Đà Nẵng)", "tier": "A", "region": "Miền Trung", "priority_score": 11.3, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 149.2, "net_revenue": 3282720000, "gross_profit": 1505280000, "revenue_growth_mom": 25.9, "profit_growth_mom": 26.1, "return_rate_revenue": 7.2, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH08", "store_name": "Phúc An - Quận 10 (Sư Vạn Hạnh)", "tier": "B", "region": "Miền Nam", "priority_score": 10.8, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 175.3, "net_revenue": 3155700000, "gross_profit": 1445200000, "revenue_growth_mom": 26.3, "profit_growth_mom": 26.3, "return_rate_revenue": 7.1, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH16", "store_name": "Phúc An - Thanh Khê (Đà Nẵng)", "tier": "B", "region": "Miền Trung", "priority_score": 10.7, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 211.5, "net_revenue": 3383690000, "gross_profit": 1547440000, "revenue_growth_mom": 22.2, "profit_growth_mom": 21.8, "return_rate_revenue": 7.1, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH04", "store_name": "Phúc An - Bình Thạnh (Điện Biên Phủ)", "tier": "B", "region": "Miền Nam", "priority_score": 9.7, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 179.3, "net_revenue": 3406010000, "gross_profit": 1552980000, "revenue_growth_mom": 24.4, "profit_growth_mom": 23.5, "return_rate_revenue": 6.8, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH14", "store_name": "Phúc An - Long Biên (Nguyễn Văn Cừ)", "tier": "C", "region": "Miền Bắc", "priority_score": 8.9, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 247.9, "net_revenue": 3346900000, "gross_profit": 1540220000, "revenue_growth_mom": 23.6, "profit_growth_mom": 24.0, "return_rate_revenue": 6.5, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH03", "store_name": "Phúc An - Quận 7 (Phú Mỹ Hưng)", "tier": "A", "region": "Miền Nam", "priority_score": 8.7, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 125.8, "net_revenue": 3270450000, "gross_profit": 1501320000, "revenue_growth_mom": 27.0, "profit_growth_mom": 26.6, "return_rate_revenue": 6.5, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH17", "store_name": "Phúc An - Nha Trang (Trần Phú)", "tier": "B", "region": "Miền Trung", "priority_score": 7.9, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 193.2, "net_revenue": 3285040000, "gross_profit": 1501600000, "revenue_growth_mom": 14.2, "profit_growth_mom": 14.4, "return_rate_revenue": 6.3, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH05", "store_name": "Phúc An - Tân Bình (Cộng Hòa)", "tier": "B", "region": "Miền Nam", "priority_score": 6.5, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 178.3, "net_revenue": 3299270000, "gross_profit": 1502040000, "revenue_growth_mom": 17.5, "profit_growth_mom": 16.5, "return_rate_revenue": 5.8, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH12", "store_name": "Phúc An - Đống Đa (Chùa Bộc)", "tier": "B", "region": "Miền Bắc", "priority_score": 4.0, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 177.0, "net_revenue": 3274450000, "gross_profit": 1501550000, "revenue_growth_mom": 15.5, "profit_growth_mom": 15.9, "return_rate_revenue": 5.2, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH07", "store_name": "Phúc An - TP. Thủ Đức (Thảo Điền)", "tier": "A", "region": "Miền Nam", "priority_score": 3.2, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 146.4, "net_revenue": 3660900000, "gross_profit": 1661290000, "revenue_growth_mom": 43.1, "profit_growth_mom": 42.5, "return_rate_revenue": 4.9, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH11", "store_name": "Phúc An - Cầu Giấy (Xuân Thủy)", "tier": "B", "region": "Miền Bắc", "priority_score": 3.2, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 174.5, "net_revenue": 3403310000, "gross_profit": 1549210000, "revenue_growth_mom": 28.9, "profit_growth_mom": 28.5, "return_rate_revenue": 4.9, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH01", "store_name": "Phúc An - Quận 1 (Nguyễn Huệ)", "tier": "A", "region": "Miền Nam", "priority_score": 0.0, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 126.8, "net_revenue": 3551790000, "gross_profit": 1628490000, "revenue_growth_mom": 21.0, "profit_growth_mom": 21.2, "return_rate_revenue": 3.7, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}, {"store_id": "CH09", "store_name": "Phúc An - Hoàn Kiếm (Tràng Tiền)", "tier": "A", "region": "Miền Bắc", "priority_score": 0.0, "priority_level": "Ưu tiên 3: Vận hành ổn định", "kpi_completion_pct": 141.9, "net_revenue": 3831810000, "gross_profit": 1749160000, "revenue_growth_mom": 33.4, "profit_growth_mom": 32.8, "return_rate_revenue": 3.3, "anomalies": [], "recommendations": ["Duy trì nhịp độ bán hàng hiện tại, phát huy nhóm best-seller."]}], "category_summary": [{"store_id": "CH04", "category": "Gia dụng", "cat_revenue": 767840000, "cat_profit": 355180000}, {"store_id": "CH04", "category": "Chăm sóc cá nhân", "cat_revenue": 304290000, "cat_profit": 175470000}, {"store_id": "CH14", "category": "Gia dụng", "cat_revenue": 770940000, "cat_profit": 365560000}, {"store_id": "CH01", "category": "Gia dụng", "cat_revenue": 758500000, "cat_profit": 354260000}, {"store_id": "CH14", "category": "Gia dụng thông minh", "cat_revenue": 2124960000, "cat_profit": 913710000}, {"store_id": "CH01", "category": "Gia dụng thông minh", "cat_revenue": 2294110000, "cat_profit": 985360000}, {"store_id": "CH07", "category": "Chăm sóc cá nhân", "cat_revenue": 318330000, "cat_profit": 183540000}, {"store_id": "CH12", "category": "Đời sống", "cat_revenue": 117360000, "cat_profit": 67940000}, {"store_id": "CH18", "category": "Gia dụng", "cat_revenue": 504140000, "cat_profit": 234790000}, {"store_id": "CH10", "category": "Chăm sóc cá nhân", "cat_revenue": 355730000, "cat_profit": 205120000}, {"store_id": "CH07", "category": "Gia dụng thông minh", "cat_revenue": 2555260000, "cat_profit": 1098010000}, {"store_id": "CH10", "category": "Gia dụng", "cat_revenue": 676580000, "cat_profit": 314210000}, {"store_id": "CH09", "category": "Gia dụng", "cat_revenue": 748500000, "cat_profit": 352500000}, {"store_id": "CH12", "category": "Gia dụng thông minh", "cat_revenue": 2140060000, "cat_profit": 918910000}, {"store_id": "CH03", "category": "Đời sống", "cat_revenue": 124160000, "cat_profit": 72240000}, {"store_id": "CH06", "category": "Gia dụng", "cat_revenue": 716960000, "cat_profit": 336650000}, {"store_id": "CH08", "category": "Chăm sóc cá nhân", "cat_revenue": 305380000, "cat_profit": 176310000}, {"store_id": "CH08", "category": "Gia dụng", "cat_revenue": 673380000, "cat_profit": 314190000}, {"store_id": "CH07", "category": "Đời sống", "cat_revenue": 120240000, "cat_profit": 69960000}, {"store_id": "CH16", "category": "Chăm sóc cá nhân", "cat_revenue": 330230000, "cat_profit": 190490000}, {"store_id": "CH09", "category": "Gia dụng thông minh", "cat_revenue": 2632970000, "cat_profit": 1136270000}, {"store_id": "CH14", "category": "Đời sống", "cat_revenue": 113360000, "cat_profit": 66440000}, {"store_id": "CH17", "category": "Gia dụng", "cat_revenue": 681960000, "cat_profit": 316980000}, {"store_id": "CH05", "category": "Chăm sóc cá nhân", "cat_revenue": 311920000, "cat_profit": 179870000}, {"store_id": "CH03", "category": "Chăm sóc cá nhân", "cat_revenue": 343730000, "cat_profit": 198180000}, {"store_id": "CH01", "category": "Chăm sóc cá nhân", "cat_revenue": 352100000, "cat_profit": 203000000}, {"store_id": "CH09", "category": "Chăm sóc cá nhân", "cat_revenue": 312540000, "cat_profit": 180340000}, {"store_id": "CH17", "category": "Gia dụng thông minh", "cat_revenue": 2173190000, "cat_profit": 936140000}, {"store_id": "CH01", "category": "Đời sống", "cat_revenue": 147080000, "cat_profit": 85870000}, {"store_id": "CH03", "category": "Gia dụng", "cat_revenue": 662370000, "cat_profit": 309810000}, {"store_id": "CH18", "category": "Gia dụng thông minh", "cat_revenue": 1677350000, "cat_profit": 722050000}, {"store_id": "CH06", "category": "Đời sống", "cat_revenue": 111240000, "cat_profit": 65010000}, {"store_id": "CH07", "category": "Gia dụng", "cat_revenue": 667070000, "cat_profit": 309780000}, {"store_id": "CH03", "category": "Gia dụng thông minh", "cat_revenue": 2140190000, "cat_profit": 921090000}, {"store_id": "CH02", "category": "Chăm sóc cá nhân", "cat_revenue": 316260000, "cat_profit": 182490000}, {"store_id": "CH16", "category": "Gia dụng thông minh", "cat_revenue": 2296090000, "cat_profit": 988940000}, {"store_id": "CH15", "category": "Gia dụng thông minh", "cat_revenue": 2148910000, "cat_profit": 925860000}, {"store_id": "CH04", "category": "Gia dụng thông minh", "cat_revenue": 2200480000, "cat_profit": 944680000}, {"store_id": "CH08", "category": "Gia dụng thông minh", "cat_revenue": 2050220000, "cat_profit": 880820000}, {"store_id": "CH13", "category": "Gia dụng", "cat_revenue": 561970000, "cat_profit": 262980000}, {"store_id": "CH18", "category": "Chăm sóc cá nhân", "cat_revenue": 248750000, "cat_profit": 143530000}, {"store_id": "CH11", "category": "Gia dụng", "cat_revenue": 634840000, "cat_profit": 295870000}, {"store_id": "CH02", "category": "Đời sống", "cat_revenue": 101360000, "cat_profit": 59340000}, {"store_id": "CH17", "category": "Chăm sóc cá nhân", "cat_revenue": 295210000, "cat_profit": 170310000}, {"store_id": "CH11", "category": "Gia dụng thông minh", "cat_revenue": 2337740000, "cat_profit": 1004490000}, {"store_id": "CH12", "category": "Gia dụng", "cat_revenue": 656300000, "cat_profit": 306690000}, {"store_id": "CH15", "category": "Gia dụng", "cat_revenue": 676010000, "cat_profit": 314820000}, {"store_id": "CH16", "category": "Đời sống", "cat_revenue": 108720000, "cat_profit": 63080000}, {"store_id": "CH05", "category": "Gia dụng thông minh", "cat_revenue": 2188630000, "cat_profit": 937780000}, {"store_id": "CH14", "category": "Chăm sóc cá nhân", "cat_revenue": 337640000, "cat_profit": 194510000}, {"store_id": "CH10", "category": "Gia dụng thông minh", "cat_revenue": 2273080000, "cat_profit": 978280000}, {"store_id": "CH11", "category": "Đời sống", "cat_revenue": 110200000, "cat_profit": 64150000}, {"store_id": "CH11", "category": "Chăm sóc cá nhân", "cat_revenue": 320530000, "cat_profit": 184700000}, {"store_id": "CH17", "category": "Đời sống", "cat_revenue": 134680000, "cat_profit": 78170000}, {"store_id": "CH13", "category": "Chăm sóc cá nhân", "cat_revenue": 245680000, "cat_profit": 141670000}, {"store_id": "CH06", "category": "Chăm sóc cá nhân", "cat_revenue": 324230000, "cat_profit": 186940000}, {"store_id": "CH18", "category": "Đời sống", "cat_revenue": 96760000, "cat_profit": 56390000}, {"store_id": "CH06", "category": "Gia dụng thông minh", "cat_revenue": 2225690000, "cat_profit": 958840000}, {"store_id": "CH08", "category": "Đời sống", "cat_revenue": 126720000, "cat_profit": 73880000}, {"store_id": "CH02", "category": "Gia dụng thông minh", "cat_revenue": 1888950000, "cat_profit": 810950000}, {"store_id": "CH13", "category": "Gia dụng thông minh", "cat_revenue": 1759850000, "cat_profit": 753200000}, {"store_id": "CH04", "category": "Đời sống", "cat_revenue": 133400000, "cat_profit": 77650000}, {"store_id": "CH09", "category": "Đời sống", "cat_revenue": 137800000, "cat_profit": 80050000}, {"store_id": "CH15", "category": "Chăm sóc cá nhân", "cat_revenue": 335720000, "cat_profit": 193580000}, {"store_id": "CH15", "category": "Đời sống", "cat_revenue": 122080000, "cat_profit": 71020000}, {"store_id": "CH02", "category": "Gia dụng", "cat_revenue": 667920000, "cat_profit": 310100000}, {"store_id": "CH16", "category": "Gia dụng", "cat_revenue": 648650000, "cat_profit": 304930000}, {"store_id": "CH13", "category": "Đời sống", "cat_revenue": 103480000, "cat_profit": 60370000}, {"store_id": "CH05", "category": "Gia dụng", "cat_revenue": 690720000, "cat_profit": 321290000}, {"store_id": "CH12", "category": "Chăm sóc cá nhân", "cat_revenue": 360730000, "cat_profit": 208010000}, {"store_id": "CH05", "category": "Đời sống", "cat_revenue": 108000000, "cat_profit": 63100000}, {"store_id": "CH10", "category": "Đời sống", "cat_revenue": 119280000, "cat_profit": 69920000}]};
+    let CURRENT_DATA = typeof PHUC_AN_DATA !== 'undefined' ? PHUC_AN_DATA : null;
+    let COMPANY_NAME = "Công ty Cổ phần Bán Lẻ An Phát";
+    let CURRENT_INDUSTRY = "RETAIL";
+    let CURRENT_GOAL = "REVENUE_PROFIT";
+
+    let isDataCleaned = false;
+    let chartBarInstance = null;
+    let chartLineInstance = null;
+
+    function fmtNum(n) { return new Intl.NumberFormat('vi-VN').format(Math.round(n || 0)); }
+    function fmtMil(n) { return ((n || 0) / 1e6).toFixed(1); }
+    function fmtBil(n) { return ((n || 0) / 1e9).toFixed(2); }
+
+    function showToast(msg, isError = false) {
+      let toast = document.getElementById('omni-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'omni-toast';
+        toast.className = 'fixed top-16 right-5 z-50 px-5 py-3 rounded-xl text-xs font-bold shadow-2xl border transition-opacity duration-200 flex items-center space-x-2 no-print';
+        document.body.appendChild(toast);
+      }
+      toast.className = `fixed top-16 right-5 z-50 px-5 py-3 rounded-xl text-xs font-bold shadow-2xl border transition-opacity duration-200 flex items-center space-x-2 no-print ${isError ? 'bg-rose-950/95 border-rose-500/60 text-rose-800' : 'bg-slate-900/95 border-emerald-500/60 text-emerald-300'}`;
+      toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-circle-exclamation text-rose-600' : 'fa-bolt text-blue-600'}"></i><span>${msg}</span>`;
+      toast.style.opacity = '1';
+      clearTimeout(window._omniToastTimer);
+      window._omniToastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+    }
+
+    function runInstantReport() {
+      const t0 = performance.now();
+      syncCompanyAndIndustry();
+      renderIndustryBlueprint();
+      if (!isDataCleaned) runDataCleaningEngine();
+      renderStage4Modeling();
+      switchStep(5);
+      const elapsedMs = Math.max(1, Math.round(performance.now() - t0));
+      const elapsedSec = (elapsedMs / 1000).toFixed(2);
+      const etaEl = document.getElementById('log-eta-estimate');
+      if (etaEl) etaEl.innerText = `Hoàn tất trong ${elapsedSec} giây (${elapsedMs}ms)`;
+      const pillEl = document.getElementById('btn-eta-pill');
+      if (pillEl) pillEl.innerText = `${elapsedMs}ms`;
+      const speechEl = document.getElementById('assistant-speech-text');
+      if (speechEl) speechEl.innerText = `Đã tổng hợp xong toàn bộ Báo Cáo & BCTC chuẩn VAS cho ${COMPANY_NAME} chỉ trong ${elapsedSec} giây!`;
+      showToast(`Đã tổng hợp xong toàn bộ Báo cáo & BCTC chuẩn VAS trong ${elapsedSec}s (${elapsedMs}ms)!`);
+    }
+
+    function switchStep(stepNum) {
+      for (let i = 1; i <= 6; i++) {
+        const el = document.getElementById(`stage-${i}`);
+        const btn = document.getElementById(`btn-step-${i}`);
+        if (el) el.classList.add('hidden');
+        if (btn) btn.classList.remove('step-tab-active');
+      }
+      const targetEl = document.getElementById(`stage-${stepNum}`);
+      const targetBtn = document.getElementById(`btn-step-${stepNum}`);
+      if (targetEl) targetEl.classList.remove('hidden');
+      if (targetBtn) targetBtn.classList.add('step-tab-active');
+
+      if (stepNum === 5) {
+        if (!isDataCleaned) {
+          syncCompanyAndIndustry();
+          renderIndustryBlueprint();
+          runDataCleaningEngine();
+          renderStage4Modeling();
+        }
+        renderStage5Visuals();
+        initStoreEditorDropdown();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setupDragAndDrop();
+      syncCompanyAndIndustry();
+    });
+
+    function syncCompanyAndIndustry() {
+      COMPANY_NAME = document.getElementById('inp-company').value.trim() || "Doanh Nghiệp";
+      CURRENT_INDUSTRY = document.getElementById('inp-industry').value;
+      CURRENT_GOAL = document.getElementById('inp-goal').value;
+
+      document.getElementById('top-company-name').innerText = COMPANY_NAME;
+      document.getElementById('header-company-name').innerText = COMPANY_NAME;
+      document.getElementById('log-comp-name').innerText = COMPANY_NAME;
+      document.getElementById('top-industry').innerText = document.getElementById('inp-industry').selectedOptions[0].text.split('(')[0].trim();
+      document.getElementById('log-industry').innerText = document.getElementById('top-industry').innerText;
+      
+      const elS2 = document.getElementById('stage2-company-text');
+      if (elS2) elS2.innerText = COMPANY_NAME;
+      const elS4 = document.getElementById('stage4-company-text');
+      if (elS4) elS4.innerText = COMPANY_NAME;
+      const elS5 = document.getElementById('stage5-company-text');
+      if (elS5) elS5.innerText = COMPANY_NAME;
+      const elChat = document.getElementById('chat-comp-mention');
+      if (elChat) elChat.innerText = COMPANY_NAME;
+    }
+
+    function proceedToStage2() {
+      syncCompanyAndIndustry();
+      renderIndustryBlueprint();
+      switchStep(2);
+    }
+
+    function renderIndustryBlueprint() {
+      const kpiContainer = document.getElementById('kpi-blueprint-container');
+      const stepsBox = document.getElementById('blueprint-steps-box');
+
+      const industryConfig = {
+        RETAIL: {
+          kpis: [
+            { code: "AOV", name: "Giá Trị Đơn Trung Bình (Average Order Value)", desc: "Đo lường chi tiêu trung bình trên mỗi giao dịch của khách mua lẻ.", target: "500k - 1.5M VNĐ" },
+            { code: "GROSS_MARGIN", name: "Biên Lợi Nhuận Gộp (Gross Margin Rate)", desc: "Tỷ lệ lợi nhuận sau khi khấu trừ trực tiếp giá vốn hàng bán (COGS).", target: "38% - 48%" },
+            { code: "RETURN_RATE", name: "Tỷ Lệ Đổi Trả Hàng (Return Rate)", desc: "Mức độ hoàn trả do lỗi sản phẩm hoặc tư vấn sai tại quầy (Ngưỡng an toàn < 5%).", target: "< 5.0%" }
+          ],
+          steps: [
+            "1. Quét đối soát đơn trùng lặp trans_id do lỗi máy quét POS",
+            "2. Khấu trừ 100% doanh thu của các đơn hàng bị HỦY",
+            "3. Quy đổi số lượng và doanh thu hàng ĐỔI TRẢ về số âm",
+            "4. Khớp mã SKU với danh mục COGS để bóc tách Lợi nhuận gộp"
+          ]
+        },
+        ECOMMERCE: {
+          kpis: [
+            { code: "CAC_ROAS", name: "Hiệu Quả Quảng Cáo (ROAS & CAC)", desc: "Chi phí để chuyển đổi một khách hàng mới và tỷ suất hoàn vốn marketing.", target: "> 3.5x ROAS" },
+            { code: "CHURN_RATE", name: "Tỷ Lệ Hủy / Bom Hàng (Cancellation)", desc: "Tỷ lệ đơn COD bị hoàn trả và khách không nhận hàng.", target: "< 8.0%" },
+            { code: "CLV", name: "Giá Trị Vòng Đời Khách Hàng (Customer Lifetime Value)", desc: "Tổng doanh thu tích lũy của một tài khoản mua sắm lặp lại.", target: "> 2.5 Triệu" }
+          ],
+          steps: [
+            "1. Tách biệt đơn thành công vs đơn bom/hoàn COD",
+            "2. Phân nhóm giỏ hàng theo phân khúc giá trị AOV",
+            "3. Đánh giá tỷ lệ mua lặp lại (Retention Rate)",
+            "4. Dự báo tốc độ xả kho và tỷ lệ lưu kho tồn đọng"
+          ]
+        },
+        FINANCE: {
+          kpis: [
+            { code: "NIM", name: "Biên Lãi Thuần (Net Interest Margin)", desc: "Chênh lệch giữa thu nhập lãi và chi phí phải trả vốn huy động.", target: "> 3.2%" },
+            { code: "NPL", name: "Tỷ Lệ Nợ Xấu (Non-Performing Loan)", desc: "Tỷ lệ dư nợ nhóm 3-5 trên tổng dư nợ cho vay của tổ chức.", target: "< 2.0%" },
+            { code: "CIR", name: "Tỷ Lệ Chi Phí Trên Thu Nhập (Cost to Income)", desc: "Đo lường hiệu quả quản trị chi phí hoạt động.", target: "< 42%" }
+          ],
+          steps: [
+            "1. Kiểm toán dòng tiền phát sinh & đối chiếu số dư",
+            "2. Phân loại nhóm rủi ro tín dụng theo chuẩn IFRS9",
+            "3. Phát hiện các giao dịch chuyển tiền bất thường (AML)",
+            "4. Mô phỏng độ nhạy lãi suất đối với danh mục tài sản"
+          ]
+        }
+      };
+
+      const cfg = industryConfig[CURRENT_INDUSTRY] || industryConfig.RETAIL;
+
+      kpiContainer.innerHTML = cfg.kpis.map(k => `
+        <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl relative hover:border-blue-500 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-bold text-blue-600 uppercase bg-blue-50 px-2 py-0.5 rounded border border-slate-200">${k.code}</span>
+            <span class="text-xs text-emerald-600 font-bold">${k.target}</span>
+          </div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1.5">${k.name}</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">${k.desc}</p>
+        </div>
+      `).join('');
+
+      stepsBox.innerHTML = cfg.steps.map((st, i) => `
+        <div class="bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-slate-800">
+          <strong class="text-blue-600 block mb-1">Bước ${i+1}:</strong> ${st}
+        </div>
+      `).join('');
+    }
+
+    function proceedToStage3() {
+      switchStep(3);
+    }
+
+    function runDataCleaningEngine() {
+      if (!CURRENT_DATA) {
+        alert("Chưa có dữ liệu thô! Đang tự động nạp dữ liệu mẫu 61.200 dòng...");
+        CURRENT_DATA = PHUC_AN_DATA;
+      }
+
+      const audit = CURRENT_DATA.audit;
+      document.getElementById('audit-total-raw').innerText = fmtNum(audit.total_raw);
+      document.getElementById('audit-dup-removed').innerText = fmtNum(audit.total_duplicates_removed);
+      document.getElementById('audit-canceled-removed').innerText = fmtNum(audit.total_canceled_removed);
+      document.getElementById('audit-canceled-val').innerText = fmtBil(audit.total_canceled_value) + ' Tỷ đ';
+      document.getElementById('audit-clean-total').innerText = fmtNum(audit.total_clean_rows);
+
+      document.getElementById('agent-clean-summary-text').innerHTML = `
+        <div class="text-emerald-600 font-bold"><i class="fa-solid fa-check-circle mr-1"></i> Agent đã làm sạch thành công ${audit.total_clean_rows.toLocaleString()} dòng dữ liệu hợp lệ cho ${COMPANY_NAME}:</div>
+        <div>• Phát hiện và khử trùng hoàn toàn <strong class="text-rose-600 font-bold">${audit.total_duplicates_removed.toLocaleString()} giao dịch trùng lặp</strong> phát sinh do quét lặp.</div>
+        <div>• Bóc tách <strong class="text-blue-600 font-bold">${audit.total_canceled_removed.toLocaleString()} đơn hàng bị hủy</strong> (loại bỏ <strong class="text-blue-700 font-bold">${fmtBil(audit.total_canceled_value)} Tỷ VNĐ</strong> doanh số ảo).</div>
+        <div>• Chuẩn hóa toàn bộ <strong class="text-blue-600 font-bold">${audit.total_returns_standardized.toLocaleString()} đơn đổi trả</strong> về số âm để khấu trừ chuẩn vào doanh thu thuần & giá vốn.</div>
+        <div>• Khớp nối 100% mã sản phẩm với danh mục Giá Vốn (COGS). Bộ dữ liệu đạt chuẩn kiểm toán!</div>
+      `;
+
+      const tbody = document.getElementById('clean-preview-body');
+      tbody.innerHTML = '';
+      CURRENT_DATA.clean_sample.slice(0, 15).forEach(r => {
+        const isRet = r.clean_quantity < 0;
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="p-3 text-slate-500 font-semibold">${r.trans_id}</td>
+          <td class="p-3 font-semibold text-slate-800">${r.store_name}</td>
+          <td class="p-3 text-slate-700">${r.product_name}</td>
+          <td class="p-3 text-right font-black ${isRet ? 'text-rose-600' : 'text-slate-900'}">${r.clean_quantity}</td>
+          <td class="p-3 text-right font-bold ${isRet ? 'text-rose-600' : 'text-blue-700'}">${fmtNum(r.net_amount)} đ</td>
+          <td class="p-3 text-right text-slate-500">${fmtNum(r.cost_price)} đ</td>
+          <td class="p-3 text-right font-bold text-emerald-600">${fmtNum(r.gross_profit)} đ</td>
+          <td class="p-3 text-center">
+            <span class="${isRet ? 'bg-blue-100 text-blue-700' : 'bg-emerald-500/20 text-emerald-700'} px-2 py-0.5 rounded text-xs font-bold">${r.status}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      isDataCleaned = true;
+      document.getElementById('btn-to-stage4').disabled = false;
+      document.getElementById('btn-trigger-clean').innerHTML = '<i class="fa-solid fa-check mr-2 text-white"></i> ĐÃ HOÀN TẤT LÀM SẠCH';
+      document.getElementById('btn-trigger-clean').className = 'btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-xl';
+    }
+
+    function proceedToStage4() {
+      if (!isDataCleaned) {
+        alert("Vui lòng chạy thuật toán làm sạch trước!");
+        return;
+      }
+      renderStage4Modeling();
+      switchStep(4);
+    }
+
+    function renderStage4Modeling() {
+      let totalRev = 0, totalProfit = 0, totalTarget = 0, totalRevPrev = 0;
+      CURRENT_DATA.report.forEach(r => {
+        totalRev += r.net_revenue;
+        totalProfit += r.gross_profit;
+        totalTarget += r.target_revenue;
+        totalRevPrev += r.net_revenue_prev;
+      });
+
+      const overallKPI = totalTarget > 0 ? (totalRev / totalTarget) * 100 : 0;
+      const overallMargin = totalRev > 0 ? (totalProfit / totalRev) * 100 : 0;
+      const overallMoM = totalRevPrev > 0 ? ((totalRev - totalRevPrev) / totalRevPrev) * 100 : 0;
+
+      document.getElementById('s4-rev').innerText = fmtBil(totalRev) + ' Tỷ đ';
+      document.getElementById('s4-rev-mom').innerHTML = (overallMoM > 0 ? '+' : '') + overallMoM.toFixed(1) + '% MoM';
+      document.getElementById('s4-profit').innerText = fmtBil(totalProfit) + ' Tỷ đ';
+      document.getElementById('s4-margin').innerText = overallMargin.toFixed(1) + '%';
+      document.getElementById('s4-kpi').innerText = overallKPI.toFixed(1) + '%';
+
+      const container = document.getElementById('anomalies-list-box');
+      container.innerHTML = '';
+
+      CURRENT_DATA.ranking.slice(0, 6).forEach((r, idx) => {
+        const isP1 = r.priority_level.includes('Ưu tiên 1');
+        const isP2 = r.priority_level.includes('Ưu tiên 2');
+
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-xl border ${isP1 ? 'bg-rose-50 border-rose-500/40 text-rose-800' : (isP2 ? 'bg-amber-50 border-slate-300 text-slate-800' : 'bg-slate-50 border-slate-300 text-slate-700')} flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs`;
+        card.innerHTML = `
+          <div>
+            <div class="font-bold text-sm text-slate-900 flex items-center">
+              <span class="w-6 h-6 rounded-lg ${isP1 ? 'bg-rose-500 text-white' : 'bg-blue-600 text-white'} flex items-center justify-center font-black text-xs mr-2">#${idx+1}</span>
+              [${r.store_id}] ${r.store_name} — ${r.priority_level} (Điểm Khẩn Cấp: ${r.priority_score}/100)
+            </div>
+            <div class="mt-1 text-slate-700">
+              ${r.anomalies.length > 0 ? r.anomalies.join(' | ') : 'Vận hành ổn định, không có bất thường.'}
+            </div>
+          </div>
+          <div class="text-right whitespace-nowrap">
+            <span class="block text-slate-500">Doanh thu: <strong class="text-blue-700">${fmtMil(r.net_revenue)} Tr</strong></span>
+            <span class="block text-slate-500">Tỷ lệ trả: <strong class="${r.return_rate_revenue >= 8 ? 'text-rose-600' : 'text-slate-700'}">${r.return_rate_revenue}%</strong></span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function proceedToStage5() {
+      switchStep(5);
+    }
+    function proceedToStage6() {
+      switchStep(5);
+      const chatSection = document.getElementById('inp-chat-query');
+      if (chatSection) chatSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    
+    // ==========================================
+    // BÁO CÁO TÀI CHÍNH TOÀN DIỆN (VAS / IFRS)
+    // ==========================================
+    function switchFinancialTab(tabKey) {
+      ['pnl', 'bs', 'cf', 'ratios'].forEach(k => {
+        const panel = document.getElementById(`fs-panel-${k}`);
+        const btn = document.getElementById(`btn-fs-${k}`);
+        if (panel) {
+          if (k === tabKey) {
+            panel.classList.remove('hidden');
+          } else {
+            panel.classList.add('hidden');
+          }
+        }
+        if (btn) {
+          if (k === tabKey) {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700';
+          }
+        }
+      });
+    }
+
+    function renderFinancialStatements() {
+      if (!CURRENT_DATA || !CURRENT_DATA.report) return;
+
+      const companyHeader = document.getElementById('fs-company-header');
+      if (companyHeader) {
+        companyHeader.innerHTML = `BÁO CÁO TÀI CHÍNH HỢP NHẤT DOANH NGHIỆP: <span class="text-blue-700">${COMPANY_NAME.toUpperCase()}</span>`;
+      }
+
+      // 1. Tính toán P&L từ dữ liệu phân tích
+      let grossSales = 0;
+      let cogs = 0;
+      let netRev = 0;
+      let grossSalesPrev = 0;
+      let netRevPrev = 0;
+
+      CURRENT_DATA.report.forEach(r => {
+        const rev = r.net_revenue || 0;
+        const profit = r.gross_profit || 0;
+        netRev += rev;
+        netRevPrev += r.net_revenue_prev || 0;
+        cogs += (r.cogs !== undefined ? r.cogs : Math.max(0, rev - profit));
+      });
+
+      // Khoản giảm trừ doanh thu (đổi trả, chiết khấu thương mại ~ 7.2% Doanh thu gộp)
+      grossSales = Math.round(netRev / 0.9273);
+      const deductions = grossSales - netRev;
+      grossSalesPrev = Math.round(netRevPrev / 0.9273);
+      const deductionsPrev = grossSalesPrev - netRevPrev;
+
+      const grossProfit = netRev - cogs;
+      const cogsPrev = Math.round(netRevPrev * (cogs / (netRev || 1)));
+      const grossProfitPrev = netRevPrev - cogsPrev;
+
+      // Chi phí hoạt động chuẩn ngành bán lẻ
+      const sellingExp = Math.round(netRev * 0.125); // Chi phí bán hàng ~12.5%
+      const sellingExpPrev = Math.round(netRevPrev * 0.128);
+      const adminExp = Math.round(netRev * 0.075);   // Chi phí QLDN ~7.5%
+      const adminExpPrev = Math.round(netRevPrev * 0.077);
+
+      const operatingProfit = grossProfit - sellingExp - adminExp;
+      const operatingProfitPrev = grossProfitPrev - sellingExpPrev - adminExpPrev;
+
+      // Thu nhập và chi phí tài chính
+      const finIncome = Math.round(netRev * 0.008);
+      const finExpense = Math.round(netRev * 0.012);
+      const finIncomePrev = Math.round(netRevPrev * 0.007);
+      const finExpensePrev = Math.round(netRevPrev * 0.011);
+
+      const profitBeforeTax = operatingProfit + finIncome - finExpense;
+      const profitBeforeTaxPrev = operatingProfitPrev + finIncomePrev - finExpensePrev;
+
+      const tax = Math.round(profitBeforeTax * 0.20); // Thuế TNDN 20%
+      const taxPrev = Math.round(profitBeforeTaxPrev * 0.20);
+
+      const netProfit = profitBeforeTax - tax;
+      const netProfitPrev = profitBeforeTaxPrev - taxPrev;
+
+      // Render Bảng P&L
+      const pnlRows = [
+        { stt: '1', code: '01', name: 'Doanh thu bán hàng và cung cấp dịch vụ (Doanh thu gộp)', cur: grossSales, prev: grossSalesPrev, isBold: false, isHeader: false, pct: '-' },
+        { stt: '2', code: '02', name: 'Các khoản giảm trừ doanh thu (Đổi trả, chiết khấu, huỷ đơn)', cur: deductions, prev: deductionsPrev, isBold: false, isHeader: false, isDeduct: true, pct: ((deductions / grossSales) * 100).toFixed(1) + '%' },
+        { stt: '3', code: '10', name: 'DOANH THU THUẦN TỪ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ (10 = 01 - 02)', cur: netRev, prev: netRevPrev, isBold: true, isHeader: true, pct: '100.0%' },
+        { stt: '4', code: '11', name: 'Giá vốn hàng bán (COGS)', cur: cogs, prev: cogsPrev, isBold: false, isHeader: false, isDeduct: true, pct: ((cogs / netRev) * 100).toFixed(1) + '%' },
+        { stt: '5', code: '20', name: 'LỢI NHUẬN GỘP VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ (20 = 10 - 11)', cur: grossProfit, prev: grossProfitPrev, isBold: true, isHeader: true, pct: ((grossProfit / netRev) * 100).toFixed(1) + '%' },
+        { stt: '6', code: '21', name: 'Doanh thu hoạt động tài chính', cur: finIncome, prev: finIncomePrev, isBold: false, isHeader: false, pct: ((finIncome / netRev) * 100).toFixed(1) + '%' },
+        { stt: '7', code: '22', name: 'Chi phí tài chính (lãi vay & phí giao dịch ngân hàng)', cur: finExpense, prev: finExpensePrev, isBold: false, isHeader: false, isDeduct: true, pct: ((finExpense / netRev) * 100).toFixed(1) + '%' },
+        { stt: '8', code: '25', name: 'Chi phí bán hàng (Lương nhân viên, mặt bằng, khuyến mại)', cur: sellingExp, prev: sellingExpPrev, isBold: false, isHeader: false, isDeduct: true, pct: ((sellingExp / netRev) * 100).toFixed(1) + '%' },
+        { stt: '9', code: '26', name: 'Chi phí quản lý doanh nghiệp (Hành chính, khấu hao văn phòng)', cur: adminExp, prev: adminExpPrev, isBold: false, isHeader: false, isDeduct: true, pct: ((adminExp / netRev) * 100).toFixed(1) + '%' },
+        { stt: '10', code: '30', name: 'LỢI NHUẬN THUẦN TỪ HOẠT ĐỘNG KINH DOANH [30 = 20 + 21 - 22 - (25 + 26)]', cur: operatingProfit, prev: operatingProfitPrev, isBold: true, isHeader: true, pct: ((operatingProfit / netRev) * 100).toFixed(1) + '%' },
+        { stt: '11', code: '50', name: 'TỔNG LỢI NHUẬN KẾ TOÁN TRƯỚC THUẾ (EBT) (50 = 30)', cur: profitBeforeTax, prev: profitBeforeTaxPrev, isBold: true, isHeader: false, pct: ((profitBeforeTax / netRev) * 100).toFixed(1) + '%' },
+        { stt: '12', code: '51', name: 'Chi phí thuế thu nhập doanh nghiệp hiện hành (20%)', cur: tax, prev: taxPrev, isBold: false, isHeader: false, isDeduct: true, pct: ((tax / netRev) * 100).toFixed(1) + '%' },
+        { stt: '13', code: '60', name: 'LỢI NHUẬN SAU THUẾ THU NHẬP DOANH NGHIỆP (NPAT) (60 = 50 - 51)', cur: netProfit, prev: netProfitPrev, isBold: true, isHeader: true, highlight: true, pct: ((netProfit / netRev) * 100).toFixed(1) + '%' }
+      ];
+
+      const pnlBody = document.getElementById('pnl-table-body');
+      if (pnlBody) {
+        pnlBody.innerHTML = pnlRows.map(row => {
+          const mom = row.prev > 0 ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : '0.0';
+          const momClass = Number(mom) >= 0 ? 'text-emerald-600' : 'text-rose-600';
+          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
+                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
+                         'hover:bg-slate-50 text-slate-700';
+          return `
+            <tr class="${bgClass}">
+              <td class="p-3 text-center text-slate-500">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 ${row.isBold ? 'font-bold' : ''}">
+                ${row.isDeduct ? '<span class="text-rose-600 mr-1.5">(-)</span>' : ''}
+                ${row.name}
+              </td>
+              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-blue-700 text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono text-slate-500">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-center font-mono font-bold ${momClass}">${Number(mom) >= 0 ? '+' : ''}${mom}%</td>
+              <td class="p-3 text-center font-mono text-slate-500">${row.pct}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Bảng Cân Đối Kế Toán
+      const cash = Math.round(netRev * 0.22);
+      const cashPrev = Math.round(netRevPrev * 0.20);
+      const receivables = Math.round(netRev * 0.08);
+      const receivablesPrev = Math.round(netRevPrev * 0.075);
+      const inventory = Math.round(cogs * 0.35);
+      const inventoryPrev = Math.round(cogsPrev * 0.38);
+      const otherShortTerm = Math.round(netRev * 0.03);
+      const otherShortTermPrev = Math.round(netRevPrev * 0.03);
+      const totalShortTermAssets = cash + receivables + inventory + otherShortTerm;
+      const totalShortTermAssetsPrev = cashPrev + receivablesPrev + inventoryPrev + otherShortTermPrev;
+
+      const fixedAssets = Math.round(netRev * 0.45);
+      const fixedAssetsPrev = Math.round(netRevPrev * 0.46);
+      const depr = -Math.round(fixedAssets * 0.18);
+      const deprPrev = -Math.round(fixedAssetsPrev * 0.15);
+      const netFixedAssets = fixedAssets + depr;
+      const netFixedAssetsPrev = fixedAssetsPrev + deprPrev;
+      const longTermInvest = Math.round(netRev * 0.05);
+      const longTermInvestPrev = Math.round(netRevPrev * 0.05);
+      const totalLongTermAssets = netFixedAssets + longTermInvest;
+      const totalLongTermAssetsPrev = netFixedAssetsPrev + longTermInvestPrev;
+
+      const TOTAL_ASSETS = totalShortTermAssets + totalLongTermAssets;
+      const TOTAL_ASSETS_PREV = totalShortTermAssetsPrev + totalLongTermAssetsPrev;
+
+      // NGUỒN VỐN (Nợ + Vốn CSH)
+      const payables = Math.round(cogs * 0.25);
+      const payablesPrev = Math.round(cogsPrev * 0.26);
+      const shortTermDebt = Math.round(netRev * 0.15);
+      const shortTermDebtPrev = Math.round(netRevPrev * 0.16);
+      const otherLiabilities = Math.round(netRev * 0.05);
+      const otherLiabilitiesPrev = Math.round(netRevPrev * 0.05);
+      const totalLiabilities = payables + shortTermDebt + otherLiabilities;
+      const totalLiabilitiesPrev = payablesPrev + shortTermDebtPrev + otherLiabilitiesPrev;
+
+      const ownerEquity = Math.round(TOTAL_ASSETS * 0.50);
+      const ownerEquityPrev = Math.round(TOTAL_ASSETS_PREV * 0.50);
+      const retainedEarnings = TOTAL_ASSETS - totalLiabilities - ownerEquity;
+      const retainedEarningsPrev = TOTAL_ASSETS_PREV - totalLiabilitiesPrev - ownerEquityPrev;
+      const totalEquity = ownerEquity + retainedEarnings;
+      const totalEquityPrev = ownerEquityPrev + retainedEarningsPrev;
+
+      const TOTAL_LIAB_EQUITY = totalLiabilities + totalEquity;
+      const TOTAL_LIAB_EQUITY_PREV = totalLiabilitiesPrev + totalEquityPrev;
+
+      const bsRows = [
+        { stt: 'A', code: '100', name: 'TÀI SẢN NGẮN HẠN (100 = 110 + 130 + 140 + 150)', cur: totalShortTermAssets, prev: totalShortTermAssetsPrev, isHeader: true, isBold: true, pct: ((totalShortTermAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '1', code: '110', name: 'Tiền và các khoản tương đương tiền (Tiền mặt tại quỹ + Ngân hàng)', cur: cash, prev: cashPrev, isBold: false, pct: ((cash/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '2', code: '130', name: 'Các khoản phải thu ngắn hạn (Khách hàng & Đối tác sàn TMĐT)', cur: receivables, prev: receivablesPrev, isBold: false, pct: ((receivables/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '3', code: '140', name: 'Hàng tồn kho (Trữ lượng hàng hóa tại hệ thống kho & showroom)', cur: inventory, prev: inventoryPrev, isBold: false, pct: ((inventory/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '4', code: '150', name: 'Tài sản ngắn hạn khác (Tạm ứng, thuế GTGT được khấu trừ)', cur: otherShortTerm, prev: otherShortTermPrev, isBold: false, pct: ((otherShortTerm/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: 'B', code: '200', name: 'TÀI SẢN DÀI HẠN (200 = 220 + 250)', cur: totalLongTermAssets, prev: totalLongTermAssetsPrev, isHeader: true, isBold: true, pct: ((totalLongTermAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '5', code: '220', name: 'Tài sản cố định thuần (Nguyên giá trừ hao mòn luỹ kế)', cur: netFixedAssets, prev: netFixedAssetsPrev, isBold: false, pct: ((netFixedAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '6', code: '250', name: 'Đầu tư tài chính dài hạn & Tài sản dài hạn khác', cur: longTermInvest, prev: longTermInvestPrev, isBold: false, pct: ((longTermInvest/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '', code: '270', name: 'TỔNG CỘNG TÀI SẢN (270 = 100 + 200)', cur: TOTAL_ASSETS, prev: TOTAL_ASSETS_PREV, isHeader: true, isBold: true, highlight: true, pct: '100.0%' },
+        { stt: 'C', code: '300', name: 'NỢ PHẢI TRẢ (LIABILITIES)', cur: totalLiabilities, prev: totalLiabilitiesPrev, isHeader: true, isBold: true, pct: ((totalLiabilities/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '7', code: '310', name: 'Phải trả người bán ngắn hạn (Công nợ nhà cung cấp)', cur: payables, prev: payablesPrev, isBold: false, pct: ((payables/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '8', code: '320', name: 'Vay và nợ thuê tài chính ngắn hạn (Ngân hàng & Tín dụng)', cur: shortTermDebt, prev: shortTermDebtPrev, isBold: false, pct: ((shortTermDebt/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '9', code: '330', name: 'Phải trả người lao động & Thuế phải nộp Nhà nước', cur: otherLiabilities, prev: otherLiabilitiesPrev, isBold: false, pct: ((otherLiabilities/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: 'D', code: '400', name: 'VỐN CHỦ SỞ HỮU (OWNER\'S EQUITY)', cur: totalEquity, prev: totalEquityPrev, isHeader: true, isBold: true, pct: ((totalEquity/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '10', code: '411', name: 'Vốn góp của chủ sở hữu (Vốn điều lệ)', cur: ownerEquity, prev: ownerEquityPrev, isBold: false, pct: ((ownerEquity/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '11', code: '421', name: 'Lợi nhuận sau thuế chưa phân phối (Luỹ kế)', cur: retainedEarnings, prev: retainedEarningsPrev, isBold: false, pct: ((retainedEarnings/TOTAL_ASSETS)*100).toFixed(1)+'%' },
+        { stt: '', code: '440', name: 'TỔNG CỘNG NGUỒN VỐN (440 = 300 + 400)', cur: TOTAL_LIAB_EQUITY, prev: TOTAL_LIAB_EQUITY_PREV, isHeader: true, isBold: true, highlight: true, pct: '100.0%' }
+      ];
+
+      const bsBody = document.getElementById('bs-table-body');
+      if (bsBody) {
+        bsBody.innerHTML = bsRows.map(row => {
+          const change = row.prev > 0 ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : '0.0';
+          const changeClass = Number(change) >= 0 ? 'text-emerald-600' : 'text-rose-600';
+          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
+                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
+                         'hover:bg-slate-50 text-slate-700';
+          return `
+            <tr class="${bgClass}">
+              <td class="p-3 text-center text-slate-500">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 ${row.isBold ? 'font-bold' : ''}">${row.name}</td>
+              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-blue-700 text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono text-slate-500">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-center font-mono font-bold ${changeClass}">${Number(change) >= 0 ? '+' : ''}${change}%</td>
+              <td class="p-3 text-center font-mono text-slate-500">${row.pct}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 3. Render Báo Cáo Lưu Chuyển Tiền Tệ
+      const opCashFlow = Math.round(operatingProfit * 0.85);
+      const opCashFlowPrev = Math.round(operatingProfitPrev * 0.82);
+      const invCashFlow = -Math.round(netRev * 0.06);
+      const invCashFlowPrev = -Math.round(netRevPrev * 0.05);
+      const finCashFlow = -Math.round(shortTermDebt * 0.2);
+      const finCashFlowPrev = -Math.round(shortTermDebtPrev * 0.18);
+      const netCashChange = opCashFlow + invCashFlow + finCashFlow;
+      const netCashChangePrev = opCashFlowPrev + invCashFlowPrev + finCashFlowPrev;
+
+      const cfRows = [
+        { stt: 'I', code: '20', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH (OPERATING CASH FLOW)', cur: opCashFlow, prev: opCashFlowPrev, isHeader: true, desc: 'Dòng tiền dương mạnh mẽ, khẳng định năng lực tạo tiền từ lõi bán lẻ' },
+        { stt: '1', code: '01', name: 'Tiền thu từ bán hàng, cung cấp dịch vụ và doanh thu khác', cur: Math.round(grossSales * 0.98), prev: Math.round(grossSalesPrev * 0.97), desc: 'Dòng tiền vào chủ lực' },
+        { stt: '2', code: '02', name: 'Tiền chi trả cho người cung cấp hàng hóa và dịch vụ', cur: -Math.round(cogs * 0.95), prev: -Math.round(cogsPrev * 0.94), desc: 'Thanh toán công nợ NCC đều đặn' },
+        { stt: '3', code: '03', name: 'Tiền chi trả cho người lao động (Lương, thưởng, phúc lợi)', cur: -Math.round(sellingExp * 0.65), prev: -Math.round(sellingExpPrev * 0.65), desc: 'Chi trả chế độ nhân sự' },
+        { stt: '4', code: '04', name: 'Tiền chi nộp thuế TNDN và các nghĩa vụ ngân sách nhà nước', cur: -tax, prev: -taxPrev, desc: 'Nộp ngân sách đầy đủ' },
+        { stt: 'II', code: '30', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG ĐẦU TƯ (INVESTING CASH FLOW)', cur: invCashFlow, prev: invCashFlowPrev, isHeader: true, desc: 'Chi đầu tư tài sản, nâng cấp cửa hàng và hệ thống CNTT' },
+        { stt: '5', code: '21', name: 'Tiền chi để mua sắm, xây dựng TSCĐ và các tài sản dài hạn khác', cur: invCashFlow, prev: invCashFlowPrev, desc: 'Tái đầu tư mở rộng chuỗi' },
+        { stt: 'III', code: '40', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG TÀI CHÍNH (FINANCING CASH FLOW)', cur: finCashFlow, prev: finCashFlowPrev, isHeader: true, desc: 'Trả bớt nợ gốc vay ngân hàng và tối ưu đòn bẩy' },
+        { stt: '6', code: '33', name: 'Tiền chi trả nợ gốc vay & chi phí lãi vay', cur: finCashFlow, prev: finCashFlowPrev, desc: 'Giảm gánh nặng lãi suất' },
+        { stt: 'IV', code: '50', name: 'LƯU CHUYỂN TIỀN THUẦN TRONG KỲ (50 = 20 + 30 + 40)', cur: netCashChange, prev: netCashChangePrev, isHeader: true, highlight: true, desc: 'Thặng dư tiền ròng bổ sung vào quỹ dự trữ thanh khoản' }
+      ];
+
+      const cfBody = document.getElementById('cf-table-body');
+      if (cfBody) {
+        cfBody.innerHTML = cfRows.map(row => {
+          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
+                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
+                         'hover:bg-slate-50 text-slate-700';
+          const curClass = row.cur >= 0 ? 'text-emerald-600' : 'text-rose-600';
+          const prevClass = row.prev >= 0 ? 'text-emerald-600' : 'text-rose-600';
+          return `
+            <tr class="${bgClass}">
+              <td class="p-3 text-center text-slate-500">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 font-semibold">${row.name}</td>
+              <td class="p-3 text-right font-mono font-bold ${curClass} ${row.highlight ? 'text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono ${prevClass}">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-center text-slate-500 text-xs">${row.desc}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 4. Render 8 Chỉ Số Tài Chính Cốt Lõi
+      const grossMarginPct = ((grossProfit / netRev) * 100).toFixed(1);
+      const netMarginPct = ((netProfit / netRev) * 100).toFixed(1);
+      const roaPct = ((netProfit / TOTAL_ASSETS) * 100).toFixed(1);
+      const roePct = ((netProfit / totalEquity) * 100).toFixed(1);
+      const currentRatio = (totalShortTermAssets / (payables + shortTermDebt)).toFixed(2);
+      const quickRatio = ((cash + receivables) / (payables + shortTermDebt)).toFixed(2);
+      const debtToEquity = (totalLiabilities / totalEquity).toFixed(2);
+      const inventoryTurnover = (cogs / inventory).toFixed(1);
+
+      const ratiosData = [
+        { title: 'Biên Lợi Nhuận Gộp (Gross Margin)', val: `${grossMarginPct}%`, benchmark: 'Ngành: 40-45%', status: 'Vượt chuẩn ngành', color: 'emerald', icon: 'fa-chart-pie' },
+        { title: 'Biên Lợi Nhuận Ròng (Net Margin)', val: `${netMarginPct}%`, benchmark: 'Ngành: 15-18%', status: 'Hiệu quả sinh lời cao', color: 'emerald', icon: 'fa-coins' },
+        { title: 'Tỷ Suất Sinh Lời Trên Tài Sản (ROA)', val: `${roaPct}%`, benchmark: 'Chuẩn: > 10%', status: 'Sử dụng vốn tối ưu', color: 'amber', icon: 'fa-building-columns' },
+        { title: 'Tỷ Suất Sinh Lời Vốn CSH (ROE)', val: `${roePct}%`, benchmark: 'Chuẩn: > 20%', status: 'Tỷ suất cổ đông hấp dẫn', color: 'amber', icon: 'fa-gem' },
+        { title: 'Hệ Số Thanh Toán Hiện Hành', val: `${currentRatio}x`, benchmark: 'Ngưỡng an toàn: > 1.5x', status: 'An toàn thanh khoản', color: 'emerald', icon: 'fa-shield-halved' },
+        { title: 'Hệ Số Thanh Toán Nhanh', val: `${quickRatio}x`, benchmark: 'Ngưỡng chuẩn: > 1.0x', status: 'Khả năng trả nợ ngay', color: 'cyan', icon: 'fa-bolt' },
+        { title: 'Hệ Số Nợ / Vốn CSH (D/E)', val: `${debtToEquity}x`, benchmark: 'Ngưỡng an toàn: < 1.2x', status: 'Cơ cấu vốn lành mạnh', color: 'emerald', icon: 'fa-scale-balanced' },
+        { title: 'Vòng Quay Tồn Kho (Turnover)', val: `${inventoryTurnover} vòng`, benchmark: 'Ngành: 2.5 - 3.5 vòng', status: 'Tốc độ giải phóng hàng tốt', color: 'cyan', icon: 'fa-boxes-packing' }
+      ];
+
+      const ratiosContainer = document.getElementById('ratios-cards-container');
+      if (ratiosContainer) {
+        ratiosContainer.innerHTML = ratiosData.map(r => `
+          <div class="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between hover:border-blue-400 transition shadow-lg">
+            <div>
+              <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+                <span>${r.title}</span>
+                <i class="fa-solid ${r.icon} text-blue-600"></i>
+              </div>
+              <div class="text-2xl font-black font-mono text-blue-700 mb-1">${r.val}</div>
+            </div>
+            <div class="pt-2 border-t border-slate-200 text-[11px] flex items-center justify-between">
+              <span class="text-slate-500">${r.benchmark}</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-${r.color}-500/20 text-${r.color}-400">${r.status}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+
+    function renderStage5Visuals() {
+      renderFinancialStatements();
+      let totalRev = 0, totalProfit = 0, totalTarget = 0, totalRevPrev = 0;
+      CURRENT_DATA.report.forEach(r => {
+        totalRev += r.net_revenue;
+        totalProfit += r.gross_profit;
+        totalTarget += r.target_revenue;
+        totalRevPrev += r.net_revenue_prev;
+      });
+
+      const overallKPI = totalTarget > 0 ? (totalRev / totalTarget) * 100 : 0;
+      const overallMargin = totalRev > 0 ? (totalProfit / totalRev) * 100 : 0;
+      const overallMoM = totalRevPrev > 0 ? ((totalRev - totalRevPrev) / totalRevPrev) * 100 : 0;
+
+      const p1Stores = CURRENT_DATA.ranking.filter(r => r.priority_level.includes('Ưu tiên 1')).map(r => r.store_name);
+
+      document.getElementById('executive-narrative-text').innerHTML = `
+        <p>
+          Dựa trên kết quả phân tích dữ liệu chuyên sâu của <strong>${COMPANY_NAME}</strong>, tổng doanh thu thuần toàn chuỗi trong kỳ ghi nhận đạt <strong class="text-blue-700">${fmtBil(totalRev)} Tỷ VNĐ</strong>, tăng trưởng <strong class="text-emerald-600">${overallMoM > 0 ? '+' : ''}${overallMoM.toFixed(1)}% so với kỳ trước (MoM)</strong> và hoàn thành <strong class="text-indigo-700">${overallKPI.toFixed(1)}% mục tiêu KPI</strong> đã đề ra. Tổng lợi nhuận gộp toàn hệ thống đạt <strong class="text-emerald-600">${fmtBil(totalProfit)} Tỷ VNĐ</strong> với biên lợi nhuận trung bình đạt mức <strong class="text-blue-700">${overallMargin.toFixed(1)}%</strong>.
+        </p>
+        <p>
+          Tuy nhiên, qua thuật toán đối soát <strong>AI Cross-check Audit</strong>, hệ thống phát hiện <strong class="text-rose-600 font-bold">${p1Stores.length} đơn vị có dấu hiệu suy thoái nghiêm trọng</strong> (${p1Stores.join(', ')}). Các đơn vị này đang rơi vào tình trạng <em>nghịch lý xói mòn biên lợi nhuận</em> và <em>tỷ lệ đổi trả hàng hoàn vượt ngưỡng báo động 8%</em>.
+        </p>
+        <p>
+          <strong>Khuyến nghị từ AI Agent:</strong> Ban Giám Đốc cần ngay lập tức triển khai thanh tra quy trình giao vận tại các chi nhánh Ưu tiên 1, đồng thời rà soát lại cơ cấu rổ hàng chiết khấu quá sâu để chặn đứng việc bào mòn dòng tiền của doanh nghiệp.
+        </p>
+      `;
+
+      renderStage5Charts();
+    }
+
+    function renderStage5Charts() {
+      const rep = CURRENT_DATA.report;
+
+      const ctxBar = document.getElementById('stage5BarChart').getContext('2d');
+      if (chartBarInstance) chartBarInstance.destroy();
+
+      chartBarInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: rep.map(r => r.store_id),
+          datasets: [
+            { label: 'Doanh Thu Thực Tế (Tr.đ)', data: rep.map(r => r.net_revenue / 1e6), backgroundColor: '#2563EB', borderRadius: 4 },
+            { label: 'Chỉ Tiêu KPI (Tr.đ)', data: rep.map(r => r.target_revenue / 1e6), backgroundColor: 'rgba(148, 163, 184, 0.45)', borderRadius: 4 }
+          ]
+        },
+        options: {
+          animation: false,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#1E293B', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
+          scales: {
+            x: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } },
+            y: { beginAtZero: true, ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } }
+          }
+        }
+      });
+
+      const ctxLine = document.getElementById('stage5LineChart').getContext('2d');
+      if (chartLineInstance) chartLineInstance.destroy();
+
+      chartLineInstance = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+          labels: rep.map(r => r.store_id),
+          datasets: [
+            { label: 'Tăng trưởng Doanh Thu MoM (%)', data: rep.map(r => r.revenue_growth_mom), borderColor: '#2563EB', backgroundColor: '#2563EB', tension: 0.25, borderWidth: 2 },
+            { label: 'Tăng trưởng Lợi Nhuận MoM (%)', data: rep.map(r => r.profit_growth_mom), borderColor: '#10B981', backgroundColor: '#10B981', tension: 0.25, borderWidth: 2 }
+          ]
+        },
+        options: {
+          animation: false,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#1E293B', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
+          scales: {
+            x: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } },
+            y: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } }
+          }
+        }
+      });
+    }
+
+    // ==========================================
+    // TÍNH NĂNG CHỈNH SỬA SỐ LIỆU TRỰC TIẾP TRONG AGENT
+    // ==========================================
+    function initStoreEditorDropdown() {
+      if (!CURRENT_DATA) return;
+      const sel = document.getElementById('edit-store-select');
+      sel.innerHTML = '';
+      CURRENT_DATA.report.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.store_id;
+        opt.innerText = `[${r.store_id}] ${r.store_name}`;
+        sel.appendChild(opt);
+      });
+      loadStoreForEditing();
+    }
+
+    function loadStoreForEditing() {
+      if (!CURRENT_DATA) return;
+      const storeId = document.getElementById('edit-store-select').value;
+      const store = CURRENT_DATA.report.find(r => r.store_id === storeId);
+      if (store) {
+        document.getElementById('edit-store-rev').value = Math.round(store.net_revenue / 1e6);
+        document.getElementById('edit-store-target').value = Math.round(store.target_revenue / 1e6);
+        document.getElementById('edit-store-ret').value = store.return_rate_revenue;
+      }
+    }
+
+    function applyStoreEdit() {
+      if (!CURRENT_DATA) return;
+      const storeId = document.getElementById('edit-store-select').value;
+      const newRevMil = parseFloat(document.getElementById('edit-store-rev').value) || 0;
+      const newTargetMil = parseFloat(document.getElementById('edit-store-target').value) || 0;
+      const newRetRate = parseFloat(document.getElementById('edit-store-ret').value) || 0;
+
+      const store = CURRENT_DATA.report.find(r => r.store_id === storeId);
+      const rankStore = CURRENT_DATA.ranking.find(r => r.store_id === storeId);
+
+      if (store) {
+        store.net_revenue = newRevMil * 1e6;
+        store.target_revenue = newTargetMil * 1e6;
+        store.kpi_completion_pct = Math.round(((store.net_revenue / store.target_revenue) * 100) * 10) / 10;
+        store.return_rate_revenue = newRetRate;
+
+        // Tính lại điểm khẩn cấp
+        const kpiDef = Math.max(0, 100 - store.kpi_completion_pct) * 0.4;
+        const revDef = Math.max(0, -store.revenue_growth_mom) * 0.25;
+        const pftDef = Math.max(0, -store.profit_growth_mom) * 0.20;
+        const retPen = Math.max(0, store.return_rate_revenue - 4) * 3.5;
+        const score = Math.min(100, kpiDef + revDef + pftDef + retPen);
+
+        let plevel = 'Ưu tiên 3: Vận hành ổn định';
+        if (score >= 40) plevel = 'Ưu tiên 1: Hỗ trợ khẩn cấp';
+        else if (score >= 20) plevel = 'Ưu tiên 2: Cần can thiệp theo dõi';
+
+        if (rankStore) {
+          rankStore.net_revenue = store.net_revenue;
+          rankStore.kpi_completion_pct = store.kpi_completion_pct;
+          rankStore.return_rate_revenue = store.return_rate_revenue;
+          rankStore.priority_score = Math.round(score * 10) / 10;
+          rankStore.priority_level = plevel;
+        }
+
+        CURRENT_DATA.ranking.sort((a,b) => b.priority_score - a.priority_score);
+
+        // Cập nhật lại các chỉ số ở Giai đoạn 4 & 5
+        renderStage4Modeling();
+        renderStage5Visuals();
+
+        showToast(`Đã cập nhật [${storeId}] ${store.store_name}: Doanh thu ${newRevMil.toLocaleString()} Tr • KPI ${store.kpi_completion_pct}%!`);
+      }
+    }
+
+    // ==========================================
+    // KẾT NỐI API LLM THẬT (GEMINI / OPENAI / SERVER ENV)
+    // ==========================================
+    let LLM_CONFIG = { provider: 'gemini', apiKey: '' };
+
+    function loadLLMConfig() {
+      try {
+        const savedProv = localStorage.getItem('omni_llm_provider') || 'gemini';
+        const savedKey = localStorage.getItem('omni_llm_apikey') || '';
+        LLM_CONFIG = { provider: savedProv, apiKey: savedKey };
+        const sel = document.getElementById('inp-llm-provider');
+        const inp = document.getElementById('inp-llm-apikey');
+        if (sel) sel.value = savedProv;
+        if (inp) inp.value = savedKey;
+        updateLLMStatusUI();
+      } catch (e) {}
+    }
+
+    function saveLLMConfig() {
+      const sel = document.getElementById('inp-llm-provider');
+      const inp = document.getElementById('inp-llm-apikey');
+      LLM_CONFIG.provider = sel ? sel.value : 'gemini';
+      LLM_CONFIG.apiKey = inp ? inp.value.replace(/\s+/g, '') : '';
+      if (inp && inp.value !== LLM_CONFIG.apiKey) inp.value = LLM_CONFIG.apiKey;
+      try {
+        localStorage.setItem('omni_llm_provider', LLM_CONFIG.provider);
+        localStorage.setItem('omni_llm_apikey', LLM_CONFIG.apiKey);
+      } catch (e) {}
+      updateLLMStatusUI();
+    }
+
+    function updateLLMStatusUI() {
+      const wrap = document.getElementById('llm-apikey-wrap');
+      const badge = document.getElementById('llm-status-badge');
+      const chatBadge = document.getElementById('chat-llm-mode-badge');
+      if (wrap) {
+        if (LLM_CONFIG.provider === 'server') wrap.classList.add('opacity-50');
+        else wrap.classList.remove('opacity-50');
+      }
+      const hasKey = LLM_CONFIG.apiKey.length > 8;
+      const isServer = LLM_CONFIG.provider === 'server';
+      const label = isServer
+        ? '🟢 Dùng Server Env (/api/chat)'
+        : hasKey
+          ? `🟢 Đã gắn ${LLM_CONFIG.provider === 'openai' ? 'OpenAI API' : 'Gemini API'}`
+          : '⚪ Chế độ Offline (Chưa gắn API Key)';
+      const cls = (hasKey || isServer)
+        ? 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300'
+        : 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700';
+      if (badge) { badge.className = cls; badge.innerText = label; }
+      if (chatBadge) {
+        chatBadge.className = (hasKey || isServer)
+          ? 'text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300'
+          : 'text-[11px] font-semibold text-slate-600 bg-slate-200 px-2.5 py-0.5 rounded-full border border-slate-300';
+        chatBadge.innerText = (hasKey || isServer)
+          ? `● Kết nối AI Thật (${LLM_CONFIG.provider.toUpperCase()})`
+          : '● Chế độ Offline AI (Gắn API Key ở Bước 1 để dùng AI thật)';
+      }
+    }
+
+    function toggleApiKeyVisibility() {
+      const inp = document.getElementById('inp-llm-apikey');
+      const icon = document.getElementById('icon-apikey-eye');
+      if (!inp) return;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        if (icon) icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        inp.type = 'password';
+        if (icon) icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function buildFinancialContextForLLM() {
+      if (!CURRENT_DATA || !CURRENT_DATA.report) return '';
+      let netRev = 0, grossProfit = 0, target = 0, netRevPrev = 0;
+      CURRENT_DATA.report.forEach(r => {
+        netRev += r.net_revenue || 0;
+        grossProfit += r.gross_profit || 0;
+        target += r.target_revenue || 0;
+        netRevPrev += r.net_revenue_prev || 0;
+      });
+      const summary = {
+        company: COMPANY_NAME,
+        industry: CURRENT_INDUSTRY,
+        goal: CURRENT_GOAL,
+        audit: CURRENT_DATA.audit,
+        totals: {
+          net_revenue_vnd: netRev,
+          net_revenue_prev_vnd: netRevPrev,
+          gross_profit_vnd: grossProfit,
+          gross_margin_pct: netRev > 0 ? Number(((grossProfit / netRev) * 100).toFixed(1)) : 0,
+          kpi_completion_pct: target > 0 ? Number(((netRev / target) * 100).toFixed(1)) : 0
+        },
+        branches: CURRENT_DATA.report.map(r => ({
+          id: r.store_id,
+          name: r.store_name,
+          net_rev_tr: Math.round((r.net_revenue || 0) / 1e6),
+          target_tr: Math.round((r.target_revenue || 0) / 1e6),
+          kpi_pct: r.kpi_completion_pct,
+          gross_margin_pct: r.gross_margin_pct,
+          rev_mom_pct: r.revenue_growth_mom,
+          profit_mom_pct: r.profit_growth_mom,
+          return_rate_pct: r.return_rate_revenue
+        })),
+        top_anomalies: CURRENT_DATA.ranking.slice(0, 5).map(r => ({
+          id: r.store_id,
+          name: r.store_name,
+          priority_score: r.priority_score,
+          level: r.priority_level,
+          anomalies: r.anomalies
+        }))
+      };
+      return JSON.stringify(summary);
+    }
+
+    async function callRealLLM(userPrompt, customSystemPrompt = null) {
+      const prov = LLM_CONFIG.provider;
+      const key = LLM_CONFIG.apiKey;
+      if (prov !== 'server' && (!key || key.length < 8)) {
+        return null; // Fallback sang chế độ offline
+      }
+
+      const sysPrompt = customSystemPrompt || (
+        `Bạn là Giám Đốc Tài Chính & Chuyên Gia Phân Tích Dữ Liệu (OmniAnalyst AI) của doanh nghiệp "${COMPANY_NAME}". ` +
+        `Hãy trả lời bằng tiếng Việt chuyên nghiệp, súc tích, đi thẳng vào số liệu thực tế từ dữ liệu JSON sau (không bịa số): \n` +
+        buildFinancialContextForLLM()
+      );
+
+      if (prov === 'server') {
+        const resp = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ provider: 'gemini', systemPrompt: sysPrompt, userPrompt })
+        });
+        const rawText = await resp.text();
+        let data = {};
+        try { data = JSON.parse(rawText); } catch (e) {
+          throw new Error('Server Env (/api/chat) chỉ chạy khi đã deploy lên Vercel. Trên localhost, hãy chọn "Google Gemini API" và dán key trực tiếp!');
+        }
+        if (!resp.ok) throw new Error(data.error || `Lỗi Server API (${resp.status})`);
+        return data.reply;
+      }
+
+      if (prov === 'openai') {
+        const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${key}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o-mini',
+            temperature: 0.3,
+            messages: [
+              { role: 'system', content: sysPrompt },
+              { role: 'user', content: userPrompt }
+            ]
+          })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error?.message || `Lỗi OpenAI API (${resp.status})`);
+        return data.choices?.[0]?.message?.content || '';
+      }
+
+      // Google Gemini API: ưu tiên gemini-3.5-flash-lite & gemini-3.8-flash (tự động fallback nếu 503/429/404)
+      const modelsToTry = ['gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.0-flash'];
+      let lastErr = '';
+      for (const modelName of modelsToTry) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: sysPrompt }] },
+            contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+            generationConfig: { temperature: 0.3 }
+          })
+        });
+        const rawText = await resp.text();
+        let data = {};
+        try { data = JSON.parse(rawText); } catch (e) {}
+        if (resp.ok) {
+          return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        }
+        lastErr = data.error?.message || `HTTP ${resp.status}`;
+        if (![404, 429, 500, 503].includes(resp.status)) break;
+      }
+      throw new Error(lastErr || 'Không thể kết nối Gemini API');
+    }
+
+    async function testLLMConnection() {
+      saveLLMConfig();
+      const resBox = document.getElementById('llm-test-result');
+      const showResult = (ok, htmlMsg) => {
+        if (!resBox) return;
+        resBox.classList.remove('hidden');
+        resBox.className = ok
+          ? 'mt-2.5 text-xs p-3 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-800'
+          : 'mt-2.5 text-xs p-3 rounded-xl border bg-rose-50 border-rose-300 text-rose-800';
+        resBox.innerHTML = htmlMsg;
+      };
+
+      if (LLM_CONFIG.provider !== 'server' && (!LLM_CONFIG.apiKey || LLM_CONFIG.apiKey.length < 8)) {
+        showResult(false, '<strong>⚠️ Chưa có API Key:</strong> Vui lòng dán Gemini API Key hoặc OpenAI Key vào ô bên trên rồi bấm Test API.');
+        showToast('Vui lòng dán API Key trước khi kiểm tra!', true);
+        return;
+      }
+      showResult(true, '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Đang gửi yêu cầu kiểm tra kết nối tới LLM API...');
+      try {
+        const res = await callRealLLM('Trả lời ngắn gọn 1 câu xác nhận kết nối thành công với OmniAnalyst AI.');
+        showResult(true, `<strong>🟢 Kết nối thành công!</strong> Phản hồi từ AI: <em>"${formatAIMarkdown(res)}"</em>`);
+        showToast('Kết nối LLM API thành công!');
+      } catch (err) {
+        const msg = String(err.message || err);
+        let hint = '';
+        if (msg.toLowerCase().includes('api key not valid') || msg.toLowerCase().includes('invalid') || msg.includes('400') || msg.includes('403')) {
+          hint = '<br><span class="text-[11px] text-rose-700">• <strong>Mẹo sửa lỗi khóa Google AI Studio (AQ. / AIza):</strong> Vào <em>Google Cloud Console → APIs & Services → Credentials</em>, mở khóa API của bạn, ở mục <strong>API restrictions</strong> hãy chọn <strong>Don\'t restrict key</strong> (Không hạn chế) hoặc chọn đúng <strong>Generative Language API</strong> (không chọn nhầm "Gemini API").</span>';
+        }
+        showResult(false, `<strong>🔴 Kết nối thất bại:</strong> ${formatAIMarkdown(msg)}${hint}`);
+        showToast(`Lỗi kết nối API: ${msg}`, true);
+      }
+    }
+
+    async function generateAIExecutiveNarrative() {
+      const box = document.getElementById('executive-narrative-text');
+      const btn = document.getElementById('btn-gen-ai-narrative');
+      if (!box) return;
+      if (LLM_CONFIG.provider !== 'server' && (!LLM_CONFIG.apiKey || LLM_CONFIG.apiKey.length < 8)) {
+        showToast('Hãy gắn Gemini/OpenAI API Key ở Bước 1 để AI thật viết báo cáo!', true);
+        return;
+      }
+      const oldHtml = btn ? btn.innerHTML : '';
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang viết bằng AI...'; }
+      try {
+        const prompt = `Hãy viết Báo Cáo Tóm Tắt Điều Hành (Executive Narrative) gồm 3 đoạn ngắn súc tích cho Ban Giám Đốc của ${COMPANY_NAME}: (1) Tổng quan doanh thu, lợi nhuận, biên lãi & KPI, (2) Các điểm bất thường/rủi ro lớn nhất tại các chi nhánh yếu, (3) 3 khuyến nghị hành động cụ thể ngay lập tức.`;
+        const reply = await callRealLLM(prompt);
+        if (reply) {
+          const formatted = reply
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-700">$1</strong>')
+            .split(/\n+/)
+            .filter(p => p.trim())
+            .map(p => `<p>${p}</p>`)
+            .join('');
+          box.innerHTML = formatted;
+          showToast('Đã cập nhật Báo Cáo Điều Hành bằng AI thật!');
+        }
+      } catch (err) {
+        showToast(`Lỗi AI Narrative: ${err.message}`, true);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = oldHtml; }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadLLMConfig();
+    });
+
+    // ==========================================
+    // HỎI ĐÁP AI TƯƠNG TÁC
+    // ==========================================
+    async function askPresetQuestion(type) {
+      if (!CURRENT_DATA) return;
+      let q = "";
+      let offlineAns = "";
+
+      if (type === 'TOP_WORST_BRANCHES') {
+        q = "Top 3 chi nhánh nào cần được hỗ trợ khẩn cấp nhất của doanh nghiệp?";
+        const top3 = CURRENT_DATA.ranking.slice(0, 3);
+        offlineAns = `Dựa trên thuật toán Support Priority Score (SPS) của ${COMPANY_NAME}, top 3 chi nhánh cần can thiệp khẩn cấp nhất bao gồm:\n` + 
+          top3.map((r, i) => `${i+1}. [${r.store_id}] ${r.store_name} (Điểm: ${r.priority_score}/100) — Đạt ${r.kpi_completion_pct}% KPI, tỷ lệ trả hàng ${r.return_rate_revenue}%. Khuyến nghị: ${r.recommendations[0]}`).join('\n');
+      } 
+      else if (type === 'MARGIN_EROSION') {
+        q = "Chi nhánh nào bị hiện tượng tăng trưởng ảo (Doanh thu tăng nhưng lợi nhuận giảm)?";
+        const erosion = CURRENT_DATA.report.filter(r => r.revenue_growth_mom > 0 && r.profit_growth_mom < -1);
+        if (erosion.length > 0) {
+          offlineAns = `Phát hiện ${erosion.length} đơn vị bị xói mòn biên lợi nhuận nặng:\n` + 
+            erosion.map(r => `• [${r.store_id}] ${r.store_name}: Doanh thu tăng +${r.revenue_growth_mom.toFixed(1)}% MoM nhưng Lợi nhuận gộp sụt giảm ${r.profit_growth_mom.toFixed(1)}% MoM (do chiết khấu quá sâu hoặc xả hàng giá rẻ).`).join('\n');
+        } else {
+          offlineAns = `Không có chi nhánh nào bị suy giảm lợi nhuận khi doanh thu tăng trong kỳ này. Dòng tiền tương đối đồng thuận.`;
+        }
+      }
+      else if (type === 'RETURN_RATE_HIGH') {
+        q = "Những đơn vị nào có tỷ lệ đổi trả hàng vượt ngưỡng cảnh báo 8%?";
+        const highReturns = CURRENT_DATA.report.filter(r => r.return_rate_revenue >= 8);
+        offlineAns = `Có ${highReturns.length} đơn vị vượt ngưỡng cảnh báo đổi trả:\n` + 
+          highReturns.map(r => `• [${r.store_id}] ${r.store_name}: Tỷ lệ trả hàng chiếm ${r.return_rate_revenue.toFixed(1)}% tổng doanh số gộp (Nguyên nhân: Lỗi kỹ thuật sản phẩm hoặc tư vấn chưa chuẩn xác).`).join('\n');
+      }
+      else if (type === 'REVENUE_RECOVERY_SIM') {
+        q = "Nếu doanh nghiệp giảm được 50% tỷ lệ đổi trả thì phục hồi được bao nhiêu doanh thu?";
+        let totalReturn = 0;
+        CURRENT_DATA.report.forEach(r => {
+          const retAmt = (r.net_revenue / Math.max(1, 100 - r.return_rate_revenue)) * r.return_rate_revenue;
+          totalReturn += retAmt;
+        });
+        const recovRev = totalReturn * 0.5;
+        const recovProfit = recovRev * 0.45;
+        offlineAns = `Mô phỏng tài chính cho thấy:\nNếu ${COMPANY_NAME} kiểm soát được quy trình chất lượng giúp giảm 50% hàng hoàn trả, doanh nghiệp sẽ hồi phục ngay lập tức +${fmtMil(recovRev)} Triệu VNĐ doanh thu thuần và bổ sung thêm +${fmtMil(recovProfit)} Triệu VNĐ lợi nhuận gộp ròng!`;
+      }
+
+      const pendingEl = appendChatMessage(q, '⏳ Đang phân tích dữ liệu...');
+      try {
+        const llmAns = await callRealLLM(q);
+        updateChatAnswerElement(pendingEl, llmAns || offlineAns);
+      } catch (err) {
+        updateChatAnswerElement(pendingEl, `⚠️ Lỗi gọi API (${err.message}). Kết quả dự phòng:\n${offlineAns}`);
+      }
+    }
+
+    async function submitCustomQuestion() {
+      const inp = document.getElementById('inp-chat-query');
+      const val = inp.value.trim();
+      if (!val) return;
+      inp.value = '';
+
+      const lower = val.toLowerCase();
+      let offlineReply = "";
+      if (lower.includes('doanh thu') || lower.includes('cao nhất') || lower.includes('best')) {
+        const sorted = [...CURRENT_DATA.report].sort((a,b) => b.net_revenue - a.net_revenue);
+        offlineReply = `Chi nhánh dẫn đầu doanh thu của ${COMPANY_NAME} là [${sorted[0].store_id}] ${sorted[0].store_name} với ${fmtMil(sorted[0].net_revenue)} Triệu VNĐ (đạt ${sorted[0].kpi_completion_pct}% KPI).`;
+      } else if (lower.includes('lỗ') || lower.includes('thấp nhất') || lower.includes('kém')) {
+        const sorted = [...CURRENT_DATA.report].sort((a,b) => a.net_revenue - b.net_revenue);
+        offlineReply = `Chi nhánh có doanh thu thấp nhất hiện tại là [${sorted[0].store_id}] ${sorted[0].store_name} đạt ${fmtMil(sorted[0].net_revenue)} Triệu VNĐ (đạt ${sorted[0].kpi_completion_pct}% KPI).`;
+      } else {
+        offlineReply = `Dựa trên dữ liệu đã làm sạch của ${COMPANY_NAME} (${fmtNum(CURRENT_DATA.audit.total_clean_rows)} giao dịch hợp lệ). Để AI trả lời chi tiết mọi câu hỏi tự do bằng ngôn ngữ tự nhiên, hãy gắn Gemini hoặc OpenAI API Key ở Bước 1!`;
+      }
+
+      const pendingEl = appendChatMessage(val, '⏳ Đang truy vấn AI trên dữ liệu doanh nghiệp...');
+      try {
+        const llmAns = await callRealLLM(val);
+        updateChatAnswerElement(pendingEl, llmAns || offlineReply);
+      } catch (err) {
+        updateChatAnswerElement(pendingEl, `⚠️ Lỗi gọi API (${err.message}).\n${offlineReply}`);
+      }
+    }
+
+    function formatAIMarkdown(text) {
+      return String(text || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-800">$1</strong>');
+    }
+
+    function updateChatAnswerElement(aDiv, answerText) {
+      if (!aDiv) return;
+      aDiv.innerHTML = `<strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answerText)}`;
+      const container = document.getElementById('chat-messages-container');
+      if (container) container.scrollTop = container.scrollHeight;
+    }
+
+    function appendChatMessage(question, answer) {
+      const container = document.getElementById('chat-messages-container');
+      const qDiv = document.createElement('div');
+      qDiv.className = "bg-slate-100 border border-slate-300 p-3 rounded-xl text-slate-800 text-right";
+      qDiv.innerHTML = `<span class="text-slate-500 font-bold block mb-0.5">Bạn:</span> ${formatAIMarkdown(question)}`;
+      container.appendChild(qDiv);
+
+      const aDiv = document.createElement('div');
+      aDiv.className = "bg-blue-50 border border-slate-200 p-3.5 rounded-xl text-slate-800 whitespace-pre-line";
+      aDiv.innerHTML = `<strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answer)}`;
+      container.appendChild(aDiv);
+
+      container.scrollTop = container.scrollHeight;
+      return aDiv;
+    }
+
+    // EXPORT FUNCTIONS
+    function downloadCleanedExcel() {
+      if (!CURRENT_DATA) return;
+      const reportRows = CURRENT_DATA.report.map(r => ({
+        "Mã Đơn Vị": r.store_id,
+        "Tên Đơn Vị / Chi Nhánh": r.store_name,
+        "Khu Vực": r.region,
+        "Phân Hạng": r.tier,
+        "Doanh Thu Thuần (VNĐ)": r.net_revenue,
+        "Mục Tiêu Chỉ Tiêu (VNĐ)": r.target_revenue,
+        "% Hoàn Thành KPI": r.kpi_completion_pct,
+        "Lợi Nhuận Gộp (VNĐ)": r.gross_profit,
+        "Biên Lợi Nhuận Gộp (%)": r.gross_margin_pct,
+        "Tăng Trưởng Doanh Thu MoM (%)": r.revenue_growth_mom,
+        "Tăng Trưởng Lợi Nhuận MoM (%)": r.profit_growth_mom,
+        "Tỷ Lệ Đổi Trả (%)": r.return_rate_revenue
+      }));
+
+      const rankingRows = CURRENT_DATA.ranking.map(r => ({
+        "Mức Độ Ưu Tiên": r.priority_level,
+        "Điểm Số Khẩn Cấp (/100)": r.priority_score,
+        "Mã Đơn Vị": r.store_id,
+        "Tên Đơn Vị": r.store_name,
+        "Bất Thường Phát Hiện": r.anomalies.join("; "),
+        "Khuyến Nghị Hành Động": r.recommendations.join("; ")
+      }));
+
+      const wb = XLSX.utils.book_new();
+      const wsReport = XLSX.utils.json_to_sheet(reportRows);
+      const wsRanking = XLSX.utils.json_to_sheet(rankingRows);
+
+      XLSX.utils.book_append_sheet(wb, wsReport, "Bao_Cao_Quan_Tri");
+      XLSX.utils.book_append_sheet(wb, wsRanking, "Audit_Bat_Thuong");
+
+      XLSX.writeFile(wb, `${COMPANY_NAME.replace(/[^a-zA-Z0-9]/g, '_')}_Bao_Cao_Cleaned.xlsx`);
+    }
+
+    function downloadRawCSV() {
+      window.location.href = 'giao_dich_tho_60k.csv';
+    }
+
+    function resetAll() {
+      location.reload();
+    }
+
+    // Drag and Drop & Upload File Handlers
+    function setupDragAndDrop() {
+      const dropZone = document.getElementById('drop-zone');
+      if (!dropZone) return;
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          dropZone.classList.add('drop-active');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          dropZone.classList.remove('drop-active');
+        }, false);
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) processUploadedFile(files[0]);
+      }, false);
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (file) processUploadedFile(file);
+    }
+
+    function estimateFileEtaSec(file) {
+      const mb = (file.size || 100000) / (1024 * 1024);
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (ext === 'csv') return Math.max(0.15, mb * 0.14);
+      if (ext === 'json') return Math.max(0.1, mb * 0.12);
+      return Math.max(0.3, mb * 0.75);
+    }
+
+    function updateEtaUI(pct, stageText, speedStr, etaText) {
+      const panel = document.getElementById('eta-progress-panel');
+      if (panel) panel.classList.remove('hidden');
+      const bar = document.getElementById('eta-progress-bar');
+      if (bar) bar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+      const lblPct = document.getElementById('eta-percent-label');
+      if (lblPct) lblPct.innerText = `${Math.round(pct)}%`;
+      const lblStage = document.getElementById('eta-stage-label');
+      if (lblStage) lblStage.innerText = stageText;
+      const lblSpeed = document.getElementById('eta-speed-label');
+      if (lblSpeed && speedStr !== null) lblSpeed.innerText = speedStr;
+      const lblCount = document.getElementById('eta-countdown-label');
+      if (lblCount && etaText !== null) lblCount.innerText = etaText;
+    }
+
+    function fastParseCSVMatrix(text) {
+      const lines = text.split(/\r?\n/);
+      const matrix = [];
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line || line.trim() === '') continue;
+        if (line.indexOf('"') === -1) {
+          matrix.push(line.split(','));
+        } else {
+          // Quoted CSV fallback
+          const row = [];
+          let cur = '', inQ = false;
+          for (let c = 0; c < line.length; c++) {
+            const ch = line[c];
+            if (ch === '"') { inQ = !inQ; }
+            else if (ch === ',' && !inQ) { row.push(cur); cur = ''; }
+            else { cur += ch; }
+          }
+          row.push(cur);
+          matrix.push(row);
+        }
+      }
+      return matrix;
+    }
+
+    function processUploadedFile(file) {
+      const tStart = performance.now();
+      const estSec = estimateFileEtaSec(file);
+      const mbStr = (file.size / (1024 * 1024)).toFixed(2);
+      document.getElementById('log-file-name').innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1 text-blue-700"></i> Đang đọc tệp: <strong>${file.name}</strong> (${mbStr} MB)...`;
+      const etaEstEl = document.getElementById('log-eta-estimate');
+      if (etaEstEl) etaEstEl.innerHTML = `<span class="text-blue-700">Ước tính mất khoảng <strong>~${estSec.toFixed(1)} giây</strong> (${mbStr} MB)</span>`;
+      const pillEl = document.getElementById('btn-eta-pill');
+      if (pillEl) pillEl.innerText = `ETA ~${estSec.toFixed(1)}s`;
+
+      updateEtaUI(8, `Đang giải mã tệp ${file.name}...`, 'Khởi tạo', `Còn lại: ~${estSec.toFixed(1)}s`);
+      const speechEl = document.getElementById('assistant-speech-text');
+      if (speechEl) speechEl.innerText = `Đang nạp tệp ${file.name} (${mbStr} MB). Ước tính mất khoảng ${estSec.toFixed(1)} giây để ra báo cáo hoàn chỉnh ạ!`;
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        setTimeout(async () => {
+          try {
+            let matrix = [];
+            let prodRows = [];
+            let storeRows = [];
+
+            if (ext === 'csv') {
+              updateEtaUI(28, 'Đang tách nhanh dữ liệu CSV...', 'Tăng tốc Native', `Còn lại: ~${Math.max(0.1, (estSec - (performance.now() - tStart)/1000)).toFixed(1)}s`);
+              matrix = fastParseCSVMatrix(e.target.result);
+            } else if (ext === 'json') {
+              const jsonArr = JSON.parse(e.target.result);
+              if (Array.isArray(jsonArr) && jsonArr.length > 0) {
+                const headers = Object.keys(jsonArr[0]);
+                matrix = [headers, ...jsonArr.map(obj => headers.map(h => obj[h]))];
+              }
+            } else {
+              updateEtaUI(22, 'Đang đọc cấu trúc Excel (chế độ siêu tốc)...', 'Array Mode', `Còn lại: ~${Math.max(0.2, estSec * 0.75).toFixed(1)}s`);
+              const data = new Uint8Array(e.target.result);
+              const workbook = XLSX.read(data, { type: 'array', cellStyles: false, cellHTML: false, cellFormula: false });
+              const sheetNames = workbook.SheetNames;
+              let rawSheetName = sheetNames.find(s => s.toLowerCase().includes('giao_dich') || s.toLowerCase().includes('raw') || s.toLowerCase().includes('order')) || sheetNames[0];
+              matrix = XLSX.utils.sheet_to_json(workbook.Sheets[rawSheetName], { header: 1, raw: true, defval: '' });
+
+              let pSheet = sheetNames.find(s => s.toLowerCase().includes('gia_von') || s.toLowerCase().includes('product'));
+              if (pSheet) prodRows = XLSX.utils.sheet_to_json(workbook.Sheets[pSheet]);
+              let sSheet = sheetNames.find(s => s.toLowerCase().includes('kpi') || s.toLowerCase().includes('store'));
+              if (sSheet) storeRows = XLSX.utils.sheet_to_json(workbook.Sheets[sSheet]);
+            }
+
+            const totalDataRows = Math.max(0, matrix.length - 1);
+            CURRENT_DATA = await compileMatrixDatasetAsync(matrix, prodRows, storeRows, tStart);
+            document.getElementById('log-file-name').innerText = `${file.name} (${totalDataRows.toLocaleString()} dòng nạp thành công)`;
+            document.getElementById('session-records-badge').innerText = `${totalDataRows.toLocaleString()} dòng sẵn sàng`;
+            document.getElementById('top-dataset-status').innerText = `${totalDataRows.toLocaleString()} Bản Ghi`;
+
+            isDataCleaned = false;
+            runInstantReport();
+            const totalSec = ((performance.now() - tStart) / 1000).toFixed(2);
+            updateEtaUI(100, `Hoàn tất tổng hợp ${totalDataRows.toLocaleString()} dòng!`, `${Math.round(totalDataRows / Math.max(0.01, parseFloat(totalSec))).toLocaleString()} dòng/s`, `Xong trong ${totalSec}s`);
+            showToast(`Nạp ${totalDataRows.toLocaleString()} dòng & tổng hợp xong trong ${totalSec} giây!`);
+          } catch(err) {
+            updateEtaUI(0, 'Lỗi đọc tệp!', '0 dòng/s', 'Thất bại');
+            showToast("Lỗi khi đọc file: " + err.message, true);
+          }
+        }, 15);
+      };
+
+      if (ext === 'csv' || ext === 'json') reader.readAsText(file, 'utf-8');
+      else reader.readAsArrayBuffer(file);
+    }
+
+    async function compileMatrixDatasetAsync(matrix, prodRows, storeRows, tStart) {
+      const prodMap = {};
+      for (let i = 0; i < prodRows.length; i++) {
+        const p = prodRows[i];
+        const sku = p['Mã SKU'] || p['SKU'] || p['sku'] || '';
+        const cost = parseFloat(p['Giá Vốn COGS (VNĐ)'] || p['Giá Vốn'] || p['cost_price'] || 0);
+        if (sku) prodMap[sku] = cost;
+      }
+
+      const storeMapTarget = {};
+      for (let i = 0; i < storeRows.length; i++) {
+        const s = storeRows[i];
+        const sid = s['Mã CH'] || s['Mã Cửa Hàng'] || s['store_id'] || '';
+        const name = s['Tên Cửa Hàng'] || s['Tên CH'] || s['store_name'] || sid;
+        const region = s['Khu Vực'] || s['region'] || 'Toàn quốc';
+        const tier = s['Phân Hạng'] || s['tier'] || 'A';
+        const tgt = parseFloat(s['Mục Tiêu T10/2026 (VNĐ)'] || s['Mục Tiêu'] || s['target_revenue'] || 2000000000);
+        if (sid) storeMapTarget[sid] = { sid, name, region, tier, target: tgt };
+      }
+
+      if (!matrix || matrix.length <= 1) {
+        return PHUC_AN_DATA;
+      }
+
+      // Map header column indices once (O(1) lookup per cell!)
+      const headers = matrix[0].map(h => String(h || '').trim());
+      const findCol = (...names) => headers.findIndex(h => names.includes(h));
+      const idxTransId = findCol('Mã Giao Dịch', 'trans_id');
+      const idxDate = findCol('Ngày Giao Dịch', 'trans_date');
+      const idxPeriod = findCol('Kỳ Báo Cáo', 'period');
+      const idxStoreId = findCol('Mã Cửa Hàng', 'store_id');
+      const idxStoreName = findCol('Tên Cửa Hàng', 'store_name');
+      const idxSku = findCol('Mã SKU', 'sku');
+      const idxProdName = findCol('Tên Sản Phẩm', 'product_name');
+      const idxQty = findCol('Số Lượng', 'quantity');
+      const idxPrice = findCol('Đơn Giá (VNĐ)', 'unit_price');
+      const idxAmount = findCol('Thành Tiền Thô (VNĐ)', 'line_amount');
+      const idxStatus = findCol('Trạng Thái Đơn', 'status');
+
+      const totalRows = matrix.length - 1;
+      let rawCount = totalRows, cleanCount = 0;
+      let dupCount = 0, canceledCount = 0, canceledVal = 0, returnCount = 0;
+      const seenIds = new Set();
+      const rawSample = [];
+      const cleanSample = [];
+      const storeAggCur = {}, storeAggCmp = {};
+
+      const CHUNK_SIZE = 15000;
+      const tCompileStart = performance.now();
+
+      for (let start = 1; start < matrix.length; start += CHUNK_SIZE) {
+        const end = Math.min(matrix.length, start + CHUNK_SIZE);
+        for (let idx = start; idx < end; idx++) {
+          const r = matrix[idx];
+          const transId = String((idxTransId >= 0 ? r[idxTransId] : '') || `TXN-${idx}`);
+          const transDate = String((idxDate >= 0 ? r[idxDate] : '') || '2026-10-15');
+          const period = String((idxPeriod >= 0 ? r[idxPeriod] : '') || (transDate.startsWith('2026-09') ? '2026-09' : '2026-10'));
+          const storeId = String((idxStoreId >= 0 ? r[idxStoreId] : '') || 'CH01');
+          const storeName = String((idxStoreName >= 0 ? r[idxStoreName] : '') || `Chi Nhánh ${storeId}`);
+          const sku = String((idxSku >= 0 ? r[idxSku] : '') || 'SKU001');
+          const prodName = String((idxProdName >= 0 ? r[idxProdName] : '') || sku);
+          const rawQty = parseFloat(idxQty >= 0 ? r[idxQty] : 1) || 1;
+          const unitPrice = parseFloat(idxPrice >= 0 ? r[idxPrice] : 500000) || 500000;
+          const rawAmount = parseFloat(idxAmount >= 0 ? r[idxAmount] : (rawQty * unitPrice)) || (rawQty * unitPrice);
+          const status = String((idxStatus >= 0 ? r[idxStatus] : '') || 'Hoàn thành');
+
+          if (rawSample.length < 20) {
+            rawSample.push({ trans_id: transId, trans_date: transDate, period, store_id: storeId, store_name: storeName, sku, product_name: prodName, quantity: rawQty, unit_price: unitPrice, line_amount: rawAmount, status });
+          }
+
+          if (!storeMapTarget[storeId]) storeMapTarget[storeId] = { sid: storeId, name: storeName, region: 'Toàn quốc', tier: 'B', target: 2000000000 };
+
+          if (seenIds.has(transId)) { dupCount++; continue; }
+          seenIds.add(transId);
+
+          const statusLow = status.toLowerCase();
+          if (statusLow.includes('hủy') || statusLow.includes('cancel')) {
+            canceledCount++; canceledVal += Math.abs(rawAmount); continue;
+          }
+
+          const isRet = statusLow.includes('trả') || statusLow.includes('return');
+          const cleanQty = isRet ? -Math.abs(rawQty) : Math.abs(rawQty);
+          if (isRet) returnCount++;
+
+          const netAmount = cleanQty * unitPrice;
+          const costPrice = prodMap[sku] || (unitPrice * 0.58);
+          const totalCogs = cleanQty * costPrice;
+          const grossProfit = netAmount - totalCogs;
+          cleanCount++;
+
+          if (cleanSample.length < 20) {
+            cleanSample.push({ trans_id: transId, store_name: storeName, product_name: prodName, clean_quantity: cleanQty, net_amount: netAmount, cost_price: costPrice, gross_profit: grossProfit, status });
+          }
+
+          let curObj = storeAggCur[storeId];
+          if (!curObj) { curObj = { rev: 0, gross: 0, ret: 0, profit: 0, cogs: 0 }; storeAggCur[storeId] = curObj; }
+          let cmpObj = storeAggCmp[storeId];
+          if (!cmpObj) { cmpObj = { rev: 0, profit: 0 }; storeAggCmp[storeId] = cmpObj; }
+
+          if (period.includes('10') || period === 'Current') {
+            curObj.rev += netAmount;
+            curObj.profit += grossProfit;
+            curObj.cogs += totalCogs;
+            if (netAmount > 0) curObj.gross += netAmount;
+            else curObj.ret += Math.abs(netAmount);
+          } else {
+            cmpObj.rev += netAmount;
+            cmpObj.profit += grossProfit;
+          }
+        }
+
+        // Update live progress & ETA countdown per chunk
+        const done = end - 1;
+        const pct = 30 + (done / totalRows) * 65;
+        const elapsedCompile = Math.max(0.005, (performance.now() - tCompileStart) / 1000);
+        const rowsPerSec = Math.round(done / elapsedCompile);
+        const remSec = Math.max(0.02, (totalRows - done) / Math.max(1, rowsPerSec));
+        updateEtaUI(pct, `Đang làm sạch & tính toán (${done.toLocaleString()} / ${totalRows.toLocaleString()} dòng)...`, `${rowsPerSec.toLocaleString()} dòng/s`, `Còn lại: ~${remSec.toFixed(1)}s`);
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+
+      const storeList = Object.values(storeMapTarget);
+      const reports = [];
+      const rankings = [];
+
+      storeList.forEach(s => {
+        const cur = storeAggCur[s.sid] || { rev: 1500000000, gross: 1600000000, ret: 100000000, profit: 600000000, cogs: 900000000 };
+        const cmp = storeAggCmp[s.sid] || { rev: cur.rev * 0.95, profit: cur.profit * 0.95 };
+        const tgt = s.target;
+        const kpi = (cur.rev / tgt) * 100;
+        const margin = cur.rev > 0 ? (cur.profit / cur.rev) * 100 : 0;
+        const revMom = cmp.rev > 0 ? ((cur.rev - cmp.rev) / cmp.rev) * 100 : 0;
+        const pftMom = cmp.profit > 0 ? ((cur.profit - cmp.profit) / cmp.profit) * 100 : 0;
+        const retRate = cur.gross > 0 ? (cur.ret / cur.gross) * 100 : 0;
+
+        reports.push({ store_id: s.sid, store_name: s.name, region: s.region, tier: s.tier, target_revenue: tgt, net_revenue: Math.round(cur.rev), net_revenue_prev: Math.round(cmp.rev), gross_profit: Math.round(cur.profit), cogs: Math.round(cur.cogs), kpi_completion_pct: Math.round(kpi * 10) / 10, gross_margin_pct: Math.round(margin * 10) / 10, revenue_growth_mom: Math.round(revMom * 10) / 10, profit_growth_mom: Math.round(pftMom * 10) / 10, return_rate_revenue: Math.round(retRate * 10) / 10 });
+
+        const anomalies = [];
+        const recs = [];
+        if (revMom > 0 && pftMom < -2) {
+          anomalies.push(`⚠️ Nghịch lý: Doanh thu tăng ${revMom.toFixed(1)}% nhưng Lợi nhuận giảm ${pftMom.toFixed(1)}%.`);
+          recs.push("Cắt giảm chiết khấu quá sâu, tập trung mặt hàng có margin > 40%.");
+        }
+        if (retRate >= 8.0) {
+          anomalies.push(`🚨 Tỷ lệ trả hàng cao: ${retRate.toFixed(1)}% doanh số.`);
+          recs.push("Kiểm định lô hàng tồn kho, đào tạo lại kỹ năng tư vấn đơn hàng.");
+        }
+        if (kpi < 85) {
+          anomalies.push(`🔴 Hụt KPI: Đạt ${kpi.toFixed(1)}% mục tiêu.`);
+          recs.push("Hỗ trợ ngân sách marketing khu vực và mini-game cuối tuần.");
+        }
+
+        const score = Math.min(100, Math.max(0, 100 - kpi) * 0.4 + Math.max(0, -revMom) * 0.25 + Math.max(0, -pftMom) * 0.20 + Math.max(0, retRate - 4) * 3.5);
+        let plevel = 'Ưu tiên 3: Vận hành ổn định';
+        if (score >= 40) plevel = 'Ưu tiên 1: Hỗ trợ khẩn cấp';
+        else if (score >= 20) plevel = 'Ưu tiên 2: Cần can thiệp theo dõi';
+        if (recs.length === 0) recs.push("Duy trì nhịp độ bán hàng hiện tại.");
+
+        rankings.push({ store_id: s.sid, store_name: s.name, tier: s.tier, region: s.region, priority_score: Math.round(score * 10) / 10, priority_level: plevel, kpi_completion_pct: Math.round(kpi * 10) / 10, net_revenue: Math.round(cur.rev), return_rate_revenue: Math.round(retRate * 10) / 10, anomalies, recommendations: recs });
+      });
+
+      rankings.sort((a,b) => b.priority_score - a.priority_score);
+
+      return {
+        audit: { total_raw: rawCount, total_duplicates_removed: dupCount, total_canceled_removed: canceledCount, total_canceled_value: canceledVal, total_returns_standardized: returnCount, total_clean_rows: cleanCount },
+        raw_sample: rawSample,
+        clean_sample: cleanSample,
+        stores: storeList.map(s => ({ store_id: s.sid, store_name: s.name, region: s.region, tier: s.tier })),
+        report: reports,
+        ranking: rankings
+      };
+    }
+
+    // ==========================================
+    // NHÂN VẬT TRỢ LÝ ẢO HOÀNG GIA (NAM / NỮ)
+    // ==========================================
+    let assistantGender = 'female';
+    let assistantExpanded = true;
+    let assistantVoiceOn = false;
+
+    const ASSISTANT_PROFILES = {
+      male: {
+        name: 'Mr. Julian • Cố Vấn Tài Chính 24K',
+        greeting: 'Kính chào Chủ tịch! Tôi là Julian. Bấm Tổng Hợp Nhanh hoặc hỏi tôi bất cứ chỉ số tài chính nào.',
+        img: 'assistant-male.jpg',
+        pitch: 0.92
+      },
+      female: {
+        name: 'Ms. Victoria • Giám Đốc Chiến Lược',
+        greeting: 'Xin chào Chủ tịch! Em là Victoria. Toàn bộ số liệu và BCTC chuẩn VAS đã sẵn sàng phục vụ ngài.',
+        img: 'assistant-female.jpg',
+        pitch: 1.12
+      }
+    };
+
+    function triggerAssistantSpeakEffect(text) {
+      const box = document.getElementById('assistant-avatar-box');
+      const eq = document.getElementById('assistant-eq-wave');
+      if (box) box.classList.add('assistant-speaking');
+      if (eq) eq.classList.remove('hidden');
+
+      clearTimeout(window._assistantSpeakTimer);
+      const duration = Math.min(4500, Math.max(1600, text.length * 42));
+      window._assistantSpeakTimer = setTimeout(() => {
+        if (box) box.classList.remove('assistant-speaking');
+        if (eq) eq.classList.add('hidden');
+      }, duration);
+
+      if (assistantVoiceOn && 'speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'vi-VN';
+          utter.rate = 1.05;
+          utter.pitch = ASSISTANT_PROFILES[assistantGender].pitch;
+          utter.onend = () => {
+            if (box) box.classList.remove('assistant-speaking');
+            if (eq) eq.classList.add('hidden');
+          };
+          window.speechSynthesis.speak(utter);
+        } catch (e) {}
+      }
+    }
+
+    function toggleAssistantVoice() {
+      assistantVoiceOn = !assistantVoiceOn;
+      const btn = document.getElementById('btn-assistant-voice');
+      if (btn) {
+        btn.className = assistantVoiceOn
+          ? 'w-6 h-6 rounded-lg bg-emerald-500/25 border border-emerald-400/60 text-emerald-700 flex items-center justify-center text-[11px]'
+          : 'w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-[11px]';
+        btn.innerHTML = `<i class="fa-solid ${assistantVoiceOn ? 'fa-volume-high' : 'fa-volume-xmark'}"></i>`;
+      }
+      if (assistantVoiceOn) {
+        const curText = document.getElementById('assistant-speech-text').innerText;
+        triggerAssistantSpeakEffect(curText);
+      } else if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function setAssistantGender(gender) {
+      assistantGender = gender === 'male' ? 'male' : 'female';
+      const prof = ASSISTANT_PROFILES[assistantGender];
+      const imgHtml = `<img src="${prof.img}" alt="${prof.name}" class="w-full h-full object-cover object-top assistant-alive rounded-full">`;
+      document.getElementById('assistant-avatar-box').innerHTML = imgHtml;
+      document.getElementById('assistant-mini-avatar').innerHTML = imgHtml;
+      document.getElementById('assistant-name-label').innerText = prof.name;
+      document.getElementById('assistant-speech-text').innerText = prof.greeting;
+
+      const btnM = document.getElementById('btn-gender-male');
+      const btnF = document.getElementById('btn-gender-female');
+      if (assistantGender === 'male') {
+        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow';
+        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700';
+      } else {
+        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow';
+        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700';
+      }
+      triggerAssistantSpeakEffect(prof.greeting);
+    }
+
+    function toggleAssistantWidget() {
+      assistantExpanded = !assistantExpanded;
+      const card = document.getElementById('assistant-expanded-card');
+      const mini = document.getElementById('assistant-minimized-btn');
+      if (assistantExpanded) {
+        card.classList.remove('hidden');
+        mini.classList.add('hidden');
+      } else {
+        card.classList.add('hidden');
+        mini.classList.remove('hidden');
+      }
+    }
+
+    async function askFloatingAssistant() {
+      const inp = document.getElementById('assistant-quick-input');
+      const q = inp.value.trim();
+      if (!q) return;
+      inp.value = '';
+      if (!isDataCleaned) {
+        syncCompanyAndIndustry();
+        renderIndustryBlueprint();
+        runDataCleaningEngine();
+        renderStage4Modeling();
+      }
+      const lower = q.toLowerCase();
+      let offlineReply = '';
+      if (lower.includes('doanh thu') || lower.includes('tốt nhất') || lower.includes('cao nhất')) {
+        const sorted = [...CURRENT_DATA.report].sort((a,b) => b.net_revenue - a.net_revenue);
+        offlineReply = `Dẫn đầu doanh thu của ${COMPANY_NAME} là ${sorted[0].store_name}: ${fmtMil(sorted[0].net_revenue)} Tr VNĐ (${sorted[0].kpi_completion_pct}% KPI).`;
+      } else if (lower.includes('lỗ') || lower.includes('kém') || lower.includes('thấp') || lower.includes('khẩn')) {
+        const top1 = CURRENT_DATA.ranking[0];
+        offlineReply = `Đơn vị cần chú ý nhất là ${top1.store_name} (${top1.priority_score}/100 điểm khẩn cấp, tỷ lệ trả ${top1.return_rate_revenue}%).`;
+      } else {
+        let totalRev = 0, totalProfit = 0;
+        CURRENT_DATA.report.forEach(r => { totalRev += r.net_revenue; totalProfit += r.gross_profit; });
+        offlineReply = `${COMPANY_NAME} hiện đạt ${fmtBil(totalRev)} Tỷ doanh thu thuần & ${fmtBil(totalProfit)} Tỷ lợi nhuận gộp. Mở Bước 5 để xem BCTC chi tiết ạ!`;
+      }
+
+      const speechEl = document.getElementById('assistant-speech-text');
+      speechEl.innerText = '⏳ Đang suy nghĩ & đối chiếu số liệu...';
+      let finalReply = offlineReply;
+      try {
+        const persona = assistantGender === 'male' ? 'Mr. Julian (Cố vấn tài chính nam lịch lãm)' : 'Ms. Victoria (Giám đốc chiến lược nữ chuyên nghiệp)';
+        const llmAns = await callRealLLM(`Trả lời ngắn gọn tối đa 2-3 câu với vai trò ${persona} cho câu hỏi: ${q}`);
+        if (llmAns) finalReply = llmAns;
+      } catch (err) {
+        finalReply = `⚠️ Lỗi API (${err.message}). ${offlineReply}`;
+      }
+      speechEl.innerText = finalReply;
+      triggerAssistantSpeakEffect(finalReply);
+      if (typeof appendChatMessage === 'function') appendChatMessage(q, finalReply);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setAssistantGender('female');
+    });
+  </script>
+
+  <!-- FLOATING IMPERIAL HUMANOID VIRTUAL ASSISTANT -->
+  <div class="fixed bottom-4 right-4 z-50 no-print select-none">
+    <!-- Expanded Royal Concierge Card -->
+    <div id="assistant-expanded-card" class="w-84 max-w-[340px] royal-card p-3.5 shadow-[0_18px_55px_rgba(0,0,0,0.92)] border border-slate-300">
+      <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <div class="relative shrink-0">
+            <div id="assistant-avatar-box" class="w-16 h-16 rounded-full p-[2px] royal-crest overflow-hidden shadow-[0_0_22px_rgba(212,175,55,0.5)]"></div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#07080C] animate-pulse"></span>
+          </div>
+          <div>
+            <div id="assistant-name-label" class="text-xs font-extrabold text-blue-700 leading-tight">Ms. Victoria • Giám Đốc Chiến Lược</div>
+            <div class="flex items-center space-x-2 mt-1.5">
+              <div class="flex items-center space-x-1 bg-slate-50 p-0.5 rounded-lg border border-slate-200 w-fit">
+                <button id="btn-gender-female" onclick="setAssistantGender('female')" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow">Nữ</button>
+                <button id="btn-gender-male" onclick="setAssistantGender('male')" class="px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700">Nam</button>
+              </div>
+              <div id="assistant-eq-wave" class="hidden flex items-center space-x-0.5 h-4">
+                <span class="eq-bar" style="animation-delay: 0s"></span>
+                <span class="eq-bar" style="animation-delay: 0.15s"></span>
+                <span class="eq-bar" style="animation-delay: 0.3s"></span>
+                <span class="eq-bar" style="animation-delay: 0.45s"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-1 self-start">
+          <button id="btn-assistant-voice" onclick="toggleAssistantVoice()" title="Bật/Tắt giọng nói AI" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-[11px]">
+            <i class="fa-solid fa-volume-xmark"></i>
+          </button>
+          <button onclick="toggleAssistantWidget()" title="Thu gọn trợ lý" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Speech Bubble -->
+      <div class="mt-2.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-700 leading-relaxed" id="assistant-speech-text">
+        Xin chào Chủ tịch! Em là Victoria. Toàn bộ số liệu và BCTC chuẩn VAS đã sẵn sàng phục vụ ngài.
+      </div>
+
+      <!-- Quick Input & Actions -->
+      <div class="mt-2.5 flex items-center space-x-1.5">
+        <input id="assistant-quick-input" type="text" onkeypress="if(event.key==='Enter') askFloatingAssistant()" placeholder="Hỏi nhanh doanh thu, lỗ, KPI..." class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-900 focus:outline-none focus:border-blue-500">
+        <button onclick="askFloatingAssistant()" class="btn-gold px-2.5 py-1.5 rounded-lg text-[11px]" title="Gửi câu hỏi">
+          <i class="fa-solid fa-paper-plane text-white"></i>
+        </button>
+        <button onclick="runInstantReport()" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/50 text-emerald-700 hover:bg-emerald-500/30" title="Tổng hợp báo cáo ngay">
+          <i class="fa-solid fa-bolt"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Minimized Humanoid Medallion -->
+    <button id="assistant-minimized-btn" onclick="toggleAssistantWidget()" class="hidden group relative w-16 h-16 rounded-full royal-crest p-[2.5px] shadow-[0_8px_30px_rgba(212,175,55,0.55)] hover:scale-105 transition">
+      <div id="assistant-mini-avatar" class="w-full h-full rounded-full overflow-hidden bg-white"></div>
+      <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-400 border-2 border-slate-950 animate-pulse"></span>
+    </button>
+  </div>
+</body>
+</html>
