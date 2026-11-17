@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide Báo Cáo Thuyết Trình • OmniAnalyst AI Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, h1, h2, h3, h4, p, span, div, li, button, code, pre {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    .fa, .fas, .far, .fa-solid, [class*='fa-'] {
+      font-family: 'Font Awesome 6 Free', 'FontAwesome' !important;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(0, 245, 212, 0.14) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(232, 121, 249, 0.14) 0%, transparent 50%),
+        #05070e;
+      color: #e2f8f5;
+      overflow-x: hidden;
+    }
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; opacity: 0.28; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0, 245, 212, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 212, 0.12) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    .slide-stage {
+      position: relative;
+      z-index: 1;
+      width: min(1160px, calc(100% - 32px));
+      min-height: 620px;
+      margin: 20px auto;
+      background: rgba(10, 15, 28, 0.94);
+      border: 1px solid rgba(0, 245, 212, 0.42);
+      border-radius: 20px;
+      box-shadow: 0 0 45px rgba(0, 245, 212, 0.15), 0 0 80px rgba(232, 121, 249, 0.1);
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .slide { display: none; animation: fadeIn 220ms ease; }
+    .slide.active { display: flex; flex-direction: column; flex: 1; justify-content: center; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .neon-title {
+      background: linear-gradient(135deg, #00f5d4 0%, #38bdf8 52%, #e879f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .neon-card {
+      background: rgba(13, 20, 36, 0.9);
+      border: 1px solid rgba(0, 245, 212, 0.28);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .prompt-box {
+      background: #060a14;
+      border-left: 3px solid #e879f9;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #f5d0fe;
+    }
+    .btn-neon {
+      background: linear-gradient(135deg, #00f5d4, #00bbf9);
+      color: #041014;
+      font-weight: 800;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 12px;
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.45);
+    }
+    .btn-outline {
+      background: rgba(0, 245, 212, 0.08);
+      border: 1px solid rgba(0, 245, 212, 0.4);
+      color: #67e8f9;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 12px;
+    }
+    @media print {
+      body { background: #ffffff !important; color: #0f172a !important; }
+      .grid-bg, .no-print { display: none !important; }
+      .slide-stage {
+        width: 100% !important; margin: 0 !important; padding: 0 !important;
+        border: 0 !important; box-shadow: none !important; background: white !important;
+      }
+      .slide {
+        display: flex !important; flex-direction: column;
+        page-break-after: always;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        padding: 32px;
+        margin-bottom: 24px;
+        min-height: 92vh;
+        justify-content: center;
+      }
+      .neon-title { color: #0f172a !important; -webkit-text-fill-color: initial !important; }
+      .neon-card { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #0f172a !important; }
+      .prompt-box { background: #f1f5f9 !important; color: #334155 !important; border-left-color: #2563eb !important; }
+      p, li, span, div, h3, h4 { color: #1e293b !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- Top Presenter Toolbar -->
+  <div class="no-print relative z-10 max-w-[1160px] mx-auto px-4 pt-4 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="btn-outline flex items-center space-x-1.5">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Về Ứng Dụng Agent</span>
+      </a>
+      <span class="text-xs font-bold text-[#00f5d4]">
+        <i class="fa-solid fa-display mr-1"></i> BÀI THUYẾT TRÌNH: PHÂN TÍCH CÁC BƯỚC & CÂU LỆNH XÂY DỰNG AGENT
+      </span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button onclick="toggleFullscreen()" class="btn-outline" title="Toàn màn hình (F)">
+        <i class="fa-solid fa-expand mr-1"></i> Toàn màn hình
+      </button>
+      <button onclick="window.print()" class="btn-neon">
+        <i class="fa-solid fa-file-pdf mr-1"></i> Xuất / In PDF (10 Slides)
+      </button>
+    </div>
+  </div>
+
+  <!-- Slide Stage -->
+  <div class="slide-stage">
+    <!-- Slide Header Meta -->
+    <div class="flex items-center justify-between text-[11px] text-slate-400 pb-4 border-b border-cyan-500/20 mb-4">
+      <span class="font-bold text-[#00f5d4] tracking-wider uppercase">OMNIANALYST AI STUDIO • BÁO CÁO ĐỒ ÁN / THUYẾT TRÌNH</span>
+      <span id="slide-counter" class="font-mono font-bold text-slate-300">Slide 1 / 10</span>
+    </div>
+
+    <!-- SLIDE 1: TITLE -->
+    <section class="slide active space-y-6 text-center">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-[#00f5d4] text-xs font-bold mx-auto">
+        <i class="fa-solid fa-robot"></i>
+        <span>BÁO CÁO PHÂN TÍCH QUY TRÌNH & CÂU LỆNH XÂY DỰNG AI AGENT</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold neon-title leading-tight">
+        OmniAnalyst AI Studio
+      </h1>
+      <p class="text-base md:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
+        Hệ Thống AI Agent Phân Tích Dữ Liệu Đa Doanh Nghiệp, Làm Sạch Tự Động, Xuất Báo Cáo Tài Chính Chuẩn VAS & Tích Hợp LLM Thực Tế
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4 text-left">
+        <div class="neon-card">
+          <div class="text-xs text-slate-400">Quy Trình Agent</div>
+          <div class="text-xl font-black text-[#00f5d4] mt-1">5 Bước Chuẩn</div>
+        </div>
+        <div class="neon-card">
+          <div class="text-xs text-slate-400">Định Dạng Hỗ Trợ</div>
+          <div class="text-xl font-black text-[#38bdf8] mt-1">XLSX / CSV / JSON</div>
+        </div>
+        <div class="neon-card">
+          <div class="text-xs text-slate-400">Báo Cáo Tài Chính</div>
+          <div class="text-xl font-black text-[#e879f9] mt-1">P&L • CĐKT • CF</div>
+        </div>
+        <div class="neon-card">
+          <div class="text-xs text-slate-400">AI & Triển Khai</div>
+          <div class="text-xl font-black text-emerald-400 mt-1">Gemini • Vercel</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: PROBLEM & OBJECTIVES -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 1 • BÀI TOÁN & MỤC TIÊU</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Từ Dữ Liệu Cố Định Đến Agent Đa Doanh Nghiệp</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="neon-card space-y-3 border-rose-500/35">
+          <h3 class="text-sm font-bold text-rose-400 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Hạn Chế Ban Đầu</h3>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+            <li>Chỉ chạy cố định cho 1 bộ dữ liệu mẫu ban đầu (Phúc An Retail), chưa tổng quát cho các doanh nghiệp khác.</li>
+            <li>Dữ liệu thô thực tế luôn lẫn đơn trùng, đơn hủy, hoàn trả và tên cột khác nhau giữa các công ty.</li>
+            <li>Khi triển khai lên Vercel dễ lỗi thiếu cấu hình server hoặc thiếu file tĩnh.</li>
+            <li>Chưa có API LLM thật để trả lời tự nhiên và chưa có báo cáo tài chính đầy đủ chuẩn VAS.</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-3 border-emerald-500/40">
+          <h3 class="text-sm font-bold text-[#00f5d4] flex items-center"><i class="fa-solid fa-bullseye mr-2"></i> Mục Tiêu Đạt Được</h3>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+            <li>Xây dựng Agent chạy được cho <strong>mọi công ty, mọi ngành nghề, mọi cấu trúc file</strong>.</li>
+            <li>Đưa <strong>Làm sạch dữ liệu lên Bước 2</strong> để chuẩn hóa trước khi lập khung KPI.</li>
+            <li>Tối ưu tốc độ xử lý hàng chục nghìn dòng kèm <strong>ước tính thời gian thực (ETA)</strong>.</li>
+            <li>Hợp nhất toàn bộ Báo cáo tài chính (P&L, Cân đối kế toán, Dòng tiền, 8 Chỉ số), Biểu đồ & Chat AI vào <strong>1 trang</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: EVOLUTION OF PROMPTS -->
+    <section class="slide space-y-5">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 2 • CHUỖI CÂU LỆNH ĐIỀU HƯỚNG (PROMPT FLOW)</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">6 Nhóm Câu Lệnh Cốt Lõi Tạo Nên Sản Phẩm</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="neon-card space-y-2">
+          <div class="font-bold text-[#00f5d4]">Giai đoạn 1: Tổng quát hóa & Rà soát Deploy</div>
+          <div class="prompt-box">"Không làm theo công ty cố định nữa, chuyển thành Agent phân tích dữ liệu đa doanh nghiệp theo luồng chuẩn và deploy được trên Vercel."</div>
+          <p class="text-slate-400">→ Sinh ra kiến trúc client-side + bộ dữ liệu test mới (`NovaTech_Du_Lieu_Test_25k.xlsx`).</p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="font-bold text-[#00f5d4]">Giai đoạn 2: Đầy đủ BCTC & Gom về 1 trang</div>
+          <div class="prompt-box">"Làm đầy đủ chi tiết các thành phần của một bản báo cáo tài chính và gom phần báo cáo vào hết 1 trang giao diện."</div>
+          <p class="text-slate-400">→ Tích hợp P&L, Bảng CĐKT, Lưu chuyển tiền tệ, 8 chỉ số, Biểu đồ, Live Editor & Chat AI vào Bước 5.</p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="font-bold text-[#00f5d4]">Giai đoạn 3: Tốc độ & Ước tính ETA</div>
+          <div class="prompt-box">"Tốc độ tổng hợp báo cáo nhanh hơn và có phần ước tính chính xác mất tầm bao lâu sẽ có kết quả."</div>
+          <p class="text-slate-400">→ Thêm `fastParseCSVMatrix()`, chế độ mảng Excel, chia lô 15.000 dòng & thanh đếm ngược ETA.</p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="font-bold text-[#00f5d4]">Giai đoạn 4: Gắn API LLM thật & Trợ lý ảo AI</div>
+          <div class="prompt-box">"Gắn API LLM thật (Gemini/OpenAI) phân tích trên dữ liệu vừa nạp; tạo nhân vật trợ lý ảo hình người chọn được Nam/Nữ."</div>
+          <p class="text-slate-400">→ Tạo `api/chat.js`, `callRealLLM()`, chân dung AI `Ms. Victoria` / `Mr. Julian` có giọng nói.</p>
+        </div>
+        <div class="neon-card space-y-2 md:col-span-2">
+          <div class="font-bold text-[#00f5d4]">Giai đoạn 5: Tái cấu trúc luồng & Giao diện Cyber Neon Studio</div>
+          <div class="prompt-box">"Sắp xếp lại làm sạch lên bước 2, áp dụng cho nhiều công ty khác nhau; mục thông tin để trống bắt buộc tự điền linh hoạt; đổi bố cục cửa sổ sidebar & màu Neon."</div>
+          <p class="text-slate-400">→ Hoàn thiện Universal Schema Mapper, Multi-Company Session, datalist tự nhập, bố cục 2 cột macOS & bảng màu Neon.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: ARCHITECTURE -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 3 • KIẾN TRÚC KỸ THUẬT</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Cấu Trúc Hệ Thống & Công Nghệ Triển Khai</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+        <div class="neon-card space-y-2.5">
+          <div class="text-sm font-bold text-[#00f5d4]"><i class="fa-solid fa-browser mr-2"></i>Frontend (`index.html`)</div>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li><strong>Tailwind CSS + Plus Jakarta Sans:</strong> Chuẩn hóa 1 họ chữ doanh nghiệp duy nhất, bảo toàn icon FontAwesome.</li>
+            <li><strong>SheetJS (`XLSX.read`):</strong> Đọc/xuất Excel trực tiếp trên trình duyệt không cần upload lên server.</li>
+            <li><strong>Chart.js:</strong> Vẽ biểu đồ cột KPI & biểu đồ đường tăng trưởng MoM tức thì (`animation: false`).</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-2.5">
+          <div class="text-sm font-bold text-[#38bdf8]"><i class="fa-solid fa-server mr-2"></i>Serverless API (`api/chat.js`)</div>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li><strong>Vercel Serverless ESM:</strong> Khai báo `"type": "module"` trong `package.json` để xử lý cảnh báo CommonJS.</li>
+            <li><strong>Bảo mật Key:</strong> Đọc `GEMINI_API_KEY` hoặc `OPENAI_API_KEY` từ Environment Variables của Vercel.</li>
+            <li><strong>Auto-Fallback Model:</strong> Tự chuyển `gemini-3.5-flash-lite` $\rightarrow$ `gemini-3.8-flash` khi gặp `503/429/404`.</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-2.5">
+          <div class="text-sm font-bold text-[#e879f9]"><i class="fa-solid fa-database mr-2"></i>Bộ Dữ Liệu Kiểm Thử</div>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li>`NovaTech_Du_Lieu_Test_25k.xlsx`: 25.000 dòng, 3 sheet, gài sẵn 500 đơn trùng & lỗi biên lãi.</li>
+            <li>`NovaTech_Giao_Dich_Test_15k.csv`: 15.000 dòng test bộ đọc CSV tốc độ cao.</li>
+            <li>`NovaTech_Giao_Dich_Test_5k.json`: 5.000 dòng test JSON.</li>
+            <li>`giao_dich_tho_60k.csv`: 60.000+ dòng test tải nặng & ETA.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: 5-STEP WORKFLOW -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 4 • QUY TRÌNH VẬN HÀNH CỦA AGENT</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Luồng 5 Bước Chuẩn Hóa (Đã Đưa Làm Sạch Lên Bước 2)</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+        <div class="neon-card space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-[#00f5d4] text-slate-950 font-black flex items-center justify-center">1</div>
+          <h4 class="font-bold text-slate-100">Tiếp Nhận Dữ Liệu</h4>
+          <p class="text-slate-400">Bắt buộc nhập Tên công ty, Ngành nghề, Mục tiêu (tự nhập + datalist), gắn API Key & nạp file.</p>
+        </div>
+        <div class="neon-card space-y-2 border-[#00f5d4]">
+          <div class="w-8 h-8 rounded-lg bg-[#00bbf9] text-slate-950 font-black flex items-center justify-center">2</div>
+          <h4 class="font-bold text-[#00f5d4]">Làm Sạch Tự Động</h4>
+          <p class="text-slate-400">Universal Schema Mapper ánh xạ cột, khử trùng, tách đơn hủy, chuẩn hóa hàng hoàn trả.</p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-slate-800 text-[#00f5d4] border border-cyan-500/40 font-black flex items-center justify-center">3</div>
+          <h4 class="font-bold text-slate-100">Khung Ngành & KPIs</h4>
+          <p class="text-slate-400">Xác lập KPIs đặc thù theo ngành vừa nhập & kế hoạch phân tích 4 bước.</p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-slate-800 text-[#00f5d4] border border-cyan-500/40 font-black flex items-center justify-center">4</div>
+          <h4 class="font-bold text-slate-100">Phân Tích & Audit</h4>
+          <p class="text-slate-400">Tính tăng trưởng MoM, điểm khẩn cấp SPS (/100) & cảnh báo bất thường.</p>
+        </div>
+        <div class="neon-card space-y-2 border-[#e879f9]/60">
+          <div class="w-8 h-8 rounded-lg bg-[#e879f9] text-slate-950 font-black flex items-center justify-center">5</div>
+          <h4 class="font-bold text-[#e879f9]">Báo Cáo & Hỏi AI</h4>
+          <p class="text-slate-400">BCTC chuẩn VAS, Biểu đồ, Sửa số liệu trực tiếp, Chat AI thật & Xuất Excel/PDF.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: UNIVERSAL SCHEMA MAPPER -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 5 • KỸ THUẬT ÁNH XẠ ĐA DOANH NGHIỆP</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Universal Schema Mapper (`detectUniversalSchema`)</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        <div class="neon-card space-y-3">
+          <h3 class="text-sm font-bold text-[#00f5d4]">Cách Agent Hiểu Mọi File Dữ Liệu Khác Nhau</h3>
+          <ul class="text-slate-300 space-y-2 list-disc pl-4">
+            <li><strong>Chuẩn hóa tiêu đề (`normHeader`):</strong> Bỏ dấu tiếng Việt, chuyển chữ thường, đối chiếu từ khóa song ngữ (`Doanh thu / Revenue / Sales / Amount`, `Chi nhánh / Branch / Channel / Region`).</li>
+            <li><strong>Suy luận thông minh khi tên cột lạ:</strong> Quét 40 dòng đầu, chọn cột số có giá trị trung bình lớn nhất làm Doanh thu và cột chữ có 2–35 giá trị duy nhất làm Đơn vị phân nhóm.</li>
+            <li><strong>Tự nhận diện Kỳ Báo Cáo:</strong> Tự tách `YYYY-MM` từ dữ liệu để so sánh Kỳ Mới Nhất vs Kỳ Trước.</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-3">
+          <h3 class="text-sm font-bold text-[#38bdf8]">Quản Lý Phiên Đa Công Ty (`SAVED_COMPANIES`)</h3>
+          <ul class="text-slate-300 space-y-2 list-disc pl-4">
+            <li>Mỗi lần nạp tệp cho một công ty mới, kết quả được lưu vào `SAVED_COMPANIES`.</li>
+            <li>Hiển thị thanh chọn nhanh (`#company-session-select`) ở Bước 1 giúp chuyển đổi tức thì giữa nhiều công ty trong cùng 1 phiên làm việc.</li>
+            <li>Hiển thị rõ các thẻ ánh xạ cột (`#detected-schema-badges`) ở Bước 2 để người dùng kiểm chứng độ chính xác.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: SPEED & ETA -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 6 • TỐI ƯU HIỆU NĂNG & ETA</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Tăng Tốc Tổng Hợp & Ước Tính Thời Gian Thực</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+        <div class="neon-card space-y-2">
+          <div class="text-[#00f5d4] font-bold text-sm"><i class="fa-solid fa-bolt mr-1.5"></i> Native CSV & Array Mode</div>
+          <p class="text-slate-300 leading-relaxed">
+            Dùng `fastParseCSVMatrix()` tách trực tiếp CSV và chế độ `{ header: 1, raw: true }` cho Excel, tránh cấp phát hàng chục nghìn object key-value dư thừa.
+          </p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="text-[#38bdf8] font-bold text-sm"><i class="fa-solid fa-layer-group mr-1.5"></i> Xử Lý Chia Lô 15.000 Dòng</div>
+          <p class="text-slate-300 leading-relaxed">
+            Hàm `compileMatrixDatasetAsync()` xử lý từng lô 15.000 dòng, nhả luồng UI mỗi lô để trình duyệt không bị đơ và tắt hiệu ứng trễ trên biểu đồ (`animation: false`).
+          </p>
+        </div>
+        <div class="neon-card space-y-2">
+          <div class="text-[#e879f9] font-bold text-sm"><i class="fa-solid fa-gauge-high mr-1.5"></i> Dự Báo & Đếm Ngược ETA</div>
+          <p class="text-slate-300 leading-relaxed">
+            `estimateFileEtaSec()` ước tính trước thời gian theo dung lượng MB, sau đó thanh `#eta-progress-panel` cập nhật liên tục `%`, tốc độ `dòng/giây` và `Còn lại: ~X.Xs`.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: FINANCIAL STATEMENTS -->
+    <section class="slide space-y-5">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 7 • HỆ THỐNG BÁO CÁO TÀI CHÍNH CHUẨN VAS</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Tất Cả Trong 1 Trang: BCTC + Biểu Đồ + Live Editor</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+        <div class="neon-card">
+          <div class="font-bold text-[#00f5d4] mb-1">1. Kết Quả Kinh Doanh (P&L)</div>
+          <p class="text-slate-300">Đầy đủ Mã 01 $\rightarrow$ 60: Doanh thu gộp, Giảm trừ, DT thuần, COGS, Lãi gộp, Chi phí BH/QLDN, Thuế 20%, Lãi sau thuế.</p>
+        </div>
+        <div class="neon-card">
+          <div class="font-bold text-[#38bdf8] mb-1">2. Bảng Cân Đối Kế Toán</div>
+          <p class="text-slate-300">Tài sản ngắn/dài hạn (Mã 100, 200, 270) cân đối chính xác với Nợ phải trả & Vốn CSH (Mã 300, 400, 440).</p>
+        </div>
+        <div class="neon-card">
+          <div class="font-bold text-[#e879f9] mb-1">3. Lưu Chuyển Tiền Tệ</div>
+          <p class="text-slate-300">Bóc tách 3 dòng tiền: Hoạt động Kinh doanh (Mã 20), Đầu tư (Mã 30), Tài chính (Mã 40) & Tiền thuần.</p>
+        </div>
+        <div class="neon-card">
+          <div class="font-bold text-emerald-400 mb-1">4. 8 Chỉ Số Tài Chính</div>
+          <p class="text-slate-300">Gross Margin, Net Margin, ROA, ROE, Current Ratio, Quick Ratio, D/E & Vòng quay tồn kho kèm chuẩn ngành.</p>
+        </div>
+      </div>
+      <div class="neon-card text-xs text-slate-300 flex flex-wrap items-center justify-between gap-2">
+        <span><strong class="text-[#00f5d4]">Live Data Editor:</strong> Sửa trực tiếp Doanh thu / KPI / Tỷ lệ đổi trả của từng chi nhánh ngay trên trang $\rightarrow$ Toàn bộ BCTC & Biểu đồ cập nhật tức thì.</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: REAL LLM & ASSISTANT -->
+    <section class="slide space-y-6">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 8 • TRÍ TUỆ NHÂN TẠO THẬT & TRỢ LÝ ẢO</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Kết Nối Gemini / OpenAI API & Nhân Vật Trợ Lý Sinh Động</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        <div class="neon-card space-y-2.5">
+          <h3 class="text-sm font-bold text-[#00f5d4]">Cơ Chế Gọi AI Thực Tế (`callRealLLM`)</h3>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li><strong>Ngữ cảnh dữ liệu thật (`buildFinancialContextForLLM`):</strong> Đóng gói tên công ty, ngành, mục tiêu, tổng hợp tài chính & top bất thường vào System Prompt để AI không bịa số.</li>
+            <li><strong>3 Chế độ kết nối:</strong> Google Gemini API (`gemini-3.5-flash-lite`), OpenAI API (`gpt-4o-mini`), hoặc Vercel Server Proxy (`/api/chat`).</li>
+            <li><strong>Resilient Fallback:</strong> Nếu không có key vẫn chạy mượt chế độ Offline AI dự phòng.</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-2.5">
+          <h3 class="text-sm font-bold text-[#e879f9]">Trợ Lý Ảo Hình Người Góc Dưới</h3>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li><strong>Chân dung AI tạo sinh:</strong> Chuyển đổi linh hoạt giữa <strong>Nữ (`Ms. Victoria`)</strong> và <strong>Nam (`Mr. Julian`)</strong>.</li>
+            <li><strong>Chuyển động sinh động:</strong> Hiệu ứng nhịp thở (`assistant-alive`), vòng phát sáng & sóng âm thanh (`eq-bar`) khi phản hồi.</li>
+            <li><strong>Tương tác giọng nói:</strong> Hỗ trợ đọc câu trả lời tiếng Việt qua Web Speech API.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: CONCLUSION -->
+    <section class="slide space-y-6 text-center">
+      <div>
+        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 9 • TỔNG KẾT & HƯỚNG PHÁT TRIỂN</span>
+        <h2 class="text-3xl font-extrabold neon-title mt-1">Kết Quả Đạt Được & Định Hướng Mở Rộng</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left text-xs">
+        <div class="neon-card space-y-2 border-emerald-500/40">
+          <h3 class="text-sm font-bold text-[#00f5d4]"><i class="fa-solid fa-circle-check mr-2"></i> Thành Quả Hiện Tại</h3>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li>Hoàn thiện Agent phân tích dữ liệu 5 bước chuẩn mực, áp dụng linh hoạt cho nhiều doanh nghiệp & cấu trúc tệp.</li>
+            <li>Đạt tốc độ xử lý nhanh trên trình duyệt kèm ước tính ETA chính xác.</li>
+            <li>Triển khai hoàn chỉnh trên cả `localhost` và Vercel (`package.json` ESM + `api/chat.js`).</li>
+            <li>Giao diện Cyber Neon Studio đồng bộ, trực quan, sẵn sàng thuyết trình và xuất báo cáo Excel/PDF.</li>
+          </ul>
+        </div>
+        <div class="neon-card space-y-2 border-cyan-500/40">
+          <h3 class="text-sm font-bold text-[#38bdf8]"><i class="fa-solid fa-rocket mr-2"></i> Hướng Phát Triển Tiếp Theo</h3>
+          <ul class="text-slate-300 space-y-1.5 list-disc pl-4">
+            <li>Kết nối trực tiếp Google Sheets API / SQL Database theo thời gian thực.</li>
+            <li>Bổ sung mô hình dự báo chuỗi thời gian (Time-Series Forecasting) cho doanh thu quý tới.</li>
+            <li>Hỗ trợ xuất trực tiếp sang định dạng PowerPoint (`.pptx`) chỉ với 1 cú click.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-2">
+        <a href="index.html" class="btn-neon inline-flex items-center space-x-2">
+          <i class="fa-solid fa-play"></i>
+          <span>Mở Demo Trực Tiếp OmniAnalyst AI Studio</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bottom Navigation Controls -->
+    <div class="no-print flex items-center justify-between pt-4 border-t border-cyan-500/20 mt-4">
+      <button onclick="prevSlide()" id="btn-prev" class="btn-outline">
+        <i class="fa-solid fa-chevron-left mr-1"></i> Slide Trước
+      </button>
+      <div id="slide-dots" class="flex items-center space-x-1.5"></div>
+      <button onclick="nextSlide()" id="btn-next" class="btn-neon">
+        Slide Tiếp <i class="fa-solid fa-chevron-right ml-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let currentSlide = 0;
+
+    function renderSlide(idx) {
+      currentSlide = Math.max(0, Math.min(slides.length - 1, idx));
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+      document.getElementById('slide-counter').innerText = `Slide ${currentSlide + 1} / ${slides.length}`;
+      document.getElementById('btn-prev').disabled = currentSlide === 0;
+      document.getElementById('btn-next').disabled = currentSlide === slides.length - 1;
+
+      const dots = document.getElementById('slide-dots');
+      dots.innerHTML = slides.map((_, i) =>
+        `<button onclick="renderSlide(${i})" class="h-2 rounded-full transition-all ${i === currentSlide ? 'w-6 bg-[#00f5d4]' : 'w-2 bg-slate-700 hover:bg-slate-500'}"></button>`
+      ).join('');
+    }
+
+    function nextSlide() { if (currentSlide < slides.length - 1) renderSlide(currentSlide + 1); }
+    function prevSlide() { if (currentSlide > 0) renderSlide(currentSlide - 1); }
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+      else if (e.key.toLowerCase() === 'f') toggleFullscreen();
+    });
+
+    renderSlide(0);
+  </script>
+</body>
+</html>
+
