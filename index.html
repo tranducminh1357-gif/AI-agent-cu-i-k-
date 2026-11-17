@@ -20,6 +20,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      color-scheme: dark;
+      --text: #e2f8f5;
+      --muted: #94a3b8;
+      --subtle: #64748b;
+      --line: rgba(0, 245, 212, 0.25);
+      --neon-cyan: #00f5d4;
+      --neon-blue: #00bbf9;
+      --neon-pink: #e879f9;
+    }
+
     /* Áp dụng 1 thể phông chữ duy nhất cho toàn bộ hệ thống */
     body, input, button, select, textarea, table, h1, h2, h3, h4, h5, h6, p, span, div, a, li, label {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -30,100 +41,266 @@
     }
 
     body {
-      background-color: #F4F6FA;
-      color: #0F172A;
-      background-image:
-        radial-gradient(ellipse at 10% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
-        radial-gradient(ellipse at 90% 10%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+      margin: 0;
+      min-width: 310px;
+      min-height: 100dvh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(0, 245, 212, 0.16) 0%, transparent 50%),
+        radial-gradient(ellipse at 88% 85%, rgba(232, 121, 249, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 187, 249, 0.08) 0%, transparent 65%),
+        #05070e;
       background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .35;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0, 245, 212, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 212, 0.12) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(transparent 5%, #000 95%);
+    }
+
+    .desktop {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .desktop-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 22px 0 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: #ffffff;
+      text-shadow: 0 0 16px rgba(0, 245, 212, 0.5);
+    }
+    .brand-studio {
+      color: #00f5d4;
+      font-weight: 600;
+    }
+    .brand-mark {
+      color: #041014;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(135deg, #00f5d4, #00bbf9);
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.65);
+    }
+
+    .window {
+      border: 1px solid rgba(0, 245, 212, 0.45);
+      border-radius: 19px;
+      overflow: hidden;
+      background: rgba(8, 12, 23, 0.94);
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 0 45px rgba(0, 245, 212, 0.16),
+        0 0 85px rgba(232, 121, 249, 0.12),
+        0 25px 60px -15px rgba(0, 0, 0, 0.9);
+    }
+    .window-bar {
+      min-height: 50px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 17px;
+      border-bottom: 1px solid rgba(0, 245, 212, 0.28);
+      background: linear-gradient(90deg, #0a1020, #120f26);
+    }
+    .lights { display: flex; align-items: center; gap: 7px; }
+    .lights i {
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 100%;
+      background: #ff2a6d;
+      box-shadow: 0 0 8px #ff2a6d;
+    }
+    .lights i:nth-child(2) { background: #f9bd47; box-shadow: 0 0 8px #f9bd47; }
+    .lights i:nth-child(3) { background: #00f5d4; box-shadow: 0 0 8px #00f5d4; }
+    .window-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .workbench {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 620px;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      padding: 26px 14px 18px;
+      gap: 12px;
+      background: linear-gradient(175deg, #090e1c 0%, #100c24 100%);
+      border-right: 1px solid rgba(0, 245, 212, 0.25);
+    }
+    .sidebar-heading {
+      color: #00f5d4;
+      font-size: 10px;
+      letter-spacing: .12em;
+      font-weight: 800;
+      padding-left: 10px;
+      text-shadow: 0 0 10px rgba(0, 245, 212, 0.45);
+    }
+    #navigation { display: grid; gap: 6px; }
+    .step-tab {
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      width: 100%;
+      min-height: 54px;
+      border-radius: 10px;
+      background: transparent;
+      padding: 8px 10px;
+      color: #94a3b8;
+      transition: all 160ms ease;
+    }
+    .step-tab:hover {
+      background: rgba(0, 245, 212, 0.08);
+      border-color: rgba(0, 245, 212, 0.35);
+      color: #e2f8f5;
+      transform: translateX(2px);
+    }
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(0, 245, 212, 0.25);
+      color: #38bdf8;
+      display: inline-grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+    .step-tab-active {
+      background: linear-gradient(90deg, rgba(0, 245, 212, 0.16), rgba(0, 187, 249, 0.08)) !important;
+      border-color: #00f5d4 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.22);
+    }
+    .step-tab-active .nav-icon {
+      background: linear-gradient(135deg, #00f5d4, #00bbf9) !important;
+      color: #041014 !important;
+      border-color: #00f5d4 !important;
+      box-shadow: 0 0 12px rgba(0, 245, 212, 0.65);
+    }
+
+    .source-status {
+      margin-top: auto;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(13, 19, 36, 0.9);
+      border: 1px solid rgba(0, 245, 212, 0.3);
+      font-size: 11px;
+      color: #cbd5e1;
+      box-shadow: 0 0 16px rgba(0, 245, 212, 0.08);
+    }
+
+    #workspace {
+      padding: 26px 30px;
+      background: #080c17;
+      min-width: 0;
+    }
+
+    .desktop-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 16px 4px 28px;
+      font-size: 12px;
+      color: #94a3b8;
     }
 
     .gold-gradient-text {
-      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
+      background: linear-gradient(135deg, #00f5d4 0%, #38bdf8 50%, #e879f9 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-    header .gold-gradient-text {
-      background: linear-gradient(135deg, #FFFFFF 0%, #E0F2FE 60%, #93C5FD 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 14px rgba(0, 245, 212, 0.35));
     }
 
     .royal-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-top: 2.5px solid #2563EB;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+      background: rgba(13, 19, 34, 0.92);
+      border: 1px solid rgba(0, 245, 212, 0.28);
+      border-radius: 14px;
+      box-shadow: 0 0 24px rgba(0, 245, 212, 0.07), 0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .royal-card:hover {
+      border-color: rgba(0, 245, 212, 0.55);
+      box-shadow: 0 0 28px rgba(0, 245, 212, 0.16);
     }
 
     .btn-gold {
-      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-      color: #FFFFFF !important;
-      font-weight: 700;
-      letter-spacing: 0.015em;
-      border: 1px solid #1E40AF;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
-      transition: all 0.2s ease;
+      background: linear-gradient(135deg, #00f5d4 0%, #00bbf9 100%);
+      color: #041014 !important;
+      font-weight: 800;
+      border: 1px solid #67e8f9;
+      box-shadow: 0 0 20px rgba(0, 245, 212, 0.48);
+      transition: all 160ms ease;
     }
+    .btn-gold i, .btn-gold span { color: #041014 !important; }
     .btn-gold:hover {
-      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.38);
+      background: linear-gradient(135deg, #5eead4 0%, #38bdf8 100%);
+      box-shadow: 0 0 30px rgba(0, 245, 212, 0.78);
       transform: translateY(-1px);
     }
 
     .btn-gold-outline {
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      color: #1E293B;
+      background: rgba(0, 245, 212, 0.07);
+      border: 1px solid rgba(0, 245, 212, 0.45);
+      color: #67e8f9;
       font-weight: 600;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-      transition: all 0.2s ease;
+      transition: all 160ms ease;
     }
     .btn-gold-outline:hover {
-      background: #F8FAFC;
-      border-color: #2563EB;
-      color: #1D4ED8;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
-    }
-    header .btn-gold-outline {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      color: #F8FAFC;
-    }
-    header .btn-gold-outline:hover {
-      background: rgba(255, 255, 255, 0.16);
-      border-color: #60A5FA;
-      color: #FFFFFF;
-    }
-
-    .step-tab {
-      color: #94A3B8;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s ease;
-    }
-    .step-tab:hover { color: #F8FAFC; }
-    .step-tab-active {
-      color: #FFFFFF;
-      border-bottom: 3px solid #38BDF8;
-      background: linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.14) 100%);
-      font-weight: 700;
+      background: rgba(0, 245, 212, 0.18);
+      border-color: #00f5d4;
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.35);
+      transform: translateY(-1px);
     }
 
     .badge-gold {
-      background: #EFF6FF;
-      border: 1px solid #BFDBFE;
-      color: #1D4ED8;
-    }
-    header .badge-gold, .top-ribbon .badge-gold {
-      background: rgba(37, 99, 235, 0.25);
-      border: 1px solid rgba(96, 165, 250, 0.5);
-      color: #E0F2FE;
+      background: rgba(0, 245, 212, 0.14);
+      border: 1px solid rgba(0, 245, 212, 0.48);
+      color: #00f5d4;
+      box-shadow: 0 0 12px rgba(0, 245, 212, 0.2);
     }
 
     .royal-crest {
-      background: conic-gradient(from 135deg, #38BDF8, #2563EB, #1E3A8A, #60A5FA, #38BDF8);
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+      background: conic-gradient(from 135deg, #00f5d4, #00bbf9, #e879f9, #00f5d4);
+      box-shadow: 0 0 24px rgba(0, 245, 212, 0.55);
     }
 
     @keyframes assistantBreathe {
@@ -131,8 +308,8 @@
       50% { transform: scale(1.04) translateY(-1.5px); }
     }
     @keyframes speakingPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.65), 0 0 14px rgba(37, 99, 235, 0.4); }
-      50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.25), 0 0 22px rgba(56, 189, 248, 0.75); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.75), 0 0 16px rgba(0, 245, 212, 0.55); }
+      50% { box-shadow: 0 0 0 6px rgba(232, 121, 249, 0.35), 0 0 26px rgba(0, 187, 249, 0.85); }
     }
     @keyframes eqBounce {
       0%, 100% { height: 4px; }
@@ -148,163 +325,177 @@
     .eq-bar {
       width: 2.5px;
       border-radius: 99px;
-      background: linear-gradient(180deg, #2563EB, #10B981);
+      background: linear-gradient(180deg, #00f5d4, #e879f9);
       animation: eqBounce 0.65s ease-in-out infinite;
     }
 
     .drop-active {
-      border-color: #2563EB !important;
-      background: #EFF6FF !important;
+      border-color: #00f5d4 !important;
+      background: rgba(0, 245, 212, 0.14) !important;
       transform: scale(1.01);
     }
 
     .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748B; }
+    .custom-scroll::-webkit-scrollbar-track { background: #070b14; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00f5d4, #00bbf9); border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #e879f9; }
+
+    @media (max-width: 950px) {
+      .desktop { width: calc(100% - 24px); }
+      .workbench { grid-template-columns: 205px minmax(0, 1fr); }
+      #workspace { padding: 20px; }
+    }
+    @media (max-width: 760px) {
+      .workbench { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+      .sidebar { padding: 10px; border-right: 0; border-bottom: 1px solid rgba(0, 245, 212, 0.25); }
+      .sidebar-heading, .source-status { display: none; }
+      #navigation { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .step-tab { flex-direction: column; justify-content: center; text-align: center; padding: 6px 4px; gap: 4px; }
+      .step-tab small { display: none; }
+      #workspace { padding: 16px; }
+    }
 
     @media print {
       body { background: white !important; color: black !important; }
-      header, .no-print { display: none !important; }
+      body::before, .desktop-bar, .window-bar, .sidebar, .desktop-footer, .no-print { display: none !important; }
+      .window { border: 0 !important; box-shadow: none !important; background: white !important; }
+      .workbench { display: block !important; }
+      #workspace { background: white !important; }
       .royal-card { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; color: black !important; }
-      .gold-gradient-text { color: #0F172A !important; text-shadow: none !important; -webkit-text-fill-color: initial !important; }
+      .gold-gradient-text { color: #0f172a !important; -webkit-text-fill-color: initial !important; filter: none !important; }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/30 selection:text-sky-200">
-
-  <!-- TOP RIBBON -->
-  <div class="border-b border-slate-700/80 bg-slate-900 top-ribbon backdrop-blur-md text-xs py-2.5 px-4 sticky top-0 z-50 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-extrabold badge-gold tracking-wide">
-          <i class="fa-solid fa-crown mr-1.5 text-sky-300"></i> OMNI-ANALYST • ENTERPRISE BI
-        </span>
-        <span class="text-slate-300 text-xs hidden sm:inline font-medium">
-          Private Wealth & Executive Intelligence Platform
-        </span>
-      </div>
-      <div class="flex items-center space-x-4 text-xs text-slate-300">
-        <span>Doanh Nghiệp: <strong class="text-sky-300 font-bold" id="top-company-name">Chưa xác định</strong></span>
-        <span class="text-slate-600">|</span>
-        <span>Ngành Nghề: <strong class="text-emerald-400 font-bold" id="top-industry">Đang nạp</strong></span>
-        <span class="text-slate-600">|</span>
-        <span id="top-dataset-status" class="text-sky-300 font-semibold">61.200 Bản Ghi</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- HEADER -->
-  <header class="border-b border-slate-700/80 bg-gradient-to-b from-slate-900 to-slate-800 backdrop-blur-xl relative">
-    <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="flex items-center space-x-4">
-        <div class="w-15 h-15 p-[2.5px] rounded-2xl royal-crest">
-          <div class="w-14 h-14 bg-slate-900 rounded-[13px] flex items-center justify-center text-sky-300 text-2xl relative">
-            <i class="fa-solid fa-crown drop-shadow-[0_0_10px_rgba(243,210,121,0.75)]"></i>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center space-x-3">
-            <h1 class="text-2xl font-extrabold tracking-tight gold-gradient-text" id="header-company-name">
-              CHUYÊN VIÊN PHÂN TÍCH DỮ LIỆU AI
-            </h1>
-            <button onclick="switchStep(1)" class="text-sky-200 hover:text-white text-xs px-2.5 py-1 rounded-lg bg-white/10 border border-white/20 font-semibold flex items-center transition">
-              <i class="fa-solid fa-pen-to-square mr-1 text-[11px]"></i> Sửa Thông Tin
-            </button>
-          </div>
-          <p class="text-xs text-slate-300 mt-1 font-medium">
-            Hệ thống Tài Chính & Quản Trị Đế Chế: Nạp dữ liệu • Làm sạch tự động • Khung ngành & KPIs • Phân tích • Báo cáo VAS • Hỏi AI
-          </p>
-        </div>
-      </div>
-
-      <!-- Header Action Controls -->
-      <div class="flex items-center space-x-2.5 self-start md:self-auto no-print">
-        <button onclick="runInstantReport()" class="btn-gold text-xs px-4 py-2.5 rounded-xl flex items-center space-x-1.5 shadow-lg">
+<body class="antialiased selection:bg-emerald-200 selection:text-emerald-950">
+  <div class="desktop">
+    <!-- DESKTOP BAR -->
+    <header class="desktop-bar no-print">
+      <a class="brand" href="#" onclick="switchStep(1); return false;">
+        <span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>
+        <span>OmniAnalyst <span class="brand-studio">Studio</span></span>
+      </a>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="runInstantReport()" class="btn-gold text-xs px-3.5 py-2 rounded-lg flex items-center space-x-1.5">
           <i class="fa-solid fa-bolt text-white"></i>
           <span>Tổng Hợp Nhanh</span>
         </button>
-        <button onclick="downloadCleanedExcel()" class="btn-gold-outline text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2">
+        <button onclick="downloadCleanedExcel()" class="btn-gold-outline text-xs px-3 py-2 rounded-lg flex items-center space-x-1.5">
           <i class="fa-solid fa-file-excel text-emerald-400"></i>
-          <span>Xuất Báo Cáo Excel</span>
+          <span>Xuất Excel</span>
         </button>
-        <button onclick="window.print()" class="btn-gold-outline text-xs px-4 py-2.5 rounded-xl flex items-center space-x-2">
-          <i class="fa-solid fa-file-pdf text-rose-400"></i>
+        <button onclick="window.print()" class="btn-gold-outline text-xs px-3 py-2 rounded-lg flex items-center space-x-1.5">
+          <i class="fa-solid fa-file-pdf text-pink-400"></i>
           <span>Xuất PDF</span>
         </button>
-        <button onclick="resetAll()" title="Làm mới trạng thái ban đầu" class="btn-gold-outline p-2.5 rounded-xl text-amber-400">
-          <i class="fa-solid fa-arrows-rotate"></i>
-        </button>
       </div>
-    </div>
+    </header>
 
-    <!-- 6-STEP PIPELINE NAVIGATION RIBBON -->
-    <div class="max-w-7xl mx-auto px-4 flex space-x-1 overflow-x-auto text-xs font-semibold custom-scroll pt-1 border-t border-slate-700/60 no-print">
-      <button onclick="switchStep(1)" id="btn-step-1" class="py-3 px-3.5 step-tab flex items-center space-x-2 step-tab-active">
-        <span class="w-5 h-5 rounded-full bg-sky-400 text-white flex items-center justify-center text-xs font-black">1</span>
-        <span>1. Tiếp Nhận Dữ Liệu</span>
-      </button>
-      <button onclick="switchStep(2)" id="btn-step-2" class="py-3 px-3.5 step-tab flex items-center space-x-2">
-        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">2</span>
-        <span>2. Làm Sạch Tự Động</span>
-      </button>
-      <button onclick="switchStep(3)" id="btn-step-3" class="py-3 px-3.5 step-tab flex items-center space-x-2">
-        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">3</span>
-        <span>3. Khung Ngành & KPIs</span>
-      </button>
-      <button onclick="switchStep(4)" id="btn-step-4" class="py-3 px-3.5 step-tab flex items-center space-x-2">
-        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">4</span>
-        <span>4. Phân Tích & Bất Thường</span>
-      </button>
-      <button onclick="switchStep(5)" id="btn-step-5" class="py-3 px-3.5 step-tab flex items-center space-x-2">
-        <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">5</span>
-        <span>5. Trung Tâm Báo Cáo & Tương Tác AI</span>
-        <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-sky-300 font-bold">Tất Cả Trong 1</span>
-        <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Chuẩn VAS</span>
-      </button>
-    </div>
-  </header>
+    <!-- MACOS STYLE WORKBENCH WINDOW -->
+    <div class="window">
+      <div class="window-bar no-print">
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="window-title">
+          <i class="fa-solid fa-table-columns text-[#00f5d4]"></i>
+          <span>Không gian phân tích • <strong id="header-company-name" class="text-[#00f5d4]">Doanh Nghiệp</strong></span>
+        </div>
+        <div class="flex justify-end">
+          <button onclick="resetAll()" title="Bắt đầu phiên phân tích mới" class="btn-gold-outline px-2.5 py-1.5 rounded-lg text-xs">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+        </div>
+      </div>
 
-  <!-- MAIN 6 STAGES VIEWPORT -->
-  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+      <div class="workbench">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar no-print" aria-label="Quy trình phân tích">
+          <div class="sidebar-heading">QUY TRÌNH</div>
+          <nav id="navigation" aria-label="Các bước phân tích">
+            <button onclick="switchStep(1)" id="btn-step-1" class="step-tab step-tab-active">
+              <span class="nav-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+              <div class="min-w-0 flex-1">
+                <strong class="block text-xs leading-tight">1. Dữ Liệu & API</strong>
+                <small class="block text-[10px] opacity-75 truncate">Nạp Excel, CSV, JSON</small>
+              </div>
+            </button>
+            <button onclick="switchStep(2)" id="btn-step-2" class="step-tab">
+              <span class="nav-icon"><i class="fa-solid fa-broom"></i></span>
+              <div class="min-w-0 flex-1">
+                <strong class="block text-xs leading-tight">2. Làm Sạch Tự Động</strong>
+                <small class="block text-[10px] opacity-75 truncate">Khử trùng & ánh xạ cột</small>
+              </div>
+            </button>
+            <button onclick="switchStep(3)" id="btn-step-3" class="step-tab">
+              <span class="nav-icon"><i class="fa-solid fa-compass-drafting"></i></span>
+              <div class="min-w-0 flex-1">
+                <strong class="block text-xs leading-tight">3. Khung Ngành & KPIs</strong>
+                <small class="block text-[10px] opacity-75 truncate">Chỉ số & kế hoạch</small>
+              </div>
+            </button>
+            <button onclick="switchStep(4)" id="btn-step-4" class="step-tab">
+              <span class="nav-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+              <div class="min-w-0 flex-1">
+                <strong class="block text-xs leading-tight">4. Phân Tích & Audit</strong>
+                <small class="block text-[10px] opacity-75 truncate">Bất thường & rủi ro</small>
+              </div>
+            </button>
+            <button onclick="switchStep(5)" id="btn-step-5" class="step-tab">
+              <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+              <div class="min-w-0 flex-1">
+                <strong class="block text-xs leading-tight">5. Báo Cáo & Hỏi AI</strong>
+                <small class="block text-[10px] opacity-75 truncate">BCTC VAS • Biểu đồ • Chat</small>
+              </div>
+            </button>
+          </nav>
+
+          <!-- Sidebar Live Source Status -->
+          <div class="source-status space-y-1.5">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-[#506b62]">Phiên Hiện Tại</div>
+            <div class="truncate">Công ty: <strong class="text-[#00f5d4]" id="top-company-name">Đang nạp</strong></div>
+            <div class="truncate">Ngành: <strong class="text-[#00f5d4]" id="top-industry">Bán Lẻ</strong></div>
+            <div class="truncate">Dữ liệu: <strong class="text-[#38bdf8]" id="top-dataset-status">61.200 Bản Ghi</strong></div>
+          </div>
+        </aside>
+
+        <!-- RIGHT MAIN WORKSPACE -->
+        <main id="workspace" class="space-y-6">
 
     <!-- ========================================== -->
     <!-- GIAI ĐOẠN 1: TIẾP NHẬN THÔNG TIN & DỮ LIỆU ĐẦU VÀO -->
     <!-- ========================================== -->
     <section id="stage-1" class="space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300 relative">
+      <div class="royal-card p-8 border-2 border-cyan-500/35 relative">
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-amber-500/50 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
             <i class="fa-solid fa-id-card-clip"></i>
           </div>
           <div>
-            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 1 • TIẾP NHẬN DỮ LIỆU ĐẦU VÀO</span>
-            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+            <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">GIAI ĐOẠN 1 • TIẾP NHẬN DỮ LIỆU ĐẦU VÀO</span>
+            <h2 class="text-2xl font-bold text-slate-100 gold-gradient-text">
               1. Tiếp Nhận Thông Tin Định Danh & Dữ Liệu Doanh Nghiệp
             </h2>
           </div>
         </div>
-        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+        <p class="text-xs text-slate-400 mb-6 leading-relaxed">
           Khách hàng cung cấp thông tin định danh doanh nghiệp, tải lên các file dữ liệu thô (Excel, CSV, JSON) và xác định mục tiêu phân tích mong muốn. Hệ thống sẽ ghi nhận ngữ cảnh vào <strong>Session Memory</strong>.
         </p>
 
         <!-- Form Thông Tin Doanh Nghiệp (Có Thể Chỉnh Sửa Tự Do) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/60 p-6 rounded-2xl border border-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-900/70 p-6 rounded-2xl border border-cyan-500/25">
           <div>
             <div class="flex items-center justify-between mb-1.5">
-              <label class="text-xs font-bold text-blue-700">
-                1. Tên Công Ty / Doanh Nghiệp: <span class="text-rose-600">*</span>
+              <label class="text-xs font-bold text-[#00f5d4]">
+                1. Tên Công Ty / Doanh Nghiệp: <span class="text-pink-400">*</span>
               </label>
-              <span class="text-[10px] text-slate-500 italic">Có thể sửa bất cứ lúc nào</span>
+              <span class="text-[10px] text-slate-400 italic">Có thể sửa bất cứ lúc nào</span>
             </div>
-            <input type="text" id="inp-company" oninput="syncCompanyAndIndustry()" value="Công ty Cổ phần Bán Lẻ An Phát" placeholder="Ví dụ: Công ty Cổ phần ABC, VinFast, An Phát..." class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+            <input type="text" id="inp-company" oninput="syncCompanyAndIndustry()" value="Công ty Cổ phần Bán Lẻ An Phát" placeholder="Ví dụ: Công ty Cổ phần ABC, VinFast, An Phát..." class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
           </div>
 
           <div>
-            <label class="text-xs font-bold text-blue-700 block mb-1.5">
-              2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-rose-600">*</span>
+            <label class="text-xs font-bold text-[#00f5d4] block mb-1.5">
+              2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-pink-400">*</span>
             </label>
-            <select id="inp-industry" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 outline-none focus:border-blue-500 font-bold">
+            <select id="inp-industry" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
               <option value="RETAIL">Bán Lẻ & Chuỗi Cửa Hàng (Retail & FMCG)</option>
               <option value="ECOMMERCE">Thương Mại Điện Tử & D2C (E-Commerce)</option>
               <option value="FINANCE">Tài Chính, Ngân Hàng & Đầu Tư (Fintech & Banking)</option>
@@ -315,10 +506,10 @@
           </div>
 
           <div>
-            <label class="text-xs font-bold text-blue-700 block mb-1.5">
-              3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-rose-600">*</span>
+            <label class="text-xs font-bold text-[#00f5d4] block mb-1.5">
+              3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-pink-400">*</span>
             </label>
-            <select id="inp-goal" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 outline-none focus:border-blue-500 font-bold">
+            <select id="inp-goal" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
               <option value="REVENUE_PROFIT">Phân tích Doanh thu, Lợi nhuận gộp & Tăng trưởng MoM</option>
               <option value="RETURNS_ANOMALIES">Kiểm toán Đổi trả, Thất thoát & Phát hiện Bất thường</option>
               <option value="BRANCH_KPI">Đánh giá Hiệu năng Chi nhánh & Xếp hạng Ưu tiên Hỗ trợ</option>
@@ -328,29 +519,29 @@
         </div>
 
         <!-- Cấu Hình Kết Nối API LLM Thật (Gemini / OpenAI / Server Env) -->
-        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+        <div class="mt-6 bg-[#0b1222] border border-cyan-500/25 p-5 rounded-2xl">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
             <div class="flex items-center space-x-2">
-              <i class="fa-solid fa-key text-blue-600"></i>
-              <span class="text-xs font-bold text-slate-800 uppercase tracking-wide">Kết Nối AI Thực Tế (Gemini API / OpenAI API / Server Env):</span>
+              <i class="fa-solid fa-key text-[#00f5d4]"></i>
+              <span class="text-xs font-bold text-slate-100 uppercase tracking-wide">Kết Nối AI Thực Tế (Gemini API / OpenAI API / Server Env):</span>
             </div>
-            <span id="llm-status-badge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700">
+            <span id="llm-status-badge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300">
               ⚪ Chế độ Offline (Chưa gắn API Key)
             </span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
             <div class="md:col-span-4">
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">Nhà Cung Cấp LLM:</label>
-              <select id="inp-llm-provider" onchange="saveLLMConfig()" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 outline-none focus:border-blue-500 font-semibold">
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">Nhà Cung Cấp LLM:</label>
+              <select id="inp-llm-provider" onchange="saveLLMConfig()" class="w-full bg-[#0d1424] border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-semibold">
                 <option value="gemini">Google Gemini API (gemini-3.8-flash)</option>
                 <option value="openai">OpenAI API (gpt-4o-mini)</option>
                 <option value="server">Server Env Proxy (/api/chat trên Vercel)</option>
               </select>
             </div>
             <div class="md:col-span-6" id="llm-apikey-wrap">
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">API Key (Lưu an toàn trên trình duyệt):</label>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">API Key (Lưu an toàn trên trình duyệt):</label>
               <div class="flex items-center space-x-1.5">
-                <input type="password" id="inp-llm-apikey" oninput="saveLLMConfig()" placeholder="Dán Gemini API Key (AIza...) hoặc OpenAI Key (sk-...)..." class="flex-1 bg-white border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-mono">
+                <input type="password" id="inp-llm-apikey" oninput="saveLLMConfig()" placeholder="Dán Gemini API Key (AIza...) hoặc OpenAI Key (sk-...)..." class="flex-1 bg-[#0d1424] border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-mono">
                 <button type="button" onclick="toggleApiKeyVisibility()" title="Hiện/Ẩn API Key" class="btn-gold-outline px-3 py-2.5 rounded-xl text-xs">
                   <i id="icon-apikey-eye" class="fa-solid fa-eye"></i>
                 </button>
@@ -363,28 +554,28 @@
               </button>
             </div>
           </div>
-          <p class="text-[11px] text-slate-500 mt-2">
-            Khi gắn API Key (hoặc cấu hình biến môi trường <code class="bg-slate-200 px-1 rounded">GEMINI_API_KEY</code> / <code class="bg-slate-200 px-1 rounded">OPENAI_API_KEY</code> trên Vercel), toàn bộ Hỏi Đáp AI, Trợ Lý Ảo & Báo Cáo Điều Hành sẽ dùng AI thật phân tích trực tiếp trên dữ liệu bạn vừa nạp.
+          <p class="text-[11px] text-slate-400 mt-2">
+            Khi gắn API Key (hoặc cấu hình biến môi trường <code class="bg-slate-800 px-1 rounded">GEMINI_API_KEY</code> / <code class="bg-slate-800 px-1 rounded">OPENAI_API_KEY</code> trên Vercel), toàn bộ Hỏi Đáp AI, Trợ Lý Ảo & Báo Cáo Điều Hành sẽ dùng AI thật phân tích trực tiếp trên dữ liệu bạn vừa nạp.
           </p>
           <div id="llm-test-result" class="hidden mt-2.5 text-xs p-3 rounded-xl border"></div>
         </div>
 
         <!-- Khu Vực Kéo Thả File Dữ Liệu Thô -->
         <div class="mt-6">
-          <label class="text-xs font-bold text-blue-700 block mb-2">
+          <label class="text-xs font-bold text-[#00f5d4] block mb-2">
             4. Tải Lên Tệp Dữ Liệu Thô (Excel, CSV, JSON):
           </label>
-          <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 bg-slate-50 rounded-2xl p-8 text-center transition cursor-pointer" onclick="document.getElementById('file-upload-input').click()">
-            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-slate-200 text-blue-700 mx-auto flex items-center justify-center text-2xl mb-3">
+          <div id="drop-zone" class="border-2 border-dashed border-cyan-500/35 hover:border-blue-500 bg-[#0b1222] rounded-2xl p-8 text-center transition cursor-pointer" onclick="document.getElementById('file-upload-input').click()">
+            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 text-[#00f5d4] mx-auto flex items-center justify-center text-2xl mb-3">
               <i class="fa-solid fa-cloud-arrow-up"></i>
             </div>
-            <h4 class="font-bold text-base text-slate-900 mb-1">
+            <h4 class="font-bold text-base text-slate-100 mb-1">
               Kéo thả tệp dữ liệu vào đây hoặc Click để duyệt file
             </h4>
-            <p class="text-xs text-slate-500 mb-3">
-              Hỗ trợ tệp <span class="text-blue-700 font-bold">.xlsx, .xls, .csv, .json</span> (Chứa bảng giao dịch, doanh số, chi nhánh, giá vốn...)
+            <p class="text-xs text-slate-400 mb-3">
+              Hỗ trợ tệp <span class="text-[#00f5d4] font-bold">.xlsx, .xls, .csv, .json</span> (Chứa bảng giao dịch, doanh số, chi nhánh, giá vốn...)
             </p>
-            <span class="text-xs font-semibold text-emerald-600 bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/30">
+            <span class="text-xs font-semibold text-[#00f5d4] bg-emerald-950/400/10 px-3.5 py-1.5 rounded-full border border-emerald-500/30">
               <i class="fa-solid fa-bolt mr-1"></i> Hệ thống tự động parse cột & lưu vào Session Memory
             </span>
           </div>
@@ -392,38 +583,38 @@
         </div>
 
         <!-- Session Memory Card Preview -->
-        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+        <div class="mt-6 bg-[#0b1222] border border-cyan-500/25 p-5 rounded-2xl">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="text-xs font-bold text-blue-700 uppercase tracking-wide">Hành Động Của Hệ Thống (Multi-Company Session):</span>
+              <span class="text-xs font-bold text-[#00f5d4] uppercase tracking-wide">Hành Động Của Hệ Thống (Multi-Company Session):</span>
             </div>
             <div class="flex items-center space-x-2">
-              <select id="company-session-select" onchange="switchSavedCompany(this.value)" class="hidden bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-[11px] font-bold text-blue-700 outline-none focus:border-blue-500"></select>
-              <span class="text-xs font-semibold text-slate-500" id="session-records-badge">Đang sẵn sàng 61.200 giao dịch mẫu</span>
+              <select id="company-session-select" onchange="switchSavedCompany(this.value)" class="hidden bg-[#0d1424] border border-cyan-500/35 rounded-lg px-2.5 py-1 text-[11px] font-bold text-[#00f5d4] outline-none focus:border-[#00f5d4]"></select>
+              <span class="text-xs font-semibold text-slate-400" id="session-records-badge">Đang sẵn sàng 61.200 giao dịch mẫu</span>
             </div>
           </div>
-          <div class="mt-3 text-xs text-slate-700 space-y-1.5" id="session-memory-log">
-            <div>• Tên Doanh nghiệp: <strong class="text-blue-700" id="log-comp-name">Công ty Cổ phần Bán Lẻ An Phát</strong></div>
-            <div>• Ngành nghề: <strong class="text-emerald-600" id="log-industry">Bán Lẻ & Chuỗi Cửa Hàng</strong></div>
-            <div>• Nguồn tệp: <strong class="text-slate-900" id="log-file-name">Phuc_An_Du_Lieu_Tho_Test.xlsx (Bộ dữ liệu mẫu sẵn có)</strong></div>
-            <div>• Thời gian tổng hợp dự kiến (ETA): <strong class="text-emerald-600" id="log-eta-estimate">~0.05 giây (Dữ liệu đã tối ưu sẵn trong RAM)</strong></div>
+          <div class="mt-3 text-xs text-slate-300 space-y-1.5" id="session-memory-log">
+            <div>• Tên Doanh nghiệp: <strong class="text-[#00f5d4]" id="log-comp-name">Công ty Cổ phần Bán Lẻ An Phát</strong></div>
+            <div>• Ngành nghề: <strong class="text-[#00f5d4]" id="log-industry">Bán Lẻ & Chuỗi Cửa Hàng</strong></div>
+            <div>• Nguồn tệp: <strong class="text-slate-100" id="log-file-name">Phuc_An_Du_Lieu_Tho_Test.xlsx (Bộ dữ liệu mẫu sẵn có)</strong></div>
+            <div>• Thời gian tổng hợp dự kiến (ETA): <strong class="text-[#00f5d4]" id="log-eta-estimate">~0.05 giây (Dữ liệu đã tối ưu sẵn trong RAM)</strong></div>
           </div>
 
           <!-- Live Progress & ETA Bar -->
-          <div id="eta-progress-panel" class="hidden mt-4 pt-4 border-t border-slate-200">
+          <div id="eta-progress-panel" class="hidden mt-4 pt-4 border-t border-cyan-500/25">
             <div class="flex flex-wrap items-center justify-between gap-2 text-xs mb-2">
-              <span class="font-bold text-blue-700 flex items-center">
-                <i class="fa-solid fa-gauge-high mr-1.5 text-emerald-600"></i>
+              <span class="font-bold text-[#00f5d4] flex items-center">
+                <i class="fa-solid fa-gauge-high mr-1.5 text-[#00f5d4]"></i>
                 <span id="eta-stage-label">Đang phân tích cấu trúc & tổng hợp...</span>
               </span>
               <div class="flex items-center space-x-3 font-mono text-[11px]">
-                <span class="text-slate-700" id="eta-speed-label">0 dòng/s</span>
-                <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-bold" id="eta-countdown-label">Còn lại: --</span>
-                <span class="text-emerald-600 font-extrabold" id="eta-percent-label">0%</span>
+                <span class="text-slate-300" id="eta-speed-label">0 dòng/s</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-[#00f5d4] font-bold" id="eta-countdown-label">Còn lại: --</span>
+                <span class="text-[#00f5d4] font-extrabold" id="eta-percent-label">0%</span>
               </div>
             </div>
-            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-cyan-500/25">
               <div id="eta-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-yellow-300 to-emerald-400 transition-all duration-100" style="width: 0%"></div>
             </div>
           </div>
@@ -431,10 +622,10 @@
 
         <!-- Action Next -->
         <div class="mt-6 flex flex-wrap justify-between items-center gap-3">
-          <button onclick="runInstantReport()" class="px-6 py-3 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white flex items-center shadow-lg transition">
+          <button onclick="runInstantReport()" class="px-6 py-3 rounded-xl text-xs font-bold bg-gradient-to-r from-[#00f5d4] to-[#00bbf9] hover:from-[#5eead4] hover:to-[#38bdf8] text-slate-950 text-white flex items-center shadow-lg transition">
             <i class="fa-solid fa-bolt mr-2"></i>
             <span>Tổng Hợp Báo Cáo Ngay (1-Click)</span>
-            <span id="btn-eta-pill" class="ml-2 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-extrabold">ETA ~0.05s</span>
+            <span id="btn-eta-pill" class="ml-2 px-2 py-0.5 rounded-md bg-slate-900 text-[10px] font-extrabold">ETA ~0.05s</span>
           </button>
           <button onclick="proceedToStage2()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
             <span>Chuyển Sang Làm Sạch Dữ Liệu (Giai Đoạn 2)</span>
@@ -448,15 +639,15 @@
     <!-- GIAI ĐOẠN 2: LÀM SẠCH VÀ KIỂM TRA DỮ LIỆU TỰ ĐỘNG -->
     <!-- ========================================== -->
     <section id="stage-2" class="hidden space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+      <div class="royal-card p-8 border-2 border-cyan-500/35">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-cyan-500/25">
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-slate-300 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/35 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
               <i class="fa-solid fa-broom"></i>
             </div>
             <div>
-              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 2 • LÀM SẠCH & NHẬN DIỆN CẤU TRÚC</span>
-              <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">GIAI ĐOẠN 2 • LÀM SẠCH & NHẬN DIỆN CẤU TRÚC</span>
+              <h2 class="text-2xl font-bold text-slate-100 gold-gradient-text">
                 2. Làm Sạch & Chuẩn Hóa Dữ Liệu Đa Doanh Nghiệp
               </h2>
             </div>
@@ -466,66 +657,66 @@
             <span>Chạy Thuật Toán Làm Sạch Tự Động</span>
           </button>
         </div>
-        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+        <p class="text-xs text-slate-400 mt-3 leading-relaxed">
           Agent tự động quét cấu trúc cột của bất kỳ tệp dữ liệu doanh nghiệp nào, chuẩn hóa định dạng tiền tệ/ngày tháng, loại bỏ đơn trùng lặp, bóc tách đơn hủy và chuẩn hóa hàng đổi trả.
         </p>
 
         <!-- Auto-detected Schema Mapping Badges -->
-        <div class="mt-4 bg-blue-50/70 border border-blue-200 p-4 rounded-2xl">
-          <div class="text-[11px] font-bold text-blue-800 uppercase mb-2 flex items-center">
+        <div class="mt-4 bg-cyan-500/10 border border-cyan-400/40 p-4 rounded-2xl">
+          <div class="text-[11px] font-bold text-[#38bdf8] uppercase mb-2 flex items-center">
             <i class="fa-solid fa-diagram-project mr-1.5"></i> Cấu Trúc Cột Tự Động Nhận Diện (Universal Schema Mapper):
           </div>
           <div id="detected-schema-badges" class="flex flex-wrap gap-2 text-[11px]">
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-slate-700 font-semibold">Đang dùng cấu trúc chuẩn đa ngành</span>
+            <span class="px-2.5 py-1 rounded-lg bg-[#0d1424] border border-cyan-400/40 text-slate-300 font-semibold">Đang dùng cấu trúc chuẩn đa ngành</span>
           </div>
         </div>
 
         <!-- Audit Scorecard -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
-          <div class="bg-slate-50 border border-slate-300/60 p-5 rounded-2xl text-center">
-            <div class="text-xs font-semibold text-slate-500 uppercase">Tổng Dòng Ban Đầu</div>
-            <div class="text-2xl font-black text-slate-900 mt-1" id="audit-total-raw">--</div>
-            <div class="text-[11px] text-slate-500 mt-1">Dữ liệu thô khách nạp</div>
+          <div class="bg-[#0b1222] border border-cyan-500/35/60 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-slate-400 uppercase">Tổng Dòng Ban Đầu</div>
+            <div class="text-2xl font-black text-slate-100 mt-1" id="audit-total-raw">--</div>
+            <div class="text-[11px] text-slate-400 mt-1">Dữ liệu thô khách nạp</div>
           </div>
-          <div class="bg-slate-50 border border-rose-500/40 p-5 rounded-2xl text-center">
-            <div class="text-xs font-semibold text-rose-600 uppercase">Dòng Trùng Bị Loại</div>
-            <div class="text-2xl font-black text-rose-700 mt-1" id="audit-dup-removed">--</div>
-            <div class="text-[11px] text-rose-600 mt-1">Khử trùng lặp mã đơn</div>
+          <div class="bg-[#0b1222] border border-rose-500/40 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-pink-400 uppercase">Dòng Trùng Bị Loại</div>
+            <div class="text-2xl font-black text-rose-400 mt-1" id="audit-dup-removed">--</div>
+            <div class="text-[11px] text-pink-400 mt-1">Khử trùng lặp mã đơn</div>
           </div>
-          <div class="bg-slate-50 border border-slate-300 p-5 rounded-2xl text-center">
-            <div class="text-xs font-semibold text-blue-600 uppercase">Đơn Hủy Đã Bóc Tách</div>
-            <div class="text-2xl font-black text-blue-700 mt-1" id="audit-canceled-removed">--</div>
-            <div class="text-[11px] text-blue-600 mt-1">Không ghi nhận doanh thu</div>
+          <div class="bg-[#0b1222] border border-cyan-500/35 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-[#00f5d4] uppercase">Đơn Hủy Đã Bóc Tách</div>
+            <div class="text-2xl font-black text-[#00f5d4] mt-1" id="audit-canceled-removed">--</div>
+            <div class="text-[11px] text-[#00f5d4] mt-1">Không ghi nhận doanh thu</div>
           </div>
-          <div class="bg-slate-50 border border-orange-500/40 p-5 rounded-2xl text-center">
-            <div class="text-xs font-semibold text-orange-600 uppercase">Doanh Số Ảo Loại Trừ</div>
-            <div class="text-2xl font-black text-orange-700 mt-1" id="audit-canceled-val">--</div>
-            <div class="text-[11px] text-orange-600 mt-1">Giá trị đơn hủy triệt tiêu</div>
+          <div class="bg-[#0b1222] border border-orange-500/40 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-orange-400 uppercase">Doanh Số Ảo Loại Trừ</div>
+            <div class="text-2xl font-black text-orange-300 mt-1" id="audit-canceled-val">--</div>
+            <div class="text-[11px] text-orange-400 mt-1">Giá trị đơn hủy triệt tiêu</div>
           </div>
-          <div class="bg-slate-50 border border-emerald-500/50 p-5 rounded-2xl text-center">
-            <div class="text-xs font-semibold text-emerald-600 uppercase">Bản Ghi SẠCH Đạt Chuẩn</div>
-            <div class="text-2xl font-black text-emerald-700 mt-1" id="audit-clean-total">--</div>
-            <div class="text-[11px] text-emerald-600 mt-1">Sẵn sàng phân tích</div>
+          <div class="bg-[#0b1222] border border-emerald-500/50 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-[#00f5d4] uppercase">Bản Ghi SẠCH Đạt Chuẩn</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1" id="audit-clean-total">--</div>
+            <div class="text-[11px] text-[#00f5d4] mt-1">Sẵn sàng phân tích</div>
           </div>
         </div>
 
         <!-- Tóm tắt chất lượng dữ liệu -->
-        <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
-          <h4 class="text-xs font-bold text-blue-700 uppercase mb-2 flex items-center">
+        <div class="mt-6 bg-[#0b1222] border border-cyan-500/25 p-5 rounded-2xl">
+          <h4 class="text-xs font-bold text-[#00f5d4] uppercase mb-2 flex items-center">
             <i class="fa-solid fa-clipboard-check mr-2"></i> Báo Cáo Tóm Tắt Chất Lượng Dữ Liệu (Agent Summary):
           </h4>
-          <div class="text-xs text-slate-700 space-y-1.5" id="agent-clean-summary-text">
+          <div class="text-xs text-slate-300 space-y-1.5" id="agent-clean-summary-text">
             Chờ thực thi thuật toán làm sạch...
           </div>
         </div>
 
         <!-- Clean Preview Table -->
         <div class="mt-6">
-          <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Xem Trước 15 Bản Ghi Sau Khi Làm Sạch (Cleaned Dataset):</h4>
-          <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-slate-50">
+          <h4 class="text-xs font-bold text-slate-300 uppercase mb-2">Xem Trước 15 Bản Ghi Sau Khi Làm Sạch (Cleaned Dataset):</h4>
+          <div class="overflow-x-auto text-xs border border-cyan-500/25 rounded-xl custom-scroll bg-[#0b1222]">
             <table class="w-full text-left border-collapse" id="tbl-clean-preview">
               <thead>
-                <tr class="bg-white text-blue-700 font-bold border-b border-slate-200">
+                <tr class="bg-[#0d1424] text-[#00f5d4] font-bold border-b border-cyan-500/25">
                   <th class="p-3">MÃ GIAO DỊCH</th>
                   <th class="p-3">ĐƠN VỊ / CHI NHÁNH</th>
                   <th class="p-3">SẢN PHẨM / DỊCH VỤ</th>
@@ -536,14 +727,14 @@
                   <th class="p-3 text-center">TRẠNG THÁI</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-200" id="clean-preview-body">
-                <tr><td colspan="8" class="p-6 text-center text-slate-500">Bấm nút "Chạy Thuật Toán Làm Sạch Tự Động" ở trên để xem bảng dữ liệu sạch.</td></tr>
+              <tbody class="divide-y divide-cyan-500/20" id="clean-preview-body">
+                <tr><td colspan="8" class="p-6 text-center text-slate-400">Bấm nút "Chạy Thuật Toán Làm Sạch Tự Động" ở trên để xem bảng dữ liệu sạch.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-cyan-500/25">
           <button onclick="switchStep(1)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
             <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
           </button>
@@ -559,34 +750,34 @@
     <!-- GIAI ĐOẠN 3: THIẾT LẬP KHUNG PHÂN TÍCH CHUYÊN BIỆT -->
     <!-- ========================================== -->
     <section id="stage-3" class="hidden space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300">
+      <div class="royal-card p-8 border-2 border-cyan-500/35">
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-slate-300 text-blue-700 flex items-center justify-center font-bold text-xl">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/35 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
             <i class="fa-solid fa-compass-drafting"></i>
           </div>
           <div>
-            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 3 • THIẾT LẬP KHUNG NGÀNH & KPIS</span>
-            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+            <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">GIAI ĐOẠN 3 • THIẾT LẬP KHUNG NGÀNH & KPIS</span>
+            <h2 class="text-2xl font-bold text-slate-100 gold-gradient-text">
               3. Thiết Lập Khung Phân Tích Chuyên Biệt Theo Ngành
             </h2>
           </div>
         </div>
-        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-          Dựa trên dữ liệu đã làm sạch và bối cảnh ngành nghề của <strong class="text-blue-700 font-bold" id="stage2-company-text">Công ty</strong>, Agent xác lập bộ chỉ số cốt lõi (KPIs) và Kế hoạch Phân tích Tự động (Analytical Blueprint) phù hợp riêng.
+        <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+          Dựa trên dữ liệu đã làm sạch và bối cảnh ngành nghề của <strong class="text-[#00f5d4] font-bold" id="stage2-company-text">Công ty</strong>, Agent xác lập bộ chỉ số cốt lõi (KPIs) và Kế hoạch Phân tích Tự động (Analytical Blueprint) phù hợp riêng.
         </p>
 
         <!-- KPI Blueprint Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="kpi-blueprint-container"></div>
 
         <!-- Analytical Blueprint Steps -->
-        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
-            <i class="fa-solid fa-list-check mr-2 text-blue-600"></i> Kế Hoạch Phân Tích Tự Động (Analytical Blueprint):
+        <div class="mt-8 bg-[#0b1222] border border-cyan-500/25 p-6 rounded-2xl">
+          <h3 class="text-sm font-bold text-slate-100 mb-3 flex items-center">
+            <i class="fa-solid fa-list-check mr-2 text-[#00f5d4]"></i> Kế Hoạch Phân Tích Tự Động (Analytical Blueprint):
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs" id="blueprint-steps-box"></div>
         </div>
 
-        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-cyan-500/25">
           <button onclick="switchStep(2)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
             <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
           </button>
@@ -602,55 +793,55 @@
     <!-- GIAI ĐOẠN 4: PHÂN TÍCH CHUYÊN SÂU & TÍNH TOÁN -->
     <!-- ========================================== -->
     <section id="stage-4" class="hidden space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300">
+      <div class="royal-card p-8 border-2 border-cyan-500/35">
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-amber-500/50 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
             <i class="fa-solid fa-calculator"></i>
           </div>
           <div>
-            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 4 • PHÂN TÍCH & TÍNH TOÁN</span>
-            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+            <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">GIAI ĐOẠN 4 • PHÂN TÍCH & TÍNH TOÁN</span>
+            <h2 class="text-2xl font-bold text-slate-100 gold-gradient-text">
               4. Phân Tích Chuyên Sâu & Phát Hiện Bất Thường
             </h2>
           </div>
         </div>
-        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-          Agent thực thi các thuật toán thống kê, khai thác dữ liệu, tính toán tài chính, đo lường tốc độ tăng trưởng và tự động dò quét các điểm bất thường (Anomalies) ẩn giấu trong dữ liệu của <strong class="text-blue-700 font-bold" id="stage4-company-text">công ty</strong>.
+        <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+          Agent thực thi các thuật toán thống kê, khai thác dữ liệu, tính toán tài chính, đo lường tốc độ tăng trưởng và tự động dò quét các điểm bất thường (Anomalies) ẩn giấu trong dữ liệu của <strong class="text-[#00f5d4] font-bold" id="stage4-company-text">công ty</strong>.
         </p>
 
         <!-- KPI Summary Cards -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="royal-card p-5 text-center">
-            <div class="text-xs font-semibold text-slate-500 uppercase">Doanh Thu Thuần Thực Tế</div>
+            <div class="text-xs font-semibold text-slate-400 uppercase">Doanh Thu Thuần Thực Tế</div>
             <div class="text-2xl font-black gold-gradient-text mt-1" id="s4-rev">--</div>
-            <div class="text-xs font-bold text-emerald-600 mt-1" id="s4-rev-mom">--</div>
+            <div class="text-xs font-bold text-[#00f5d4] mt-1" id="s4-rev-mom">--</div>
           </div>
           <div class="royal-card p-5 text-center">
-            <div class="text-xs font-semibold text-slate-500 uppercase">Lợi Nhuận Gộp Toàn Bộ</div>
-            <div class="text-2xl font-black text-emerald-600 mt-1" id="s4-profit">--</div>
-            <div class="text-xs text-slate-500 mt-1">Sau khi khấu trừ COGS</div>
+            <div class="text-xs font-semibold text-slate-400 uppercase">Lợi Nhuận Gộp Toàn Bộ</div>
+            <div class="text-2xl font-black text-[#00f5d4] mt-1" id="s4-profit">--</div>
+            <div class="text-xs text-slate-400 mt-1">Sau khi khấu trừ COGS</div>
           </div>
           <div class="royal-card p-5 text-center">
-            <div class="text-xs font-semibold text-slate-500 uppercase">Biên Lợi Nhuận Gộp</div>
-            <div class="text-2xl font-black text-blue-700 mt-1" id="s4-margin">--</div>
-            <div class="text-xs text-slate-500 mt-1">Gross Margin Rate</div>
+            <div class="text-xs font-semibold text-slate-400 uppercase">Biên Lợi Nhuận Gộp</div>
+            <div class="text-2xl font-black text-[#00f5d4] mt-1" id="s4-margin">--</div>
+            <div class="text-xs text-slate-400 mt-1">Gross Margin Rate</div>
           </div>
           <div class="royal-card p-5 text-center">
-            <div class="text-xs font-semibold text-slate-500 uppercase">Hiệu Năng Đạt Mục Tiêu</div>
-            <div class="text-2xl font-black text-indigo-700 mt-1" id="s4-kpi">--</div>
-            <div class="text-xs text-slate-500 mt-1">So với chỉ tiêu kỳ</div>
+            <div class="text-xs font-semibold text-slate-400 uppercase">Hiệu Năng Đạt Mục Tiêu</div>
+            <div class="text-2xl font-black text-[#38bdf8] mt-1" id="s4-kpi">--</div>
+            <div class="text-xs text-slate-400 mt-1">So với chỉ tiêu kỳ</div>
           </div>
         </div>
 
         <!-- Bảng Dò Quét Bất Thường -->
         <div class="mt-8">
-          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
-            <i class="fa-solid fa-triangle-exclamation mr-2 text-rose-600"></i> Các Điểm Bất Thường & Rủi Ro Phát Hiện (Automated Anomaly Audit):
+          <h3 class="text-sm font-bold text-slate-100 mb-3 flex items-center">
+            <i class="fa-solid fa-triangle-exclamation mr-2 text-pink-400"></i> Các Điểm Bất Thường & Rủi Ro Phát Hiện (Automated Anomaly Audit):
           </h3>
           <div class="space-y-3" id="anomalies-list-box"></div>
         </div>
 
-        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-cyan-500/25">
           <button onclick="switchStep(3)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
             <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
           </button>
@@ -666,34 +857,34 @@
     <!-- GIAI ĐOẠN 5: TRỰC QUAN HÓA & TỔNG HỢP INSIGHTS -->
     <!-- ========================================== -->
     <section id="stage-5" class="hidden space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300">
+      <div class="royal-card p-8 border-2 border-cyan-500/35">
         <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-amber-500/50 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
             <i class="fa-solid fa-chart-pie"></i>
           </div>
           <div>
-            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">TRUNG TÂM BÁO CÁO TOÀN DIỆN & TƯƠNG TÁC AI (ALL-IN-ONE)</span>
-            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+            <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">TRUNG TÂM BÁO CÁO TOÀN DIỆN & TƯƠNG TÁC AI (ALL-IN-ONE)</span>
+            <h2 class="text-2xl font-bold text-slate-100 gold-gradient-text">
               5. Đại Bản Báo Cáo Tài Chính Hợp Nhất, Biểu Đồ Trực Quan & Hỏi Đáp AI
             </h2>
           </div>
         </div>
-        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-          Chuyển đổi toàn bộ kết quả tính toán thành báo cáo trực quan, đồ thị sinh động kèm bản phân tích bằng ngôn ngữ tự nhiên gắn chặt với ngữ cảnh riêng của <strong class="text-blue-700 font-bold" id="stage5-company-text">doanh nghiệp</strong>.
+        <p class="text-xs text-slate-400 mb-6 leading-relaxed">
+          Chuyển đổi toàn bộ kết quả tính toán thành báo cáo trực quan, đồ thị sinh động kèm bản phân tích bằng ngôn ngữ tự nhiên gắn chặt với ngữ cảnh riêng của <strong class="text-[#00f5d4] font-bold" id="stage5-company-text">doanh nghiệp</strong>.
         </p>
 
         <!-- Executive Narrative Report -->
-        <div class="bg-slate-50 border border-slate-200 p-6 rounded-2xl relative">
+        <div class="bg-[#0b1222] border border-cyan-500/25 p-6 rounded-2xl relative">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
             <div class="inline-flex items-center space-x-2 badge-gold px-3 py-1 rounded-full text-xs font-bold">
-              <i class="fa-solid fa-feather-pointed text-blue-700"></i> BÁO CÁO TÓM TẮT ĐIỀU HÀNH (EXECUTIVE NARRATIVE)
+              <i class="fa-solid fa-feather-pointed text-[#00f5d4]"></i> BÁO CÁO TÓM TẮT ĐIỀU HÀNH (EXECUTIVE NARRATIVE)
             </div>
             <button type="button" onclick="generateAIExecutiveNarrative()" id="btn-gen-ai-narrative" class="btn-gold-outline text-[11px] px-3 py-1.5 rounded-lg flex items-center space-x-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles text-blue-600"></i>
+              <i class="fa-solid fa-wand-magic-sparkles text-[#00f5d4]"></i>
               <span>Viết Lại Bằng AI Thật</span>
             </button>
           </div>
-          <div class="text-sm leading-relaxed text-slate-800 space-y-3" id="executive-narrative-text">
+          <div class="text-sm leading-relaxed text-slate-100 space-y-3" id="executive-narrative-text">
             Đang tổng hợp báo cáo...
           </div>
         </div>
@@ -702,30 +893,30 @@
         <!-- ========================================== -->
         <!-- ĐẠI BẢN BÁO CÁO TÀI CHÍNH TOÀN DIỆN (CHUẨN VAS / IFRS) -->
         <!-- ========================================== -->
-        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 mb-6 gap-3">
+        <div class="mt-8 bg-[#0b1222] border border-cyan-500/25 p-6 rounded-2xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-cyan-500/25 mb-6 gap-3">
             <div>
               <div class="inline-flex items-center space-x-2 badge-gold px-3 py-0.5 rounded-full text-xs font-bold mb-1">
-                <i class="fa-solid fa-file-invoice-dollar text-blue-700"></i> BẢNG BÁO CÁO TÀI CHÍNH HỢP NHẤT
+                <i class="fa-solid fa-file-invoice-dollar text-[#00f5d4]"></i> BẢNG BÁO CÁO TÀI CHÍNH HỢP NHẤT
               </div>
-              <h3 class="text-lg font-bold text-slate-900 gold-gradient-text" id="fs-company-header">
+              <h3 class="text-lg font-bold text-slate-100 gold-gradient-text" id="fs-company-header">
                 BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH (P&L) & BẢNG CÂN ĐỐI KẾ TOÁN RÚT GỌN
               </h3>
-              <p class="text-xs text-slate-500 mt-0.5"><span id="fs-period-subtitle">Kỳ phân tích: Tự động nhận diện từ dữ liệu • Đơn vị tính: VNĐ</span></p>
+              <p class="text-xs text-slate-400 mt-0.5"><span id="fs-period-subtitle">Kỳ phân tích: Tự động nhận diện từ dữ liệu • Đơn vị tính: VNĐ</span></p>
             </div>
             
             <!-- Financial Statement Tabs: P&L, Balance Sheet, Cash Flow, Financial Ratios -->
-            <div class="flex items-center space-x-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-              <button onclick="switchFinancialTab('pnl')" id="btn-fs-pnl" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white">
+            <div class="flex items-center space-x-1.5 bg-slate-900 p-1.5 rounded-xl border border-cyan-500/25">
+              <button onclick="switchFinancialTab('pnl')" id="btn-fs-pnl" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#00f5d4] text-slate-950">
                 1. Báo Cáo Kết Quả Kinh Doanh (P&L)
               </button>
-              <button onclick="switchFinancialTab('bs')" id="btn-fs-bs" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+              <button onclick="switchFinancialTab('bs')" id="btn-fs-bs" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-[#00f5d4]">
                 2. Bảng Cân Đối Kế Toán
               </button>
-              <button onclick="switchFinancialTab('cf')" id="btn-fs-cf" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+              <button onclick="switchFinancialTab('cf')" id="btn-fs-cf" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-[#00f5d4]">
                 3. Báo Cáo Lưu Chuyển Tiền Tệ
               </button>
-              <button onclick="switchFinancialTab('ratios')" id="btn-fs-ratios" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700">
+              <button onclick="switchFinancialTab('ratios')" id="btn-fs-ratios" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-[#00f5d4]">
                 4. Chỉ Số Tài Chính Cốt Lõi
               </button>
             </div>
@@ -733,10 +924,10 @@
 
           <!-- PHẦN 1: BÁO CÁO KẾT QUẢ KINH DOANH (INCOME STATEMENT / P&L) -->
           <div id="fs-panel-pnl" class="space-y-4">
-            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+            <div class="overflow-x-auto text-xs border border-cyan-500/25 rounded-xl custom-scroll bg-[#0d1424]">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                  <tr class="bg-slate-900 text-[#00f5d4] font-bold border-b border-cyan-500/25">
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">CHỈ TIÊU TÀI CHÍNH (P&L ITEMS)</th>
@@ -746,7 +937,7 @@
                     <th class="p-3 text-center">TỶ TRỌNG (%)</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200" id="pnl-table-body">
+                <tbody class="divide-y divide-cyan-500/20" id="pnl-table-body">
                   <!-- Render động bằng JS -->
                 </tbody>
               </table>
@@ -755,10 +946,10 @@
 
           <!-- PHẦN 2: BẢNG CÂN ĐỐI KẾ TOÁN RÚT GỌN (BALANCE SHEET) -->
           <div id="fs-panel-bs" class="hidden space-y-4">
-            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+            <div class="overflow-x-auto text-xs border border-cyan-500/25 rounded-xl custom-scroll bg-[#0d1424]">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                  <tr class="bg-slate-900 text-[#00f5d4] font-bold border-b border-cyan-500/25">
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">TÀI SẢN & NGUỒN VỐN (ASSETS & LIABILITIES)</th>
@@ -768,7 +959,7 @@
                     <th class="p-3 text-center">CƠ CẤU VỐN</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200" id="bs-table-body">
+                <tbody class="divide-y divide-cyan-500/20" id="bs-table-body">
                   <!-- Render động bằng JS -->
                 </tbody>
               </table>
@@ -777,10 +968,10 @@
 
           <!-- PHẦN 3: BÁO CÁO LƯU CHUYỂN TIỀN TỆ (CASH FLOW STATEMENT) -->
           <div id="fs-panel-cf" class="hidden space-y-4">
-            <div class="overflow-x-auto text-xs border border-slate-200 rounded-xl custom-scroll bg-white">
+            <div class="overflow-x-auto text-xs border border-cyan-500/25 rounded-xl custom-scroll bg-[#0d1424]">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr class="bg-slate-100 text-blue-700 font-bold border-b border-slate-200">
+                  <tr class="bg-slate-900 text-[#00f5d4] font-bold border-b border-cyan-500/25">
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">LƯU CHUYỂN TIỀN TỆ (CASH FLOW CATEGORIES)</th>
@@ -789,7 +980,7 @@
                     <th class="p-3 text-center">ĐÁNH GIÁ DÒNG TIỀN</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200" id="cf-table-body">
+                <tbody class="divide-y divide-cyan-500/20" id="cf-table-body">
                   <!-- Render động bằng JS -->
                 </tbody>
               </table>
@@ -807,16 +998,16 @@
         <!-- 2 Big Visual Charts -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div class="royal-card p-6">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center">
-              <i class="fa-solid fa-chart-column mr-2 text-blue-600"></i> Doanh Thu Thực Tế vs Mục Tiêu Từng Đơn Vị / Chi Nhánh
+            <h3 class="text-xs font-bold text-slate-100 uppercase tracking-wider mb-3 flex items-center">
+              <i class="fa-solid fa-chart-column mr-2 text-[#00f5d4]"></i> Doanh Thu Thực Tế vs Mục Tiêu Từng Đơn Vị / Chi Nhánh
             </h3>
             <div class="h-72 w-full">
               <canvas id="stage5BarChart"></canvas>
             </div>
           </div>
           <div class="royal-card p-6">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center">
-              <i class="fa-solid fa-chart-line mr-2 text-emerald-600"></i> Tương Quan Tăng Trưởng Doanh Thu vs Lợi Nhuận MoM (%)
+            <h3 class="text-xs font-bold text-slate-100 uppercase tracking-wider mb-3 flex items-center">
+              <i class="fa-solid fa-chart-line mr-2 text-[#00f5d4]"></i> Tương Quan Tăng Trưởng Doanh Thu vs Lợi Nhuận MoM (%)
             </h3>
             <div class="h-72 w-full">
               <canvas id="stage5LineChart"></canvas>
@@ -828,47 +1019,47 @@
         <!-- ========================================== -->
         <!-- KHỐI TƯƠNG TÁC SỬA SỐ LIỆU & HỎI ĐÁP AI TRỰC TIẾP TRONG TRANG BÁO CÁO -->
         <!-- ========================================== -->
-        <div class="mt-8 pt-6 border-t-2 border-slate-200">
+        <div class="mt-8 pt-6 border-t-2 border-cyan-500/25">
           <div class="flex items-center space-x-3 mb-6">
-            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-amber-500/50 text-[#00f5d4] flex items-center justify-center font-bold text-xl">
               <i class="fa-solid fa-comments"></i>
             </div>
             <div>
-              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">TƯƠNG TÁC MỞ RỘNG • HỎI ĐÁP & CHỈNH SỬA DỮ LIỆU</span>
-              <h2 class="text-xl font-bold text-slate-900 gold-gradient-text">
+              <span class="text-[11px] font-bold text-[#00f5d4] uppercase tracking-wider">TƯƠNG TÁC MỞ RỘNG • HỎI ĐÁP & CHỈNH SỬA DỮ LIỆU</span>
+              <h2 class="text-xl font-bold text-slate-100 gold-gradient-text">
                 Bàn Làm Việc Tương Tác: Chỉnh Sửa Số Liệu & Hỏi Đáp Chuyên Sâu Cùng AI
               </h2>
             </div>
           </div>
 
           <!-- KHỐI 1: CHỈNH SỬA SỐ LIỆU TRỰC TIẾP TRONG AGENT -->
-        <div class="royal-card p-6 border border-slate-200 bg-slate-50 mb-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 mb-4 gap-2">
+        <div class="royal-card p-6 border border-cyan-500/25 bg-[#0b1222] mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-cyan-500/25 mb-4 gap-2">
             <div class="flex items-center space-x-2">
-              <i class="fa-solid fa-pen-to-square text-blue-600"></i>
-              <h3 class="text-xs font-bold text-slate-800 uppercase">Chỉnh Sửa Số Liệu Chi Nhánh Trực Tiếp (Live Data Editor):</h3>
+              <i class="fa-solid fa-pen-to-square text-[#00f5d4]"></i>
+              <h3 class="text-xs font-bold text-slate-100 uppercase">Chỉnh Sửa Số Liệu Chi Nhánh Trực Tiếp (Live Data Editor):</h3>
             </div>
-            <span class="text-[11px] text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-slate-200">
+            <span class="text-[11px] text-[#00f5d4] bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/25">
               Sửa số liệu $\rightarrow$ Bấm cập nhật $\rightarrow$ Báo cáo & Biểu đồ nhảy lại tức thì!
             </span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4">
             <div>
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">Chọn Chi Nhánh / Đơn Vị:</label>
-              <select id="edit-store-select" onchange="loadStoreForEditing()" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 outline-none focus:border-blue-500 font-semibold"></select>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">Chọn Chi Nhánh / Đơn Vị:</label>
+              <select id="edit-store-select" onchange="loadStoreForEditing()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-semibold"></select>
             </div>
             <div>
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">Doanh Thu Thuần (Tr.đ):</label>
-              <input type="number" id="edit-store-rev" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">Doanh Thu Thuần (Tr.đ):</label>
+              <input type="number" id="edit-store-rev" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
             </div>
             <div>
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">Mục Tiêu KPI (Tr.đ):</label>
-              <input type="number" id="edit-store-target" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">Mục Tiêu KPI (Tr.đ):</label>
+              <input type="number" id="edit-store-target" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
             </div>
             <div>
-              <label class="text-[11px] font-bold text-slate-700 block mb-1">Tỷ Lệ Đổi Trả (%):</label>
-              <input type="number" step="0.1" id="edit-store-ret" class="w-full bg-slate-100 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 outline-none focus:border-blue-500 font-bold">
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">Tỷ Lệ Đổi Trả (%):</label>
+              <input type="number" step="0.1" id="edit-store-ret" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-2.5 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
             </div>
           </div>
 
@@ -880,21 +1071,21 @@
         </div>
 
         <!-- KHỐI 2: HỎI ĐÁP AI CHUYÊN SÂU (LIVE AI ANALYST CHAT) -->
-        <div class="royal-card p-6 border border-slate-200 bg-slate-50">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="royal-card p-6 border border-cyan-500/25 bg-[#0b1222]">
+          <div class="flex items-center justify-between pb-3 border-b border-cyan-500/25 mb-4">
             <div class="flex items-center space-x-2">
-              <i class="fa-solid fa-robot text-blue-600"></i>
-              <h3 class="text-xs font-bold text-slate-800 uppercase">Hỏi Đáp AI Chuyên Sâu (Live Interaction):</h3>
+              <i class="fa-solid fa-robot text-[#00f5d4]"></i>
+              <h3 class="text-xs font-bold text-slate-100 uppercase">Hỏi Đáp AI Chuyên Sâu (Live Interaction):</h3>
             </div>
-            <span id="chat-llm-mode-badge" class="text-[11px] font-semibold text-emerald-600 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            <span id="chat-llm-mode-badge" class="text-[11px] font-semibold text-[#00f5d4] bg-emerald-950/400/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               ● Sẵn sàng phân tích theo yêu cầu
             </span>
           </div>
 
           <!-- Chat History Stream -->
           <div class="space-y-3 max-h-80 overflow-y-auto custom-scroll pr-2 text-xs mb-4" id="chat-messages-container">
-            <div class="bg-blue-50 border border-slate-200 p-3.5 rounded-xl text-slate-800">
-              <strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> 
+            <div class="bg-cyan-500/10 border border-cyan-500/25 p-3.5 rounded-xl text-slate-100">
+              <strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> 
               Xin chào! Tôi đã hoàn tất phân tích toàn bộ dữ liệu của <strong class="text-white" id="chat-comp-mention">Công ty</strong>. Bạn có thể bấm vào các câu hỏi gợi ý bên dưới hoặc tự nhập câu hỏi cần đào sâu để tôi bóc tách ngay lập tức!
             </div>
           </div>
@@ -917,7 +1108,7 @@
 
           <!-- Question Input Bar -->
           <div class="flex items-center space-x-2">
-            <input type="text" id="inp-chat-query" onkeypress="if(event.key==='Enter') submitCustomQuestion()" placeholder="Nhập câu hỏi phân tích dữ liệu cần đào sâu..." class="flex-1 bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-xs text-slate-900 outline-none focus:border-blue-500">
+            <input type="text" id="inp-chat-query" onkeypress="if(event.key==='Enter') submitCustomQuestion()" placeholder="Nhập câu hỏi phân tích dữ liệu cần đào sâu..." class="flex-1 bg-slate-900 border border-cyan-500/35 rounded-xl px-4 py-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4]">
             <button onclick="submitCustomQuestion()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center">
               <i class="fa-solid fa-paper-plane mr-1.5 text-white"></i> Gửi Câu Hỏi
             </button>
@@ -925,35 +1116,35 @@
         </div>
 
         <!-- KHỐI 3: TRUNG TÂM XUẤT BẢN ĐA ĐỊNH DẠNG -->
-        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
-            <i class="fa-solid fa-file-export mr-2 text-blue-600"></i> Xuất Bản Báo Cáo Hoàn Chỉnh:
+        <div class="mt-8 bg-[#0b1222] border border-cyan-500/25 p-6 rounded-2xl">
+          <h3 class="text-sm font-bold text-slate-100 mb-3 flex items-center">
+            <i class="fa-solid fa-file-export mr-2 text-[#00f5d4]"></i> Xuất Bản Báo Cáo Hoàn Chỉnh:
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white border border-emerald-500/30 p-4 rounded-xl flex items-center justify-between">
+            <div class="bg-[#0d1424] border border-emerald-500/30 p-4 rounded-xl flex items-center justify-between">
               <div>
-                <h4 class="font-bold text-slate-900 text-xs">File Excel Đã Làm Sạch (.xlsx)</h4>
-                <p class="text-[11px] text-slate-500 mt-0.5">Bao gồm 2 sheet: Quản Trị & Audit</p>
+                <h4 class="font-bold text-slate-100 text-xs">File Excel Đã Làm Sạch (.xlsx)</h4>
+                <p class="text-[11px] text-slate-400 mt-0.5">Bao gồm 2 sheet: Quản Trị & Audit</p>
               </div>
               <button onclick="downloadCleanedExcel()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
                 <i class="fa-solid fa-download mr-1"></i> Tải Về
               </button>
             </div>
 
-            <div class="bg-white border border-rose-500/30 p-4 rounded-xl flex items-center justify-between">
+            <div class="bg-[#0d1424] border border-rose-500/30 p-4 rounded-xl flex items-center justify-between">
               <div>
-                <h4 class="font-bold text-slate-900 text-xs">Báo Cáo PDF Điều Hành (.pdf)</h4>
-                <p class="text-[11px] text-slate-500 mt-0.5">Bản in Executive Report kèm biểu đồ</p>
+                <h4 class="font-bold text-slate-100 text-xs">Báo Cáo PDF Điều Hành (.pdf)</h4>
+                <p class="text-[11px] text-slate-400 mt-0.5">Bản in Executive Report kèm biểu đồ</p>
               </div>
               <button onclick="window.print()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
                 <i class="fa-solid fa-print mr-1"></i> In / Xuất PDF
               </button>
             </div>
 
-            <div class="bg-white border border-blue-500/30 p-4 rounded-xl flex items-center justify-between">
+            <div class="bg-[#0d1424] border border-blue-500/30 p-4 rounded-xl flex items-center justify-between">
               <div>
-                <h4 class="font-bold text-slate-900 text-xs">Bộ Dữ Liệu Gốc (.csv)</h4>
-                <p class="text-[11px] text-slate-500 mt-0.5">Dữ liệu chuẩn nạp SQL / Power BI</p>
+                <h4 class="font-bold text-slate-100 text-xs">Bộ Dữ Liệu Gốc (.csv)</h4>
+                <p class="text-[11px] text-slate-400 mt-0.5">Dữ liệu chuẩn nạp SQL / Power BI</p>
               </div>
               <button onclick="downloadRawCSV()" class="btn-gold text-[11px] px-3.5 py-2 rounded-lg">
                 <i class="fa-solid fa-file-csv mr-1"></i> Xuất CSV
@@ -963,7 +1154,7 @@
         </div>
         </div>
 
-        <div class="mt-8 flex justify-between items-center pt-4 border-t border-slate-200">
+        <div class="mt-8 flex justify-between items-center pt-4 border-t border-cyan-500/25">
           <button onclick="switchStep(4)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
             <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại Giai Đoạn 4 (Phân Tích & Bất Thường)
           </button>
@@ -985,21 +1176,15 @@
     <!-- GIAI ĐOẠN 6: TƯƠNG TÁC MỞ RỘNG, SỬA ĐỔI & HỎI AI -->
     
 
-  </main>
+          </main>
+      </div><!-- /.workbench -->
+    </div><!-- /.window -->
 
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-200 bg-slate-900 text-slate-300 py-6 text-center text-xs text-slate-500 mt-auto no-print">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center space-x-2">
-        <i class="fa-solid fa-brain text-blue-600"></i>
-        <span class="text-slate-500 tracking-wider font-bold">OMNIANALYST AI AGENT PLATFORM</span>
-      </div>
-      <p class="italic text-slate-500">Quy Trình 6 Giai Đoạn Chuẩn Hóa Phân Tích Dữ Liệu Doanh Nghiệp</p>
-      <div class="text-[11px] text-blue-600/80">
-        Status: <span class="text-emerald-600 font-bold">Operational 100%</span>
-      </div>
-    </div>
-  </footer>
+    <footer class="desktop-footer no-print">
+      <span><i class="fa-solid fa-shield-halved text-[#00f5d4] mr-1.5"></i> Dữ liệu phân tích đa doanh nghiệp được xử lý bảo mật trong phiên này</span>
+      <span class="font-semibold text-[#00f5d4]"><i class="fa-solid fa-globe text-[#00f5d4] mr-1"></i> OmniAnalyst Studio</span>
+    </footer>
+  </div><!-- /.desktop -->
 
   <!-- ========================================== -->
   <!-- JAVASCRIPT LOGIC CHO 6 GIAI ĐOẠN -->
@@ -1027,8 +1212,8 @@
         toast.className = 'fixed top-16 right-5 z-50 px-5 py-3 rounded-xl text-xs font-bold shadow-2xl border transition-opacity duration-200 flex items-center space-x-2 no-print';
         document.body.appendChild(toast);
       }
-      toast.className = `fixed top-16 right-5 z-50 px-5 py-3 rounded-xl text-xs font-bold shadow-2xl border transition-opacity duration-200 flex items-center space-x-2 no-print ${isError ? 'bg-rose-950/95 border-rose-500/60 text-rose-800' : 'bg-slate-900/95 border-emerald-500/60 text-emerald-300'}`;
-      toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-circle-exclamation text-rose-600' : 'fa-bolt text-blue-600'}"></i><span>${msg}</span>`;
+      toast.className = `fixed top-16 right-5 z-50 px-5 py-3 rounded-xl text-xs font-bold shadow-2xl border transition-opacity duration-200 flex items-center space-x-2 no-print ${isError ? 'bg-rose-950/95 border-rose-500/60 text-rose-300' : 'bg-slate-900/95 border-emerald-500/60 text-emerald-300'}`;
+      toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-circle-exclamation text-pink-400' : 'fa-bolt text-[#00f5d4]'}"></i><span>${msg}</span>`;
       toast.style.opacity = '1';
       clearTimeout(window._omniToastTimer);
       window._omniToastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3500);
@@ -1196,19 +1381,19 @@
       const cfg = industryConfig[CURRENT_INDUSTRY] || industryConfig.RETAIL;
 
       kpiContainer.innerHTML = cfg.kpis.map(k => `
-        <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl relative hover:border-blue-500 transition">
+        <div class="bg-[#0b1222] border border-cyan-500/25 p-5 rounded-2xl relative hover:border-blue-500 transition">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-bold text-blue-600 uppercase bg-blue-50 px-2 py-0.5 rounded border border-slate-200">${k.code}</span>
-            <span class="text-xs text-emerald-600 font-bold">${k.target}</span>
+            <span class="text-[11px] font-bold text-[#00f5d4] uppercase bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/25">${k.code}</span>
+            <span class="text-xs text-[#00f5d4] font-bold">${k.target}</span>
           </div>
-          <h4 class="font-bold text-slate-900 text-sm mb-1.5">${k.name}</h4>
-          <p class="text-xs text-slate-500 leading-relaxed">${k.desc}</p>
+          <h4 class="font-bold text-slate-100 text-sm mb-1.5">${k.name}</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">${k.desc}</p>
         </div>
       `).join('');
 
       stepsBox.innerHTML = cfg.steps.map((st, i) => `
-        <div class="bg-slate-100 p-3.5 rounded-xl border border-slate-200 text-slate-800">
-          <strong class="text-blue-600 block mb-1">Bước ${i+1}:</strong> ${st}
+        <div class="bg-slate-900 p-3.5 rounded-xl border border-cyan-500/25 text-slate-100">
+          <strong class="text-[#00f5d4] block mb-1">Bước ${i+1}:</strong> ${st}
         </div>
       `).join('');
     }
@@ -1233,10 +1418,10 @@
       document.getElementById('audit-clean-total').innerText = fmtNum(audit.total_clean_rows);
 
       document.getElementById('agent-clean-summary-text').innerHTML = `
-        <div class="text-emerald-600 font-bold"><i class="fa-solid fa-check-circle mr-1"></i> Agent đã làm sạch thành công ${audit.total_clean_rows.toLocaleString()} dòng dữ liệu hợp lệ cho ${COMPANY_NAME}:</div>
-        <div>• Phát hiện và khử trùng hoàn toàn <strong class="text-rose-600 font-bold">${audit.total_duplicates_removed.toLocaleString()} giao dịch trùng lặp</strong> phát sinh do quét lặp.</div>
-        <div>• Bóc tách <strong class="text-blue-600 font-bold">${audit.total_canceled_removed.toLocaleString()} đơn hàng bị hủy</strong> (loại bỏ <strong class="text-blue-700 font-bold">${fmtBil(audit.total_canceled_value)} Tỷ VNĐ</strong> doanh số ảo).</div>
-        <div>• Chuẩn hóa toàn bộ <strong class="text-blue-600 font-bold">${audit.total_returns_standardized.toLocaleString()} đơn đổi trả</strong> về số âm để khấu trừ chuẩn vào doanh thu thuần & giá vốn.</div>
+        <div class="text-[#00f5d4] font-bold"><i class="fa-solid fa-check-circle mr-1"></i> Agent đã làm sạch thành công ${audit.total_clean_rows.toLocaleString()} dòng dữ liệu hợp lệ cho ${COMPANY_NAME}:</div>
+        <div>• Phát hiện và khử trùng hoàn toàn <strong class="text-pink-400 font-bold">${audit.total_duplicates_removed.toLocaleString()} giao dịch trùng lặp</strong> phát sinh do quét lặp.</div>
+        <div>• Bóc tách <strong class="text-[#00f5d4] font-bold">${audit.total_canceled_removed.toLocaleString()} đơn hàng bị hủy</strong> (loại bỏ <strong class="text-[#00f5d4] font-bold">${fmtBil(audit.total_canceled_value)} Tỷ VNĐ</strong> doanh số ảo).</div>
+        <div>• Chuẩn hóa toàn bộ <strong class="text-[#00f5d4] font-bold">${audit.total_returns_standardized.toLocaleString()} đơn đổi trả</strong> về số âm để khấu trừ chuẩn vào doanh thu thuần & giá vốn.</div>
         <div>• Khớp nối 100% mã sản phẩm với danh mục Giá Vốn (COGS). Bộ dữ liệu đạt chuẩn kiểm toán!</div>
       `;
 
@@ -1245,17 +1430,17 @@
       CURRENT_DATA.clean_sample.slice(0, 15).forEach(r => {
         const isRet = r.clean_quantity < 0;
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50";
+        tr.className = "hover:bg-[#0b1222]";
         tr.innerHTML = `
-          <td class="p-3 text-slate-500 font-semibold">${r.trans_id}</td>
-          <td class="p-3 font-semibold text-slate-800">${r.store_name}</td>
-          <td class="p-3 text-slate-700">${r.product_name}</td>
-          <td class="p-3 text-right font-black ${isRet ? 'text-rose-600' : 'text-slate-900'}">${r.clean_quantity}</td>
-          <td class="p-3 text-right font-bold ${isRet ? 'text-rose-600' : 'text-blue-700'}">${fmtNum(r.net_amount)} đ</td>
-          <td class="p-3 text-right text-slate-500">${fmtNum(r.cost_price)} đ</td>
-          <td class="p-3 text-right font-bold text-emerald-600">${fmtNum(r.gross_profit)} đ</td>
+          <td class="p-3 text-slate-400 font-semibold">${r.trans_id}</td>
+          <td class="p-3 font-semibold text-slate-100">${r.store_name}</td>
+          <td class="p-3 text-slate-300">${r.product_name}</td>
+          <td class="p-3 text-right font-black ${isRet ? 'text-pink-400' : 'text-slate-100'}">${r.clean_quantity}</td>
+          <td class="p-3 text-right font-bold ${isRet ? 'text-pink-400' : 'text-[#00f5d4]'}">${fmtNum(r.net_amount)} đ</td>
+          <td class="p-3 text-right text-slate-400">${fmtNum(r.cost_price)} đ</td>
+          <td class="p-3 text-right font-bold text-[#00f5d4]">${fmtNum(r.gross_profit)} đ</td>
           <td class="p-3 text-center">
-            <span class="${isRet ? 'bg-blue-100 text-blue-700' : 'bg-emerald-500/20 text-emerald-700'} px-2 py-0.5 rounded text-xs font-bold">${r.status}</span>
+            <span class="${isRet ? 'bg-cyan-500/20 text-[#00f5d4]' : 'bg-emerald-950/400/20 text-emerald-400'} px-2 py-0.5 rounded text-xs font-bold">${r.status}</span>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1269,7 +1454,7 @@
         };
         schemaEl.innerHTML = Object.entries(sm).map(([k, v]) => {
           const labels = { id: 'Mã Đơnn/ID', period: 'Kỳ/Ngày', unit: 'Đơn vị/Nhóm', product: 'Sản phẩm/Hạng mục', qty: 'Số lượng', amount: 'Doanh thu', status: 'Trạng thái' };
-          return `<span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-slate-700 font-semibold">${labels[k] || k}: <strong class="text-blue-700">[${v}]</strong></span>`;
+          return `<span class="px-2.5 py-1 rounded-lg bg-[#0d1424] border border-cyan-400/40 text-slate-300 font-semibold">${labels[k] || k}: <strong class="text-[#00f5d4]">[${v}]</strong></span>`;
         }).join('');
       }
       isDataCleaned = true;
@@ -1315,20 +1500,20 @@
         const isP2 = r.priority_level.includes('Ưu tiên 2');
 
         const card = document.createElement('div');
-        card.className = `p-4 rounded-xl border ${isP1 ? 'bg-rose-50 border-rose-500/40 text-rose-800' : (isP2 ? 'bg-amber-50 border-slate-300 text-slate-800' : 'bg-slate-50 border-slate-300 text-slate-700')} flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs`;
+        card.className = `p-4 rounded-xl border ${isP1 ? 'bg-rose-950/40 border-rose-500/40 text-rose-300' : (isP2 ? 'bg-amber-950/40 border-cyan-500/35 text-slate-100' : 'bg-[#0b1222] border-cyan-500/35 text-slate-300')} flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs`;
         card.innerHTML = `
           <div>
-            <div class="font-bold text-sm text-slate-900 flex items-center">
-              <span class="w-6 h-6 rounded-lg ${isP1 ? 'bg-rose-500 text-white' : 'bg-blue-600 text-white'} flex items-center justify-center font-black text-xs mr-2">#${idx+1}</span>
+            <div class="font-bold text-sm text-slate-100 flex items-center">
+              <span class="w-6 h-6 rounded-lg ${isP1 ? 'bg-rose-950/400 text-white' : 'bg-[#00f5d4] text-slate-950'} flex items-center justify-center font-black text-xs mr-2">#${idx+1}</span>
               [${r.store_id}] ${r.store_name} — ${r.priority_level} (Điểm Khẩn Cấp: ${r.priority_score}/100)
             </div>
-            <div class="mt-1 text-slate-700">
+            <div class="mt-1 text-slate-300">
               ${r.anomalies.length > 0 ? r.anomalies.join(' | ') : 'Vận hành ổn định, không có bất thường.'}
             </div>
           </div>
           <div class="text-right whitespace-nowrap">
-            <span class="block text-slate-500">Doanh thu: <strong class="text-blue-700">${fmtMil(r.net_revenue)} Tr</strong></span>
-            <span class="block text-slate-500">Tỷ lệ trả: <strong class="${r.return_rate_revenue >= 8 ? 'text-rose-600' : 'text-slate-700'}">${r.return_rate_revenue}%</strong></span>
+            <span class="block text-slate-400">Doanh thu: <strong class="text-[#00f5d4]">${fmtMil(r.net_revenue)} Tr</strong></span>
+            <span class="block text-slate-400">Tỷ lệ trả: <strong class="${r.return_rate_revenue >= 8 ? 'text-pink-400' : 'text-slate-300'}">${r.return_rate_revenue}%</strong></span>
           </div>
         `;
         container.appendChild(card);
@@ -1361,9 +1546,9 @@
         }
         if (btn) {
           if (k === tabKey) {
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md';
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[#00f5d4] text-slate-950 shadow-md';
           } else {
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-blue-700';
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-[#00f5d4]';
           }
         }
       });
@@ -1374,7 +1559,7 @@
 
       const companyHeader = document.getElementById('fs-company-header');
       if (companyHeader) {
-        companyHeader.innerHTML = `BÁO CÁO TÀI CHÍNH HỢP NHẤT DOANH NGHIỆP: <span class="text-blue-700">${COMPANY_NAME.toUpperCase()}</span>`;
+        companyHeader.innerHTML = `BÁO CÁO TÀI CHÍNH HỢP NHẤT DOANH NGHIỆP: <span class="text-[#00f5d4]">${COMPANY_NAME.toUpperCase()}</span>`;
       }
       const pCur = CURRENT_DATA.period_label_cur || 'Kỳ Hiện Tại';
       const pPrev = CURRENT_DATA.period_label_prev || 'Kỳ Trước';
@@ -1453,22 +1638,22 @@
       if (pnlBody) {
         pnlBody.innerHTML = pnlRows.map(row => {
           const mom = row.prev > 0 ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : '0.0';
-          const momClass = Number(mom) >= 0 ? 'text-emerald-600' : 'text-rose-600';
-          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
-                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
-                         'hover:bg-slate-50 text-slate-700';
+          const momClass = Number(mom) >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
+          const bgClass = row.highlight ? 'bg-cyan-500/10 text-slate-100 font-extrabold border-y border-cyan-500/25' :
+                         row.isHeader ? 'bg-slate-900 font-bold text-[#00f5d4]' :
+                         'hover:bg-[#0b1222] text-slate-300';
           return `
             <tr class="${bgClass}">
-              <td class="p-3 text-center text-slate-500">${row.stt}</td>
-              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 text-center text-slate-400">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-[#00f5d4]">${row.code}</td>
               <td class="p-3 ${row.isBold ? 'font-bold' : ''}">
-                ${row.isDeduct ? '<span class="text-rose-600 mr-1.5">(-)</span>' : ''}
+                ${row.isDeduct ? '<span class="text-pink-400 mr-1.5">(-)</span>' : ''}
                 ${row.name}
               </td>
-              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-blue-700 text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-right font-mono text-slate-500">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-[#00f5d4] text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono text-slate-400">${row.prev.toLocaleString('vi-VN')} đ</td>
               <td class="p-3 text-center font-mono font-bold ${momClass}">${Number(mom) >= 0 ? '+' : ''}${mom}%</td>
-              <td class="p-3 text-center font-mono text-slate-500">${row.pct}</td>
+              <td class="p-3 text-center font-mono text-slate-400">${row.pct}</td>
             </tr>
           `;
         }).join('');
@@ -1544,19 +1729,19 @@
       if (bsBody) {
         bsBody.innerHTML = bsRows.map(row => {
           const change = row.prev > 0 ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : '0.0';
-          const changeClass = Number(change) >= 0 ? 'text-emerald-600' : 'text-rose-600';
-          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
-                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
-                         'hover:bg-slate-50 text-slate-700';
+          const changeClass = Number(change) >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
+          const bgClass = row.highlight ? 'bg-cyan-500/10 text-slate-100 font-extrabold border-y border-cyan-500/25' :
+                         row.isHeader ? 'bg-slate-900 font-bold text-[#00f5d4]' :
+                         'hover:bg-[#0b1222] text-slate-300';
           return `
             <tr class="${bgClass}">
-              <td class="p-3 text-center text-slate-500">${row.stt}</td>
-              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 text-center text-slate-400">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-[#00f5d4]">${row.code}</td>
               <td class="p-3 ${row.isBold ? 'font-bold' : ''}">${row.name}</td>
-              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-blue-700 text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-right font-mono text-slate-500">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-[#00f5d4] text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono text-slate-400">${row.prev.toLocaleString('vi-VN')} đ</td>
               <td class="p-3 text-center font-mono font-bold ${changeClass}">${Number(change) >= 0 ? '+' : ''}${change}%</td>
-              <td class="p-3 text-center font-mono text-slate-500">${row.pct}</td>
+              <td class="p-3 text-center font-mono text-slate-400">${row.pct}</td>
             </tr>
           `;
         }).join('');
@@ -1588,19 +1773,19 @@
       const cfBody = document.getElementById('cf-table-body');
       if (cfBody) {
         cfBody.innerHTML = cfRows.map(row => {
-          const bgClass = row.highlight ? 'bg-blue-50 text-slate-800 font-extrabold border-y border-slate-200' :
-                         row.isHeader ? 'bg-slate-100 font-bold text-blue-700' :
-                         'hover:bg-slate-50 text-slate-700';
-          const curClass = row.cur >= 0 ? 'text-emerald-600' : 'text-rose-600';
-          const prevClass = row.prev >= 0 ? 'text-emerald-600' : 'text-rose-600';
+          const bgClass = row.highlight ? 'bg-cyan-500/10 text-slate-100 font-extrabold border-y border-cyan-500/25' :
+                         row.isHeader ? 'bg-slate-900 font-bold text-[#00f5d4]' :
+                         'hover:bg-[#0b1222] text-slate-300';
+          const curClass = row.cur >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
+          const prevClass = row.prev >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
           return `
             <tr class="${bgClass}">
-              <td class="p-3 text-center text-slate-500">${row.stt}</td>
-              <td class="p-3 text-center font-mono font-bold text-blue-600">${row.code}</td>
+              <td class="p-3 text-center text-slate-400">${row.stt}</td>
+              <td class="p-3 text-center font-mono font-bold text-[#00f5d4]">${row.code}</td>
               <td class="p-3 font-semibold">${row.name}</td>
               <td class="p-3 text-right font-mono font-bold ${curClass} ${row.highlight ? 'text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
               <td class="p-3 text-right font-mono ${prevClass}">${row.prev.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-center text-slate-500 text-xs">${row.desc}</td>
+              <td class="p-3 text-center text-slate-400 text-xs">${row.desc}</td>
             </tr>
           `;
         }).join('');
@@ -1630,16 +1815,16 @@
       const ratiosContainer = document.getElementById('ratios-cards-container');
       if (ratiosContainer) {
         ratiosContainer.innerHTML = ratiosData.map(r => `
-          <div class="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between hover:border-blue-400 transition shadow-lg">
+          <div class="bg-[#0d1424] border border-cyan-500/25 p-4 rounded-xl flex flex-col justify-between hover:border-cyan-400 transition shadow-lg">
             <div>
-              <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span>${r.title}</span>
-                <i class="fa-solid ${r.icon} text-blue-600"></i>
+                <i class="fa-solid ${r.icon} text-[#00f5d4]"></i>
               </div>
-              <div class="text-2xl font-black font-mono text-blue-700 mb-1">${r.val}</div>
+              <div class="text-2xl font-black font-mono text-[#00f5d4] mb-1">${r.val}</div>
             </div>
-            <div class="pt-2 border-t border-slate-200 text-[11px] flex items-center justify-between">
-              <span class="text-slate-500">${r.benchmark}</span>
+            <div class="pt-2 border-t border-cyan-500/25 text-[11px] flex items-center justify-between">
+              <span class="text-slate-400">${r.benchmark}</span>
               <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-${r.color}-500/20 text-${r.color}-400">${r.status}</span>
             </div>
           </div>
@@ -1666,10 +1851,10 @@
 
       document.getElementById('executive-narrative-text').innerHTML = `
         <p>
-          Dựa trên kết quả phân tích dữ liệu chuyên sâu của <strong>${COMPANY_NAME}</strong>, tổng doanh thu thuần toàn chuỗi trong kỳ ghi nhận đạt <strong class="text-blue-700">${fmtBil(totalRev)} Tỷ VNĐ</strong>, tăng trưởng <strong class="text-emerald-600">${overallMoM > 0 ? '+' : ''}${overallMoM.toFixed(1)}% so với kỳ trước (MoM)</strong> và hoàn thành <strong class="text-indigo-700">${overallKPI.toFixed(1)}% mục tiêu KPI</strong> đã đề ra. Tổng lợi nhuận gộp toàn hệ thống đạt <strong class="text-emerald-600">${fmtBil(totalProfit)} Tỷ VNĐ</strong> với biên lợi nhuận trung bình đạt mức <strong class="text-blue-700">${overallMargin.toFixed(1)}%</strong>.
+          Dựa trên kết quả phân tích dữ liệu chuyên sâu của <strong>${COMPANY_NAME}</strong>, tổng doanh thu thuần toàn chuỗi trong kỳ ghi nhận đạt <strong class="text-[#00f5d4]">${fmtBil(totalRev)} Tỷ VNĐ</strong>, tăng trưởng <strong class="text-[#00f5d4]">${overallMoM > 0 ? '+' : ''}${overallMoM.toFixed(1)}% so với kỳ trước (MoM)</strong> và hoàn thành <strong class="text-[#38bdf8]">${overallKPI.toFixed(1)}% mục tiêu KPI</strong> đã đề ra. Tổng lợi nhuận gộp toàn hệ thống đạt <strong class="text-[#00f5d4]">${fmtBil(totalProfit)} Tỷ VNĐ</strong> với biên lợi nhuận trung bình đạt mức <strong class="text-[#00f5d4]">${overallMargin.toFixed(1)}%</strong>.
         </p>
         <p>
-          Tuy nhiên, qua thuật toán đối soát <strong>AI Cross-check Audit</strong>, hệ thống phát hiện <strong class="text-rose-600 font-bold">${p1Stores.length} đơn vị có dấu hiệu suy thoái nghiêm trọng</strong> (${p1Stores.join(', ')}). Các đơn vị này đang rơi vào tình trạng <em>nghịch lý xói mòn biên lợi nhuận</em> và <em>tỷ lệ đổi trả hàng hoàn vượt ngưỡng báo động 8%</em>.
+          Tuy nhiên, qua thuật toán đối soát <strong>AI Cross-check Audit</strong>, hệ thống phát hiện <strong class="text-pink-400 font-bold">${p1Stores.length} đơn vị có dấu hiệu suy thoái nghiêm trọng</strong> (${p1Stores.join(', ')}). Các đơn vị này đang rơi vào tình trạng <em>nghịch lý xói mòn biên lợi nhuận</em> và <em>tỷ lệ đổi trả hàng hoàn vượt ngưỡng báo động 8%</em>.
         </p>
         <p>
           <strong>Khuyến nghị từ AI Agent:</strong> Ban Giám Đốc cần ngay lập tức triển khai thanh tra quy trình giao vận tại các chi nhánh Ưu tiên 1, đồng thời rà soát lại cơ cấu rổ hàng chiết khấu quá sâu để chặn đứng việc bào mòn dòng tiền của doanh nghiệp.
@@ -1690,18 +1875,18 @@
         data: {
           labels: rep.map(r => r.store_id),
           datasets: [
-            { label: 'Doanh Thu Thực Tế (Tr.đ)', data: rep.map(r => r.net_revenue / 1e6), backgroundColor: '#2563EB', borderRadius: 4 },
-            { label: 'Chỉ Tiêu KPI (Tr.đ)', data: rep.map(r => r.target_revenue / 1e6), backgroundColor: 'rgba(148, 163, 184, 0.45)', borderRadius: 4 }
+            { label: 'Doanh Thu Thực Tế (Tr.đ)', data: rep.map(r => r.net_revenue / 1e6), backgroundColor: '#00f5d4', borderRadius: 4 },
+            { label: 'Chỉ Tiêu KPI (Tr.đ)', data: rep.map(r => r.target_revenue / 1e6), backgroundColor: 'rgba(232, 121, 249, 0.35)', borderRadius: 4 }
           ]
         },
         options: {
           animation: false,
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: '#1E293B', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
+          plugins: { legend: { labels: { color: '#e2f8f5', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
           scales: {
-            x: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } },
-            y: { beginAtZero: true, ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } }
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(0, 245, 212, 0.12)' } },
+            y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(0, 245, 212, 0.12)' } }
           }
         }
       });
@@ -1714,18 +1899,18 @@
         data: {
           labels: rep.map(r => r.store_id),
           datasets: [
-            { label: 'Tăng trưởng Doanh Thu MoM (%)', data: rep.map(r => r.revenue_growth_mom), borderColor: '#2563EB', backgroundColor: '#2563EB', tension: 0.25, borderWidth: 2 },
-            { label: 'Tăng trưởng Lợi Nhuận MoM (%)', data: rep.map(r => r.profit_growth_mom), borderColor: '#10B981', backgroundColor: '#10B981', tension: 0.25, borderWidth: 2 }
+            { label: 'Tăng trưởng Doanh Thu MoM (%)', data: rep.map(r => r.revenue_growth_mom), borderColor: '#00f5d4', backgroundColor: '#00f5d4', tension: 0.25, borderWidth: 2 },
+            { label: 'Tăng trưởng Lợi Nhuận MoM (%)', data: rep.map(r => r.profit_growth_mom), borderColor: '#e879f9', backgroundColor: '#e879f9', tension: 0.25, borderWidth: 2 }
           ]
         },
         options: {
           animation: false,
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: '#1E293B', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
+          plugins: { legend: { labels: { color: '#e2f8f5', font: { family: 'Plus Jakarta Sans', weight: 'bold' } } } },
           scales: {
-            x: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } },
-            y: { ticks: { color: '#475569' }, grid: { color: 'rgba(15, 23, 42, 0.08)' } }
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(0, 245, 212, 0.12)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(0, 245, 212, 0.12)' } }
           }
         }
       });
@@ -1850,13 +2035,13 @@
           ? `🟢 Đã gắn ${LLM_CONFIG.provider === 'openai' ? 'OpenAI API' : 'Gemini API'}`
           : '⚪ Chế độ Offline (Chưa gắn API Key)';
       const cls = (hasKey || isServer)
-        ? 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300'
-        : 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700';
+        ? 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-400 border border-emerald-300'
+        : 'text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300';
       if (badge) { badge.className = cls; badge.innerText = label; }
       if (chatBadge) {
         chatBadge.className = (hasKey || isServer)
-          ? 'text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300'
-          : 'text-[11px] font-semibold text-slate-600 bg-slate-200 px-2.5 py-0.5 rounded-full border border-slate-300';
+          ? 'text-[11px] font-semibold text-emerald-400 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300'
+          : 'text-[11px] font-semibold text-slate-300 bg-slate-800 px-2.5 py-0.5 rounded-full border border-cyan-500/35';
         chatBadge.innerText = (hasKey || isServer)
           ? `● Kết nối AI Thật (${LLM_CONFIG.provider.toUpperCase()})`
           : '● Chế độ Offline AI (Gắn API Key ở Bước 1 để dùng AI thật)';
@@ -2001,8 +2186,8 @@
         if (!resBox) return;
         resBox.classList.remove('hidden');
         resBox.className = ok
-          ? 'mt-2.5 text-xs p-3 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-800'
-          : 'mt-2.5 text-xs p-3 rounded-xl border bg-rose-50 border-rose-300 text-rose-800';
+          ? 'mt-2.5 text-xs p-3 rounded-xl border bg-emerald-950/40 border-emerald-300 text-emerald-800'
+          : 'mt-2.5 text-xs p-3 rounded-xl border bg-rose-950/40 border-rose-300 text-rose-300';
         resBox.innerHTML = htmlMsg;
       };
 
@@ -2020,7 +2205,7 @@
         const msg = String(err.message || err);
         let hint = '';
         if (msg.toLowerCase().includes('api key not valid') || msg.toLowerCase().includes('invalid') || msg.includes('400') || msg.includes('403')) {
-          hint = '<br><span class="text-[11px] text-rose-700">• <strong>Mẹo sửa lỗi khóa Google AI Studio (AQ. / AIza):</strong> Vào <em>Google Cloud Console → APIs & Services → Credentials</em>, mở khóa API của bạn, ở mục <strong>API restrictions</strong> hãy chọn <strong>Don\'t restrict key</strong> (Không hạn chế) hoặc chọn đúng <strong>Generative Language API</strong> (không chọn nhầm "Gemini API").</span>';
+          hint = '<br><span class="text-[11px] text-rose-400">• <strong>Mẹo sửa lỗi khóa Google AI Studio (AQ. / AIza):</strong> Vào <em>Google Cloud Console → APIs & Services → Credentials</em>, mở khóa API của bạn, ở mục <strong>API restrictions</strong> hãy chọn <strong>Don\'t restrict key</strong> (Không hạn chế) hoặc chọn đúng <strong>Generative Language API</strong> (không chọn nhầm "Gemini API").</span>';
         }
         showResult(false, `<strong>🔴 Kết nối thất bại:</strong> ${formatAIMarkdown(msg)}${hint}`);
         showToast(`Lỗi kết nối API: ${msg}`, true);
@@ -2042,7 +2227,7 @@
         const reply = await callRealLLM(prompt);
         if (reply) {
           const formatted = reply
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-700">$1</strong>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#00f5d4]">$1</strong>')
             .split(/\n+/)
             .filter(p => p.trim())
             .map(p => `<p>${p}</p>`)
@@ -2142,12 +2327,12 @@
     function formatAIMarkdown(text) {
       return String(text || '')
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-800">$1</strong>');
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#38bdf8]">$1</strong>');
     }
 
     function updateChatAnswerElement(aDiv, answerText) {
       if (!aDiv) return;
-      aDiv.innerHTML = `<strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answerText)}`;
+      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answerText)}`;
       const container = document.getElementById('chat-messages-container');
       if (container) container.scrollTop = container.scrollHeight;
     }
@@ -2155,13 +2340,13 @@
     function appendChatMessage(question, answer) {
       const container = document.getElementById('chat-messages-container');
       const qDiv = document.createElement('div');
-      qDiv.className = "bg-slate-100 border border-slate-300 p-3 rounded-xl text-slate-800 text-right";
-      qDiv.innerHTML = `<span class="text-slate-500 font-bold block mb-0.5">Bạn:</span> ${formatAIMarkdown(question)}`;
+      qDiv.className = "bg-slate-900 border border-cyan-500/35 p-3 rounded-xl text-slate-100 text-right";
+      qDiv.innerHTML = `<span class="text-slate-400 font-bold block mb-0.5">Bạn:</span> ${formatAIMarkdown(question)}`;
       container.appendChild(qDiv);
 
       const aDiv = document.createElement('div');
-      aDiv.className = "bg-blue-50 border border-slate-200 p-3.5 rounded-xl text-slate-800 whitespace-pre-line";
-      aDiv.innerHTML = `<strong class="text-blue-600 block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answer)}`;
+      aDiv.className = "bg-cyan-500/10 border border-cyan-500/25 p-3.5 rounded-xl text-slate-100 whitespace-pre-line";
+      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answer)}`;
       container.appendChild(aDiv);
 
       container.scrollTop = container.scrollHeight;
@@ -2296,9 +2481,9 @@
       const tStart = performance.now();
       const estSec = estimateFileEtaSec(file);
       const mbStr = (file.size / (1024 * 1024)).toFixed(2);
-      document.getElementById('log-file-name').innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1 text-blue-700"></i> Đang đọc tệp: <strong>${file.name}</strong> (${mbStr} MB)...`;
+      document.getElementById('log-file-name').innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1 text-[#00f5d4]"></i> Đang đọc tệp: <strong>${file.name}</strong> (${mbStr} MB)...`;
       const etaEstEl = document.getElementById('log-eta-estimate');
-      if (etaEstEl) etaEstEl.innerHTML = `<span class="text-blue-700">Ước tính mất khoảng <strong>~${estSec.toFixed(1)} giây</strong> (${mbStr} MB)</span>`;
+      if (etaEstEl) etaEstEl.innerHTML = `<span class="text-[#00f5d4]">Ước tính mất khoảng <strong>~${estSec.toFixed(1)} giây</strong> (${mbStr} MB)</span>`;
       const pillEl = document.getElementById('btn-eta-pill');
       if (pillEl) pillEl.innerText = `ETA ~${estSec.toFixed(1)}s`;
 
@@ -2732,8 +2917,8 @@
       const btn = document.getElementById('btn-assistant-voice');
       if (btn) {
         btn.className = assistantVoiceOn
-          ? 'w-6 h-6 rounded-lg bg-emerald-500/25 border border-emerald-400/60 text-emerald-700 flex items-center justify-center text-[11px]'
-          : 'w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-[11px]';
+          ? 'w-6 h-6 rounded-lg bg-emerald-950/400/25 border border-emerald-400/60 text-emerald-400 flex items-center justify-center text-[11px]'
+          : 'w-6 h-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-[#00f5d4] flex items-center justify-center text-[11px]';
         btn.innerHTML = `<i class="fa-solid ${assistantVoiceOn ? 'fa-volume-high' : 'fa-volume-xmark'}"></i>`;
       }
       if (assistantVoiceOn) {
@@ -2756,11 +2941,11 @@
       const btnM = document.getElementById('btn-gender-male');
       const btnF = document.getElementById('btn-gender-female');
       if (assistantGender === 'male') {
-        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow';
-        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700';
+        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#00f5d4] text-slate-950 shadow';
+        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-400 hover:text-[#00f5d4]';
       } else {
-        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow';
-        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700';
+        btnF.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#00f5d4] text-slate-950 shadow';
+        btnM.className = 'px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-400 hover:text-[#00f5d4]';
       }
       triggerAssistantSpeakEffect(prof.greeting);
     }
@@ -2826,19 +3011,19 @@
   <!-- FLOATING IMPERIAL HUMANOID VIRTUAL ASSISTANT -->
   <div class="fixed bottom-4 right-4 z-50 no-print select-none">
     <!-- Expanded Royal Concierge Card -->
-    <div id="assistant-expanded-card" class="w-84 max-w-[340px] royal-card p-3.5 shadow-[0_18px_55px_rgba(0,0,0,0.92)] border border-slate-300">
-      <div class="flex items-center justify-between pb-2.5 border-b border-slate-200">
+    <div id="assistant-expanded-card" class="w-84 max-w-[340px] royal-card p-3.5 shadow-[0_18px_55px_rgba(0,0,0,0.92)] border border-cyan-500/35">
+      <div class="flex items-center justify-between pb-2.5 border-b border-cyan-500/25">
         <div class="flex items-center space-x-3">
           <div class="relative shrink-0">
             <div id="assistant-avatar-box" class="w-16 h-16 rounded-full p-[2px] royal-crest overflow-hidden shadow-[0_0_22px_rgba(212,175,55,0.5)]"></div>
             <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#07080C] animate-pulse"></span>
           </div>
           <div>
-            <div id="assistant-name-label" class="text-xs font-extrabold text-blue-700 leading-tight">Ms. Victoria • Giám Đốc Chiến Lược</div>
+            <div id="assistant-name-label" class="text-xs font-extrabold text-[#00f5d4] leading-tight">Ms. Victoria • Giám Đốc Chiến Lược</div>
             <div class="flex items-center space-x-2 mt-1.5">
-              <div class="flex items-center space-x-1 bg-slate-50 p-0.5 rounded-lg border border-slate-200 w-fit">
-                <button id="btn-gender-female" onclick="setAssistantGender('female')" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow">Nữ</button>
-                <button id="btn-gender-male" onclick="setAssistantGender('male')" class="px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 hover:text-blue-700">Nam</button>
+              <div class="flex items-center space-x-1 bg-[#0b1222] p-0.5 rounded-lg border border-cyan-500/25 w-fit">
+                <button id="btn-gender-female" onclick="setAssistantGender('female')" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#00f5d4] text-slate-950 shadow">Nữ</button>
+                <button id="btn-gender-male" onclick="setAssistantGender('male')" class="px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-slate-400 hover:text-[#00f5d4]">Nam</button>
               </div>
               <div id="assistant-eq-wave" class="hidden flex items-center space-x-0.5 h-4">
                 <span class="eq-bar" style="animation-delay: 0s"></span>
@@ -2850,27 +3035,27 @@
           </div>
         </div>
         <div class="flex items-center space-x-1 self-start">
-          <button id="btn-assistant-voice" onclick="toggleAssistantVoice()" title="Bật/Tắt giọng nói AI" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-[11px]">
+          <button id="btn-assistant-voice" onclick="toggleAssistantVoice()" title="Bật/Tắt giọng nói AI" class="w-6 h-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-[#00f5d4] flex items-center justify-center text-[11px]">
             <i class="fa-solid fa-volume-xmark"></i>
           </button>
-          <button onclick="toggleAssistantWidget()" title="Thu gọn trợ lý" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-500 hover:text-blue-700 flex items-center justify-center text-xs">
+          <button onclick="toggleAssistantWidget()" title="Thu gọn trợ lý" class="w-6 h-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-[#00f5d4] flex items-center justify-center text-xs">
             <i class="fa-solid fa-minus"></i>
           </button>
         </div>
       </div>
 
       <!-- Speech Bubble -->
-      <div class="mt-2.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-700 leading-relaxed" id="assistant-speech-text">
+      <div class="mt-2.5 bg-[#0b1222] border border-cyan-500/25 rounded-xl p-2.5 text-[11px] text-slate-300 leading-relaxed" id="assistant-speech-text">
         Xin chào Chủ tịch! Em là Victoria. Toàn bộ số liệu và BCTC chuẩn VAS đã sẵn sàng phục vụ ngài.
       </div>
 
       <!-- Quick Input & Actions -->
       <div class="mt-2.5 flex items-center space-x-1.5">
-        <input id="assistant-quick-input" type="text" onkeypress="if(event.key==='Enter') askFloatingAssistant()" placeholder="Hỏi nhanh doanh thu, lỗ, KPI..." class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-900 focus:outline-none focus:border-blue-500">
+        <input id="assistant-quick-input" type="text" onkeypress="if(event.key==='Enter') askFloatingAssistant()" placeholder="Hỏi nhanh doanh thu, lỗ, KPI..." class="flex-1 bg-[#0d1424] border border-cyan-500/25 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-100 focus:outline-none focus:border-[#00f5d4]">
         <button onclick="askFloatingAssistant()" class="btn-gold px-2.5 py-1.5 rounded-lg text-[11px]" title="Gửi câu hỏi">
           <i class="fa-solid fa-paper-plane text-white"></i>
         </button>
-        <button onclick="runInstantReport()" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/50 text-emerald-700 hover:bg-emerald-500/30" title="Tổng hợp báo cáo ngay">
+        <button onclick="runInstantReport()" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-emerald-950/400/20 border border-emerald-400/50 text-emerald-400 hover:bg-emerald-950/400/30" title="Tổng hợp báo cáo ngay">
           <i class="fa-solid fa-bolt"></i>
         </button>
       </div>
@@ -2878,7 +3063,7 @@
 
     <!-- Minimized Humanoid Medallion -->
     <button id="assistant-minimized-btn" onclick="toggleAssistantWidget()" class="hidden group relative w-16 h-16 rounded-full royal-crest p-[2.5px] shadow-[0_8px_30px_rgba(212,175,55,0.55)] hover:scale-105 transition">
-      <div id="assistant-mini-avatar" class="w-full h-full rounded-full overflow-hidden bg-white"></div>
+      <div id="assistant-mini-avatar" class="w-full h-full rounded-full overflow-hidden bg-[#0d1424]"></div>
       <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-400 border-2 border-slate-950 animate-pulse"></span>
     </button>
   </div>
