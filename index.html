@@ -213,7 +213,7 @@
             </button>
           </div>
           <p class="text-xs text-slate-300 mt-1 font-medium">
-            Hệ thống Tài Chính & Quản Trị Đế Chế: Nạp dữ liệu • Khung ngành • Làm sạch • Phân tích • Báo cáo chuẩn VAS • Hỏi AI
+            Hệ thống Tài Chính & Quản Trị Đế Chế: Nạp dữ liệu • Làm sạch tự động • Khung ngành & KPIs • Phân tích • Báo cáo VAS • Hỏi AI
           </p>
         </div>
       </div>
@@ -246,11 +246,11 @@
       </button>
       <button onclick="switchStep(2)" id="btn-step-2" class="py-3 px-3.5 step-tab flex items-center space-x-2">
         <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">2</span>
-        <span>2. Khung Ngành & KPIs</span>
+        <span>2. Làm Sạch Tự Động</span>
       </button>
       <button onclick="switchStep(3)" id="btn-step-3" class="py-3 px-3.5 step-tab flex items-center space-x-2">
         <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">3</span>
-        <span>3. Làm Sạch Tự Động</span>
+        <span>3. Khung Ngành & KPIs</span>
       </button>
       <button onclick="switchStep(4)" id="btn-step-4" class="py-3 px-3.5 step-tab flex items-center space-x-2">
         <span class="w-5 h-5 rounded-full bg-slate-800 text-sky-300 flex items-center justify-center text-xs font-black">4</span>
@@ -393,12 +393,15 @@
 
         <!-- Session Memory Card Preview -->
         <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="text-xs font-bold text-blue-700 uppercase tracking-wide">Hành Động Của Hệ Thống (Session Memory):</span>
+              <span class="text-xs font-bold text-blue-700 uppercase tracking-wide">Hành Động Của Hệ Thống (Multi-Company Session):</span>
             </div>
-            <span class="text-xs font-semibold text-slate-500" id="session-records-badge">Đang sẵn sàng 61.200 giao dịch gốc</span>
+            <div class="flex items-center space-x-2">
+              <select id="company-session-select" onchange="switchSavedCompany(this.value)" class="hidden bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-[11px] font-bold text-blue-700 outline-none focus:border-blue-500"></select>
+              <span class="text-xs font-semibold text-slate-500" id="session-records-badge">Đang sẵn sàng 61.200 giao dịch mẫu</span>
+            </div>
           </div>
           <div class="mt-3 text-xs text-slate-700 space-y-1.5" id="session-memory-log">
             <div>• Tên Doanh nghiệp: <strong class="text-blue-700" id="log-comp-name">Công ty Cổ phần Bán Lẻ An Phát</strong></div>
@@ -434,7 +437,7 @@
             <span id="btn-eta-pill" class="ml-2 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-extrabold">ETA ~0.05s</span>
           </button>
           <button onclick="proceedToStage2()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
-            <span>Xác Nhận & Thiết Lập Khung Phân Tích (Giai Đoạn 2)</span>
+            <span>Chuyển Sang Làm Sạch Dữ Liệu (Giai Đoạn 2)</span>
             <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
           </button>
         </div>
@@ -442,73 +445,40 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- GIAI ĐOẠN 2: THIẾT LẬP KHUNG PHÂN TÍCH CHUYÊN BIỆT -->
+    <!-- GIAI ĐOẠN 2: LÀM SẠCH VÀ KIỂM TRA DỮ LIỆU TỰ ĐỘNG -->
     <!-- ========================================== -->
     <section id="stage-2" class="hidden space-y-6">
       <div class="royal-card p-8 border-2 border-slate-300">
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
-            <i class="fa-solid fa-compass-drafting"></i>
-          </div>
-          <div>
-            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 2 • THIẾT LẬP KHUNG PHÂN TÍCH</span>
-            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
-              2. Thiết Lập Khung Phân Tích Chuyên Biệt Theo Ngành
-            </h2>
-          </div>
-        </div>
-        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
-          Agent tự động nhận dạng bối cảnh ngành nghề của <strong class="text-blue-700 font-bold" id="stage2-company-text">Công ty</strong>. Tự động xác lập bộ chỉ số cốt lõi (KPIs) và xây dựng Kế hoạch Phân tích Tự động (Analytical Blueprint) phù hợp riêng với cấu trúc dữ liệu.
-        </p>
-
-        <!-- KPI Blueprint Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="kpi-blueprint-container"></div>
-
-        <!-- Analytical Blueprint Steps -->
-        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
-            <i class="fa-solid fa-list-check mr-2 text-blue-600"></i> Kế Hoạch Phân Tích Tự Động (Analytical Blueprint):
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs" id="blueprint-steps-box"></div>
-        </div>
-
-        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
-          <button onclick="switchStep(1)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
-            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
-          </button>
-          <button onclick="proceedToStage3()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
-            <span>Bắt Đầu Làm Sạch Dữ Liệu Tự Động (Giai Đoạn 3)</span>
-            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- GIAI ĐOẠN 3: LÀM SẠCH VÀ KIỂM TRA DỮ LIỆU TỰ ĐỘNG -->
-    <!-- ========================================== -->
-    <section id="stage-3" class="hidden space-y-6">
-      <div class="royal-card p-8 border-2 border-slate-300">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-amber-500/50 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 border border-slate-300 text-blue-700 flex items-center justify-center font-bold text-xl">
               <i class="fa-solid fa-broom"></i>
             </div>
             <div>
-              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 3 • LÀM SẠCH & CHUẨN HÓA</span>
+              <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 2 • LÀM SẠCH & NHẬN DIỆN CẤU TRÚC</span>
               <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
-                3. Làm Sạch & Chuẩn Hóa Dữ Liệu Tự Động
+                2. Làm Sạch & Chuẩn Hóa Dữ Liệu Đa Doanh Nghiệp
               </h2>
             </div>
           </div>
           <button id="btn-trigger-clean" onclick="runDataCleaningEngine()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-xl">
             <i class="fa-solid fa-bolt mr-2 text-white"></i>
-            <span>Chạy Thuật Toán Làm Sạch Python Ngầm</span>
+            <span>Chạy Thuật Toán Làm Sạch Tự Động</span>
           </button>
         </div>
         <p class="text-xs text-slate-500 mt-3 leading-relaxed">
-          Agent quét cấu trúc các cột, kiểu dữ liệu, loại bỏ dữ liệu rác, xử lý giá trị trống (Missing values), khử đơn trùng lặp và chuẩn hóa định dạng tiền tệ / ngày tháng.
+          Agent tự động quét cấu trúc cột của bất kỳ tệp dữ liệu doanh nghiệp nào, chuẩn hóa định dạng tiền tệ/ngày tháng, loại bỏ đơn trùng lặp, bóc tách đơn hủy và chuẩn hóa hàng đổi trả.
         </p>
+
+        <!-- Auto-detected Schema Mapping Badges -->
+        <div class="mt-4 bg-blue-50/70 border border-blue-200 p-4 rounded-2xl">
+          <div class="text-[11px] font-bold text-blue-800 uppercase mb-2 flex items-center">
+            <i class="fa-solid fa-diagram-project mr-1.5"></i> Cấu Trúc Cột Tự Động Nhận Diện (Universal Schema Mapper):
+          </div>
+          <div id="detected-schema-badges" class="flex flex-wrap gap-2 text-[11px]">
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-slate-700 font-semibold">Đang dùng cấu trúc chuẩn đa ngành</span>
+          </div>
+        </div>
 
         <!-- Audit Scorecard -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
@@ -517,32 +487,32 @@
             <div class="text-2xl font-black text-slate-900 mt-1" id="audit-total-raw">--</div>
             <div class="text-[11px] text-slate-500 mt-1">Dữ liệu thô khách nạp</div>
           </div>
-          <div class="bg-slate-50 border border-rose-500/40 p-5 rounded-2xl text-center shadow-lg shadow-rose-950/20">
+          <div class="bg-slate-50 border border-rose-500/40 p-5 rounded-2xl text-center">
             <div class="text-xs font-semibold text-rose-600 uppercase">Dòng Trùng Bị Loại</div>
             <div class="text-2xl font-black text-rose-700 mt-1" id="audit-dup-removed">--</div>
             <div class="text-[11px] text-rose-600 mt-1">Khử trùng lặp mã đơn</div>
           </div>
-          <div class="bg-slate-50 border border-slate-300 p-5 rounded-2xl text-center shadow-lg shadow-amber-950/20">
+          <div class="bg-slate-50 border border-slate-300 p-5 rounded-2xl text-center">
             <div class="text-xs font-semibold text-blue-600 uppercase">Đơn Hủy Đã Bóc Tách</div>
             <div class="text-2xl font-black text-blue-700 mt-1" id="audit-canceled-removed">--</div>
             <div class="text-[11px] text-blue-600 mt-1">Không ghi nhận doanh thu</div>
           </div>
-          <div class="bg-slate-50 border border-orange-500/40 p-5 rounded-2xl text-center shadow-lg shadow-orange-950/20">
-            <div class="text-xs font-semibold text-orange-400 uppercase">Doanh Số Ảo Loại Trừ</div>
-            <div class="text-2xl font-black text-orange-300 mt-1" id="audit-canceled-val">--</div>
-            <div class="text-[11px] text-orange-400 mt-1">Giá trị đơn hủy triệt tiêu</div>
+          <div class="bg-slate-50 border border-orange-500/40 p-5 rounded-2xl text-center">
+            <div class="text-xs font-semibold text-orange-600 uppercase">Doanh Số Ảo Loại Trừ</div>
+            <div class="text-2xl font-black text-orange-700 mt-1" id="audit-canceled-val">--</div>
+            <div class="text-[11px] text-orange-600 mt-1">Giá trị đơn hủy triệt tiêu</div>
           </div>
-          <div class="bg-slate-50 border border-emerald-500/50 p-5 rounded-2xl text-center shadow-lg shadow-emerald-950/30">
+          <div class="bg-slate-50 border border-emerald-500/50 p-5 rounded-2xl text-center">
             <div class="text-xs font-semibold text-emerald-600 uppercase">Bản Ghi SẠCH Đạt Chuẩn</div>
             <div class="text-2xl font-black text-emerald-700 mt-1" id="audit-clean-total">--</div>
-            <div class="text-[11px] text-emerald-600 mt-1">Sẵn sàng đưa vào mô hình</div>
+            <div class="text-[11px] text-emerald-600 mt-1">Sẵn sàng phân tích</div>
           </div>
         </div>
 
-        <!-- Tóm tắt chất lượng dữ liệu trả về cho khách hàng -->
+        <!-- Tóm tắt chất lượng dữ liệu -->
         <div class="mt-6 bg-slate-50 border border-slate-200 p-5 rounded-2xl">
           <h4 class="text-xs font-bold text-blue-700 uppercase mb-2 flex items-center">
-            <i class="fa-solid fa-clipboard-check mr-2"></i> Báo Cáo Tóm Tắt Chất Lượng Dữ Liệu (Agent Summary to Client):
+            <i class="fa-solid fa-clipboard-check mr-2"></i> Báo Cáo Tóm Tắt Chất Lượng Dữ Liệu (Agent Summary):
           </h4>
           <div class="text-xs text-slate-700 space-y-1.5" id="agent-clean-summary-text">
             Chờ thực thi thuật toán làm sạch...
@@ -557,7 +527,7 @@
               <thead>
                 <tr class="bg-white text-blue-700 font-bold border-b border-slate-200">
                   <th class="p-3">MÃ GIAO DỊCH</th>
-                  <th class="p-3">CHI NHÁNH</th>
+                  <th class="p-3">ĐƠN VỊ / CHI NHÁNH</th>
                   <th class="p-3">SẢN PHẨM / DỊCH VỤ</th>
                   <th class="p-3 text-right">SL SẠCH</th>
                   <th class="p-3 text-right">DOANH THU THUẦN</th>
@@ -567,17 +537,60 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-200" id="clean-preview-body">
-                <tr><td colspan="8" class="p-6 text-center text-slate-500">Bấm nút "Chạy Thuật Toán Làm Sạch" ở trên để xem bảng dữ liệu sạch.</td></tr>
+                <tr><td colspan="8" class="p-6 text-center text-slate-500">Bấm nút "Chạy Thuật Toán Làm Sạch Tự Động" ở trên để xem bảng dữ liệu sạch.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
         <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
+          <button onclick="switchStep(1)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
+          </button>
+          <button id="btn-to-stage3" onclick="proceedToStage3()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+            <span>Thiết Lập Khung Ngành & KPIs (Giai Đoạn 3)</span>
+            <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- GIAI ĐOẠN 3: THIẾT LẬP KHUNG PHÂN TÍCH CHUYÊN BIỆT -->
+    <!-- ========================================== -->
+    <section id="stage-3" class="hidden space-y-6">
+      <div class="royal-card p-8 border-2 border-slate-300">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border border-slate-300 text-blue-700 flex items-center justify-center font-bold text-xl">
+            <i class="fa-solid fa-compass-drafting"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">GIAI ĐOẠN 3 • THIẾT LẬP KHUNG NGÀNH & KPIS</span>
+            <h2 class="text-2xl font-bold text-slate-900 gold-gradient-text">
+              3. Thiết Lập Khung Phân Tích Chuyên Biệt Theo Ngành
+            </h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Dựa trên dữ liệu đã làm sạch và bối cảnh ngành nghề của <strong class="text-blue-700 font-bold" id="stage2-company-text">Công ty</strong>, Agent xác lập bộ chỉ số cốt lõi (KPIs) và Kế hoạch Phân tích Tự động (Analytical Blueprint) phù hợp riêng.
+        </p>
+
+        <!-- KPI Blueprint Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="kpi-blueprint-container"></div>
+
+        <!-- Analytical Blueprint Steps -->
+        <div class="mt-8 bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <i class="fa-solid fa-list-check mr-2 text-blue-600"></i> Kế Hoạch Phân Tích Tự Động (Analytical Blueprint):
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs" id="blueprint-steps-box"></div>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center pt-4 border-t border-slate-200">
           <button onclick="switchStep(2)" class="btn-gold-outline text-xs px-5 py-2.5 rounded-xl">
             <i class="fa-solid fa-arrow-left mr-1"></i> Quay Lại
           </button>
-          <button id="btn-to-stage4" disabled onclick="proceedToStage4()" class="btn-gold disabled:opacity-40 disabled:cursor-not-allowed text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
+          <button id="btn-to-stage4" onclick="proceedToStage4()" class="btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-lg">
             <span>Tiến Hành Phân Tích Chuyên Sâu (Giai Đoạn 4)</span>
             <i class="fa-solid fa-arrow-right ml-2 text-white"></i>
           </button>
@@ -698,7 +711,7 @@
               <h3 class="text-lg font-bold text-slate-900 gold-gradient-text" id="fs-company-header">
                 BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH (P&L) & BẢNG CÂN ĐỐI KẾ TOÁN RÚT GỌN
               </h3>
-              <p class="text-xs text-slate-500 mt-0.5">Kỳ phân tích: Tháng 10/2026 so sánh cùng kỳ Tháng 09/2026 • Đơn vị tính: VNĐ (và Triệu VNĐ)</p>
+              <p class="text-xs text-slate-500 mt-0.5"><span id="fs-period-subtitle">Kỳ phân tích: Tự động nhận diện từ dữ liệu • Đơn vị tính: VNĐ</span></p>
             </div>
             
             <!-- Financial Statement Tabs: P&L, Balance Sheet, Cash Flow, Financial Ratios -->
@@ -727,8 +740,8 @@
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">CHỈ TIÊU TÀI CHÍNH (P&L ITEMS)</th>
-                    <th class="p-3 text-right">KỲ NÀY (T10/2026)</th>
-                    <th class="p-3 text-right">KỲ TRƯỚC (T09/2026)</th>
+                    <th class="p-3 text-right" id="pnl-hdr-cur">KỲ NÀY</th>
+                    <th class="p-3 text-right" id="pnl-hdr-prev">KỲ TRƯỚC</th>
                     <th class="p-3 text-center">TĂNG TRƯỞNG MoM (%)</th>
                     <th class="p-3 text-center">TỶ TRỌNG (%)</th>
                   </tr>
@@ -749,8 +762,8 @@
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">TÀI SẢN & NGUỒN VỐN (ASSETS & LIABILITIES)</th>
-                    <th class="p-3 text-right">SỐ CUỐI KỲ (T10/2026)</th>
-                    <th class="p-3 text-right">SỐ ĐẦU KỲ (T09/2026)</th>
+                    <th class="p-3 text-right" id="bs-hdr-cur">SỐ CUỐI KỲ</th>
+                    <th class="p-3 text-right" id="bs-hdr-prev">SỐ ĐẦU KỲ</th>
                     <th class="p-3 text-center">BIẾN ĐỘNG (%)</th>
                     <th class="p-3 text-center">CƠ CẤU VỐN</th>
                   </tr>
@@ -771,8 +784,8 @@
                     <th class="p-3 w-12 text-center">STT</th>
                     <th class="p-3 w-16 text-center">MÃ SỐ</th>
                     <th class="p-3">LƯU CHUYỂN TIỀN TỆ (CASH FLOW CATEGORIES)</th>
-                    <th class="p-3 text-right">KỲ NÀY (T10/2026)</th>
-                    <th class="p-3 text-right">KỲ TRƯỚC (T09/2026)</th>
+                    <th class="p-3 text-right" id="cf-hdr-cur">KỲ NÀY</th>
+                    <th class="p-3 text-right" id="cf-hdr-prev">KỲ TRƯỚC</th>
                     <th class="p-3 text-center">ĐÁNH GIÁ DÒNG TIỀN</th>
                   </tr>
                 </thead>
@@ -1024,8 +1037,8 @@
     function runInstantReport() {
       const t0 = performance.now();
       syncCompanyAndIndustry();
-      renderIndustryBlueprint();
       if (!isDataCleaned) runDataCleaningEngine();
+      renderIndustryBlueprint();
       renderStage4Modeling();
       switchStep(5);
       const elapsedMs = Math.max(1, Math.round(performance.now() - t0));
@@ -1054,8 +1067,8 @@
       if (stepNum === 5) {
         if (!isDataCleaned) {
           syncCompanyAndIndustry();
-          renderIndustryBlueprint();
           runDataCleaningEngine();
+          renderIndustryBlueprint();
           renderStage4Modeling();
         }
         renderStage5Visuals();
@@ -1091,7 +1104,7 @@
 
     function proceedToStage2() {
       syncCompanyAndIndustry();
-      renderIndustryBlueprint();
+      runDataCleaningEngine();
       switchStep(2);
     }
 
@@ -1138,6 +1151,45 @@
             "3. Phát hiện các giao dịch chuyển tiền bất thường (AML)",
             "4. Mô phỏng độ nhạy lãi suất đối với danh mục tài sản"
           ]
+        },
+        LOGISTICS: {
+          kpis: [
+            { code: "OTIF", name: "Giao Hàng Đúng Hạn & Đủ (On-Time In-Full)", desc: "Tỷ lệ đơn vận chuyển giao đúng hẹn và nguyên vẹn.", target: "> 95%" },
+            { code: "COST_PER_UNIT", name: "Chi Phí Vận Tải / Đơn Hàng", desc: "Chi phí logistics trung bình trên mỗi vận đơn hoàn thành.", target: "Tối ưu < 8% DT" },
+            { code: "RETURN_DAMAGE", name: "Tỷ Lệ Hoàn / Hư Hỏng Hàng", desc: "Tỷ lệ kiện hàng bị hoàn hoặc tổn thất trong quá trình giao nhận.", target: "< 2.5%" }
+          ],
+          steps: [
+            "1. Đối soát mã vận đơn trùng & đơn hủy chuyến",
+            "2. Phân tích hiệu suất theo tuyến kho & khu vực",
+            "3. Đo lường biên lợi nhuận gộp sau chi phí vận hành",
+            "4. Phát hiện tuyến kho chậm KPI hoặc tỷ lệ hoàn cao"
+          ]
+        },
+        SAAS: {
+          kpis: [
+            { code: "MRR_ARR", name: "Doanh Thu Định Kỳ (MRR / ARR)", desc: "Doanh thu thuê bao ổn định hàng tháng và hàng năm.", target: "Tăng > 15% MoM" },
+            { code: "NET_CHURN", name: "Tỷ Lệ Rời Bỏ / Hủy Gói (Churn Rate)", desc: "Tỷ lệ khách hàng hủy gia hạn hoặc hoàn tiền gói dịch vụ.", target: "< 3.0%" },
+            { code: "GROSS_MARGIN", name: "Biên Lợi Nhuận Gộp SaaS", desc: "Tỷ lệ lãi sau khi trừ chi phí hạ tầng cloud & hỗ trợ.", target: "> 70%" }
+          ],
+          steps: [
+            "1. Khử trùng lặp hóa đơn gia hạn & loại bỏ giao dịch hủy",
+            "2. Chuẩn hóa các giao dịch hoàn tiền (Refund) về số âm",
+            "3. Đo lường tăng trưởng MRR theo từng phân khúc gói",
+            "4. Cảnh báo phân khúc có tỷ lệ rời bỏ cao"
+          ]
+        },
+        MANUFACTURING: {
+          kpis: [
+            { code: "GROSS_MARGIN", name: "Biên Lãi Gộp Sản Xuất", desc: "Chênh lệch doanh thu thuần và giá vốn nguyên vật liệu/nhân công.", target: "30% - 42%" },
+            { code: "DEFECT_RETURN", name: "Tỷ Lệ Hàng Lỗi / Trả Lại", desc: "Tỷ lệ lô hàng bị trả lại do lỗi kỹ thuật hoặc không đạt QC.", target: "< 3.0%" },
+            { code: "INV_TURNOVER", name: "Vòng Quay Hàng Tồn Kho", desc: "Tốc độ luân chuyển thành phẩm từ nhà máy ra đại lý.", target: "> 3.5 vòng" }
+          ],
+          steps: [
+            "1. Loại bỏ phiếu xuất kho hủy & mã chứng từ trùng",
+            "2. Khấu trừ hàng trả về từ nhà phân phối/đại lý",
+            "3. Đối chiếu giá vốn (COGS) theo từng dòng sản phẩm",
+            "4. Cảnh báo đại lý/nhà máy sụt giảm biên lãi"
+          ]
         }
       };
 
@@ -1162,6 +1214,8 @@
     }
 
     function proceedToStage3() {
+      syncCompanyAndIndustry();
+      renderIndustryBlueprint();
       switchStep(3);
     }
 
@@ -1207,8 +1261,20 @@
         tbody.appendChild(tr);
       });
 
+      const schemaEl = document.getElementById('detected-schema-badges');
+      if (schemaEl) {
+        const sm = CURRENT_DATA.schema_map || {
+          id: 'Mã Giao Dịch', period: 'Kỳ Báo Cáo / Ngày', unit: 'Đơn Vị / Chi Nhánh',
+          product: 'Sản Phẩm / Dịch Vụ', qty: 'Số Lượng', amount: 'Doanh Thu / Thành Tiền', status: 'Trạng Thái'
+        };
+        schemaEl.innerHTML = Object.entries(sm).map(([k, v]) => {
+          const labels = { id: 'Mã Đơnn/ID', period: 'Kỳ/Ngày', unit: 'Đơn vị/Nhóm', product: 'Sản phẩm/Hạng mục', qty: 'Số lượng', amount: 'Doanh thu', status: 'Trạng thái' };
+          return `<span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-slate-700 font-semibold">${labels[k] || k}: <strong class="text-blue-700">[${v}]</strong></span>`;
+        }).join('');
+      }
       isDataCleaned = true;
-      document.getElementById('btn-to-stage4').disabled = false;
+      const btnS4 = document.getElementById('btn-to-stage4');
+      if (btnS4) btnS4.disabled = false;
       document.getElementById('btn-trigger-clean').innerHTML = '<i class="fa-solid fa-check mr-2 text-white"></i> ĐÃ HOÀN TẤT LÀM SẠCH';
       document.getElementById('btn-trigger-clean').className = 'btn-gold text-xs px-6 py-3 rounded-xl flex items-center shadow-xl';
     }
@@ -1310,6 +1376,12 @@
       if (companyHeader) {
         companyHeader.innerHTML = `BÁO CÁO TÀI CHÍNH HỢP NHẤT DOANH NGHIỆP: <span class="text-blue-700">${COMPANY_NAME.toUpperCase()}</span>`;
       }
+      const pCur = CURRENT_DATA.period_label_cur || 'Kỳ Hiện Tại';
+      const pPrev = CURRENT_DATA.period_label_prev || 'Kỳ Trước';
+      const subEl = document.getElementById('fs-period-subtitle');
+      if (subEl) subEl.innerText = `Kỳ phân tích: ${pCur} so sánh cùng kỳ ${pPrev} • Đơn vị tính: VNĐ`;
+      ['pnl-hdr-cur', 'bs-hdr-cur', 'cf-hdr-cur'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = `KỲ NÀY (${pCur})`; });
+      ['pnl-hdr-prev', 'bs-hdr-prev', 'cf-hdr-prev'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = `KỲ TRƯỚC (${pPrev})`; });
 
       // 1. Tính toán P&L từ dữ liệu phân tích
       let grossSales = 0;
@@ -2273,6 +2345,7 @@
             document.getElementById('session-records-badge').innerText = `${totalDataRows.toLocaleString()} dòng sẵn sàng`;
             document.getElementById('top-dataset-status').innerText = `${totalDataRows.toLocaleString()} Bản Ghi`;
 
+            saveCompanySession(COMPANY_NAME, CURRENT_INDUSTRY, CURRENT_GOAL, file.name, CURRENT_DATA);
             isDataCleaned = false;
             runInstantReport();
             const totalSec = ((performance.now() - tStart) / 1000).toFixed(2);
@@ -2287,6 +2360,123 @@
 
       if (ext === 'csv' || ext === 'json') reader.readAsText(file, 'utf-8');
       else reader.readAsArrayBuffer(file);
+    }
+
+    // ==========================================
+    // MULTI-COMPANY SESSION & UNIVERSAL SCHEMA MAPPER
+    // ==========================================
+    const SAVED_COMPANIES = {};
+
+    function saveCompanySession(compName, industry, goal, fileName, datasetObj) {
+      const key = `${compName}__${fileName}`;
+      SAVED_COMPANIES[key] = { compName, industry, goal, fileName, data: datasetObj };
+      const sel = document.getElementById('company-session-select');
+      if (sel) {
+        sel.classList.remove('hidden');
+        sel.innerHTML = Object.entries(SAVED_COMPANIES).map(([k, v]) =>
+          `<option value="${k}" ${k === key ? 'selected' : ''}>🏢 ${v.compName} (${v.data.audit.total_clean_rows.toLocaleString()} dòng)</option>`
+        ).join('');
+      }
+    }
+
+    function switchSavedCompany(key) {
+      const entry = SAVED_COMPANIES[key];
+      if (!entry) return;
+      document.getElementById('inp-company').value = entry.compName;
+      document.getElementById('inp-industry').value = entry.industry;
+      document.getElementById('inp-goal').value = entry.goal;
+      CURRENT_DATA = entry.data;
+      isDataCleaned = false;
+      syncCompanyAndIndustry();
+      document.getElementById('log-file-name').innerText = `${entry.fileName} (${entry.data.audit.total_raw.toLocaleString()} dòng)`;
+      document.getElementById('session-records-badge').innerText = `${entry.data.audit.total_raw.toLocaleString()} dòng sẵn sàng`;
+      document.getElementById('top-dataset-status').innerText = `${entry.data.audit.total_raw.toLocaleString()} Bản Ghi`;
+      runInstantReport();
+      showToast(`Đã chuyển sang dữ liệu của ${entry.compName}!`);
+    }
+
+    function normHeader(s) {
+      return String(s || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, ' ').trim();
+    }
+
+    function detectUniversalSchema(matrix) {
+      const rawHeaders = (matrix[0] || []).map(h => String(h || '').trim());
+      const normHeaders = rawHeaders.map(normHeader);
+
+      const findByKeywords = (keywords) => {
+        for (const kw of keywords) {
+          const exactIdx = normHeaders.findIndex(h => h === kw);
+          if (exactIdx >= 0) return exactIdx;
+        }
+        for (const kw of keywords) {
+          const partIdx = normHeaders.findIndex(h => h.includes(kw));
+          if (partIdx >= 0) return partIdx;
+        }
+        return -1;
+      };
+
+      let idxTransId = findByKeywords(['ma giao dich', 'trans id', 'order id', 'invoice', 'ma don', 'so hd', 'receipt', 'transaction']);
+      let idxDate = findByKeywords(['ngay giao dich', 'ngay', 'order date', 'trans date', 'date', 'created', 'thoi gian']);
+      let idxPeriod = findByKeywords(['ky bao cao', 'period', 'thang', 'month', 'quarter', 'quy']);
+      let idxStoreId = findByKeywords(['ma cua hang', 'store id', 'branch id', 'ma chi nhanh', 'ma dv', 'ma kho']);
+      let idxStoreName = findByKeywords(['ten cua hang', 'store name', 'chi nhanh', 'branch', 'cua hang', 'store', 'shop', 'kenh', 'channel', 'phong ban', 'department', 'khu vuc', 'region', 'dai ly']);
+      let idxSku = findByKeywords(['ma sku', 'sku', 'ma hang', 'product id', 'item id']);
+      let idxProdName = findByKeywords(['ten san pham', 'product name', 'san pham', 'product', 'mat hang', 'item', 'hang hoa', 'dich vu', 'service', 'category', 'danh muc']);
+      let idxQty = findByKeywords(['so luong', 'quantity', 'qty', 'sl', 'units', 'count']);
+      let idxPrice = findByKeywords(['don gia', 'unit price', 'price', 'gia ban']);
+      let idxAmount = findByKeywords(['thanh tien tho', 'thanh tien', 'line amount', 'doanh thu', 'revenue', 'sales', 'net amount', 'amount', 'total', 'tong tien', 'gia tri']);
+      let idxCost = findByKeywords(['gia von', 'cogs', 'cost', 'chi phi', 'expense']);
+      let idxStatus = findByKeywords(['trang thai don', 'trang thai', 'status', 'tinh trang', 'state']);
+
+      // Heuristic fallback nếu file dùng tên cột lạ hoàn toàn
+      const sampleEnd = Math.min(matrix.length, 40);
+      if (idxAmount < 0) {
+        let bestCol = -1, bestAvg = -1;
+        for (let c = 0; c < rawHeaders.length; c++) {
+          if (c === idxQty || c === idxPrice || c === idxCost) continue;
+          let sum = 0, numCnt = 0;
+          for (let r = 1; r < sampleEnd; r++) {
+            const v = parseFloat(String(matrix[r]?.[c] ?? '').replace(/[,\s]/g, ''));
+            if (!isNaN(v) && isFinite(v)) { sum += Math.abs(v); numCnt++; }
+          }
+          if (numCnt > (sampleEnd - 1) * 0.6 && (sum / numCnt) > bestAvg) {
+            bestAvg = sum / numCnt; bestCol = c;
+          }
+        }
+        idxAmount = bestCol;
+      }
+
+      if (idxStoreName < 0 && idxStoreId < 0) {
+        // Tìm cột text có số lượng giá trị phân biệt hợp lý (2..50) để nhóm theo chi nhánh/khu vực/phòng ban
+        for (let c = 0; c < rawHeaders.length; c++) {
+          if ([idxTransId, idxDate, idxPeriod, idxProdName, idxSku, idxQty, idxPrice, idxAmount, idxCost, idxStatus].includes(c)) continue;
+          const uniq = new Set();
+          let textCnt = 0;
+          for (let r = 1; r < sampleEnd; r++) {
+            const val = String(matrix[r]?.[c] ?? '').trim();
+            if (val && isNaN(Number(val.replace(/,/g, '')))) { uniq.add(val); textCnt++; }
+          }
+          if (textCnt > 5 && uniq.size >= 2 && uniq.size <= 35) {
+            idxStoreName = c; break;
+          }
+        }
+      }
+
+      const nameOf = (idx, fallback) => idx >= 0 ? rawHeaders[idx] : fallback;
+      return {
+        idxTransId, idxDate, idxPeriod, idxStoreId, idxStoreName, idxSku, idxProdName, idxQty, idxPrice, idxAmount, idxCost, idxStatus,
+        schemaMap: {
+          id: nameOf(idxTransId, 'Tự sinh TXN'),
+          period: nameOf(idxPeriod >= 0 ? idxPeriod : idxDate, 'Kỳ mặc định'),
+          unit: nameOf(idxStoreName >= 0 ? idxStoreName : idxStoreId, 'Toàn Doanh Nghiệp'),
+          product: nameOf(idxProdName >= 0 ? idxProdName : idxSku, 'Sản phẩm chung'),
+          qty: nameOf(idxQty, 'Mặc định = 1'),
+          amount: nameOf(idxAmount >= 0 ? idxAmount : idxPrice, 'SL x Đơn giá'),
+          status: nameOf(idxStatus, 'Hoàn thành')
+        }
+      };
     }
 
     async function compileMatrixDatasetAsync(matrix, prodRows, storeRows, tStart) {
@@ -2313,20 +2503,26 @@
         return PHUC_AN_DATA;
       }
 
-      // Map header column indices once (O(1) lookup per cell!)
-      const headers = matrix[0].map(h => String(h || '').trim());
-      const findCol = (...names) => headers.findIndex(h => names.includes(h));
-      const idxTransId = findCol('Mã Giao Dịch', 'trans_id');
-      const idxDate = findCol('Ngày Giao Dịch', 'trans_date');
-      const idxPeriod = findCol('Kỳ Báo Cáo', 'period');
-      const idxStoreId = findCol('Mã Cửa Hàng', 'store_id');
-      const idxStoreName = findCol('Tên Cửa Hàng', 'store_name');
-      const idxSku = findCol('Mã SKU', 'sku');
-      const idxProdName = findCol('Tên Sản Phẩm', 'product_name');
-      const idxQty = findCol('Số Lượng', 'quantity');
-      const idxPrice = findCol('Đơn Giá (VNĐ)', 'unit_price');
-      const idxAmount = findCol('Thành Tiền Thô (VNĐ)', 'line_amount');
-      const idxStatus = findCol('Trạng Thái Đơn', 'status');
+      const sch = detectUniversalSchema(matrix);
+      const { idxTransId, idxDate, idxPeriod, idxStoreId, idxStoreName, idxSku, idxProdName, idxQty, idxPrice, idxAmount, idxCost, idxStatus } = sch;
+
+      // Dò trước các kỳ báo cáo có trong file để tự động xác định Kỳ Hiện Tại vs Kỳ Trước
+      const periodCounts = {};
+      const scanLimit = Math.min(matrix.length, 5000);
+      for (let r = 1; r < scanLimit; r++) {
+        const row = matrix[r];
+        let pVal = idxPeriod >= 0 ? String(row[idxPeriod] || '').trim() : '';
+        if (!pVal && idxDate >= 0) {
+          const dStr = String(row[idxDate] || '').trim();
+          const m = dStr.match(/(\d{4}[-\/]\d{2})/);
+          if (m) pVal = m[1].replace('/', '-');
+        }
+        if (pVal) periodCounts[pVal] = (periodCounts[pVal] || 0) + 1;
+      }
+      const distinctPeriods = Object.keys(periodCounts).sort();
+      const curPeriodKey = distinctPeriods.length >= 1 ? distinctPeriods[distinctPeriods.length - 1] : 'Kỳ Hiện Tại';
+      const prevPeriodKey = distinctPeriods.length >= 2 ? distinctPeriods[distinctPeriods.length - 2] : 'Kỳ Trước';
+      const singlePeriodMode = distinctPeriods.length <= 1;
 
       const totalRows = matrix.length - 1;
       let rawCount = totalRows, cleanCount = 0;
@@ -2344,37 +2540,51 @@
         for (let idx = start; idx < end; idx++) {
           const r = matrix[idx];
           const transId = String((idxTransId >= 0 ? r[idxTransId] : '') || `TXN-${idx}`);
-          const transDate = String((idxDate >= 0 ? r[idxDate] : '') || '2026-10-15');
-          const period = String((idxPeriod >= 0 ? r[idxPeriod] : '') || (transDate.startsWith('2026-09') ? '2026-09' : '2026-10'));
-          const storeId = String((idxStoreId >= 0 ? r[idxStoreId] : '') || 'CH01');
-          const storeName = String((idxStoreName >= 0 ? r[idxStoreName] : '') || `Chi Nhánh ${storeId}`);
-          const sku = String((idxSku >= 0 ? r[idxSku] : '') || 'SKU001');
+          const transDate = String((idxDate >= 0 ? r[idxDate] : '') || curPeriodKey);
+          let period = idxPeriod >= 0 ? String(r[idxPeriod] || '').trim() : '';
+          if (!period && idxDate >= 0) {
+            const m = transDate.match(/(\d{4}[-\/]\d{2})/);
+            if (m) period = m[1].replace('/', '-');
+          }
+          if (!period) period = curPeriodKey;
+
+          const rawSName = idxStoreName >= 0 ? String(r[idxStoreName] || '').trim() : '';
+          const rawSId = idxStoreId >= 0 ? String(r[idxStoreId] || '').trim() : '';
+          const storeId = rawSId || (rawSName ? rawSName.slice(0, 16) : 'DV01');
+          const storeName = rawSName || (rawSId ? `Đơn vị ${rawSId}` : 'Toàn Doanh Nghiệp');
+          const sku = String((idxSku >= 0 ? r[idxSku] : '') || 'SKU01');
           const prodName = String((idxProdName >= 0 ? r[idxProdName] : '') || sku);
-          const rawQty = parseFloat(idxQty >= 0 ? r[idxQty] : 1) || 1;
-          const unitPrice = parseFloat(idxPrice >= 0 ? r[idxPrice] : 500000) || 500000;
-          const rawAmount = parseFloat(idxAmount >= 0 ? r[idxAmount] : (rawQty * unitPrice)) || (rawQty * unitPrice);
+
+          const rawQty = idxQty >= 0 ? (parseFloat(String(r[idxQty]).replace(/,/g, '')) || 1) : 1;
+          const parsedAmt = idxAmount >= 0 ? (parseFloat(String(r[idxAmount]).replace(/,/g, '')) || 0) : 0;
+          const parsedPrice = idxPrice >= 0 ? (parseFloat(String(r[idxPrice]).replace(/,/g, '')) || 0) : 0;
+          const unitPrice = parsedPrice > 0 ? parsedPrice : (rawQty !== 0 ? Math.abs(parsedAmt / rawQty) : 0);
+          const rawAmount = parsedAmt !== 0 ? parsedAmt : (rawQty * unitPrice);
           const status = String((idxStatus >= 0 ? r[idxStatus] : '') || 'Hoàn thành');
 
           if (rawSample.length < 20) {
             rawSample.push({ trans_id: transId, trans_date: transDate, period, store_id: storeId, store_name: storeName, sku, product_name: prodName, quantity: rawQty, unit_price: unitPrice, line_amount: rawAmount, status });
           }
 
-          if (!storeMapTarget[storeId]) storeMapTarget[storeId] = { sid: storeId, name: storeName, region: 'Toàn quốc', tier: 'B', target: 2000000000 };
+          if (!storeMapTarget[storeId]) storeMapTarget[storeId] = { sid: storeId, name: storeName, region: 'Toàn quốc', tier: 'A', target: 0 };
 
-          if (seenIds.has(transId)) { dupCount++; continue; }
-          seenIds.add(transId);
+          if (idxTransId >= 0) {
+            if (seenIds.has(transId)) { dupCount++; continue; }
+            seenIds.add(transId);
+          }
 
           const statusLow = status.toLowerCase();
-          if (statusLow.includes('hủy') || statusLow.includes('cancel')) {
+          if (statusLow.includes('hủy') || statusLow.includes('huy') || statusLow.includes('cancel') || statusLow.includes('void')) {
             canceledCount++; canceledVal += Math.abs(rawAmount); continue;
           }
 
-          const isRet = statusLow.includes('trả') || statusLow.includes('return');
+          const isRet = statusLow.includes('trả') || statusLow.includes('tra') || statusLow.includes('hoàn') || statusLow.includes('return') || statusLow.includes('refund') || rawQty < 0 || rawAmount < 0;
           const cleanQty = isRet ? -Math.abs(rawQty) : Math.abs(rawQty);
           if (isRet) returnCount++;
 
-          const netAmount = cleanQty * unitPrice;
-          const costPrice = prodMap[sku] || (unitPrice * 0.58);
+          const netAmount = isRet ? -Math.abs(rawAmount) : Math.abs(rawAmount);
+          const rowCostPerUnit = idxCost >= 0 ? (parseFloat(String(r[idxCost]).replace(/,/g, '')) || 0) : 0;
+          const costPrice = prodMap[sku] || (rowCostPerUnit > 0 ? rowCostPerUnit : (unitPrice * 0.58));
           const totalCogs = cleanQty * costPrice;
           const grossProfit = netAmount - totalCogs;
           cleanCount++;
@@ -2388,7 +2598,8 @@
           let cmpObj = storeAggCmp[storeId];
           if (!cmpObj) { cmpObj = { rev: 0, profit: 0 }; storeAggCmp[storeId] = cmpObj; }
 
-          if (period.includes('10') || period === 'Current') {
+          const isCurrentPeriod = singlePeriodMode ? (idx > totalRows * 0.45) : (period === curPeriodKey);
+          if (isCurrentPeriod) {
             curObj.rev += netAmount;
             curObj.profit += grossProfit;
             curObj.cogs += totalCogs;
@@ -2400,7 +2611,6 @@
           }
         }
 
-        // Update live progress & ETA countdown per chunk
         const done = end - 1;
         const pct = 30 + (done / totalRows) * 65;
         const elapsedCompile = Math.max(0.005, (performance.now() - tCompileStart) / 1000);
@@ -2415,9 +2625,10 @@
       const rankings = [];
 
       storeList.forEach(s => {
-        const cur = storeAggCur[s.sid] || { rev: 1500000000, gross: 1600000000, ret: 100000000, profit: 600000000, cogs: 900000000 };
-        const cmp = storeAggCmp[s.sid] || { rev: cur.rev * 0.95, profit: cur.profit * 0.95 };
-        const tgt = s.target;
+        const cur = storeAggCur[s.sid] || { rev: 0, gross: 0, ret: 0, profit: 0, cogs: 0 };
+        const cmp = storeAggCmp[s.sid] || { rev: cur.rev * 0.94, profit: cur.profit * 0.94 };
+        if (cur.rev === 0 && cmp.rev === 0) return;
+        const tgt = s.target > 0 ? s.target : Math.max(1000000, Math.round((cur.rev || cmp.rev) * 1.05));
         const kpi = (cur.rev / tgt) * 100;
         const margin = cur.rev > 0 ? (cur.profit / cur.rev) * 100 : 0;
         const revMom = cmp.rev > 0 ? ((cur.rev - cmp.rev) / cmp.rev) * 100 : 0;
@@ -2438,14 +2649,14 @@
         }
         if (kpi < 85) {
           anomalies.push(`🔴 Hụt KPI: Đạt ${kpi.toFixed(1)}% mục tiêu.`);
-          recs.push("Hỗ trợ ngân sách marketing khu vực và mini-game cuối tuần.");
+          recs.push("Hỗ trợ ngân sách marketing khu vực và tối ưu chuyển đổi.");
         }
 
         const score = Math.min(100, Math.max(0, 100 - kpi) * 0.4 + Math.max(0, -revMom) * 0.25 + Math.max(0, -pftMom) * 0.20 + Math.max(0, retRate - 4) * 3.5);
         let plevel = 'Ưu tiên 3: Vận hành ổn định';
         if (score >= 40) plevel = 'Ưu tiên 1: Hỗ trợ khẩn cấp';
         else if (score >= 20) plevel = 'Ưu tiên 2: Cần can thiệp theo dõi';
-        if (recs.length === 0) recs.push("Duy trì nhịp độ bán hàng hiện tại.");
+        if (recs.length === 0) recs.push("Duy trì nhịp độ vận hành hiện tại.");
 
         rankings.push({ store_id: s.sid, store_name: s.name, tier: s.tier, region: s.region, priority_score: Math.round(score * 10) / 10, priority_level: plevel, kpi_completion_pct: Math.round(kpi * 10) / 10, net_revenue: Math.round(cur.rev), return_rate_revenue: Math.round(retRate * 10) / 10, anomalies, recommendations: recs });
       });
@@ -2454,9 +2665,12 @@
 
       return {
         audit: { total_raw: rawCount, total_duplicates_removed: dupCount, total_canceled_removed: canceledCount, total_canceled_value: canceledVal, total_returns_standardized: returnCount, total_clean_rows: cleanCount },
+        schema_map: sch.schemaMap,
+        period_label_cur: curPeriodKey,
+        period_label_prev: prevPeriodKey,
         raw_sample: rawSample,
         clean_sample: cleanSample,
-        stores: storeList.map(s => ({ store_id: s.sid, store_name: s.name, region: s.region, tier: s.tier })),
+        stores: reports.map(s => ({ store_id: s.store_id, store_name: s.store_name, region: s.region, tier: s.tier })),
         report: reports,
         ranking: rankings
       };
