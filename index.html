@@ -496,17 +496,21 @@
               <label class="text-xs font-bold text-[#00f5d4]">
                 2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-pink-400">*</span>
               </label>
-              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc</span>
+              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc • Tự nhập hoặc chọn</span>
             </div>
-            <select id="inp-industry" required onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
-              <option value="" selected disabled>-- Chọn lĩnh vực / ngành nghề --</option>
-              <option value="RETAIL">Bán Lẻ & Chuỗi Cửa Hàng (Retail & FMCG)</option>
-              <option value="ECOMMERCE">Thương Mại Điện Tử & D2C (E-Commerce)</option>
-              <option value="FINANCE">Tài Chính, Ngân Hàng & Đầu Tư (Fintech & Banking)</option>
-              <option value="LOGISTICS">Kho Vận & Vận Chuyển (Logistics & Supply Chain)</option>
-              <option value="SAAS">Phần Mềm & Công Nghệ (SaaS / Tech Services)</option>
-              <option value="MANUFACTURING">Sản Xuất & Phân Phối (Manufacturing)</option>
-            </select>
+            <input type="text" id="inp-industry" list="list-industries" required oninput="syncCompanyAndIndustry()" value="" placeholder="Nhập hoặc chọn (VD: Bán lẻ, F&B, Bất động sản...)" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+            <datalist id="list-industries">
+              <option value="Bán Lẻ & Chuỗi Cửa Hàng (Retail & FMCG)"></option>
+              <option value="Thương Mại Điện Tử & D2C (E-Commerce)"></option>
+              <option value="Tài Chính, Ngân Hàng & Đầu Tư (Fintech & Banking)"></option>
+              <option value="F&B, Nhà Hàng & Chuỗi Đồ Uống"></option>
+              <option value="Bất Động Sản & Cho Thuê"></option>
+              <option value="Y Tế, Phòng Khám & Dược Phẩm"></option>
+              <option value="Giáo Dục & Đào Tạo (EdTech)"></option>
+              <option value="Kho Vận & Vận Chuyển (Logistics & Supply Chain)"></option>
+              <option value="Phần Mềm & Công Nghệ (SaaS / Tech Services)"></option>
+              <option value="Sản Xuất & Phân Phối (Manufacturing)"></option>
+            </datalist>
           </div>
 
           <div>
@@ -514,15 +518,17 @@
               <label class="text-xs font-bold text-[#00f5d4]">
                 3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-pink-400">*</span>
               </label>
-              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc</span>
+              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc • Tự nhập hoặc chọn</span>
             </div>
-            <select id="inp-goal" required onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
-              <option value="" selected disabled>-- Chọn mục tiêu phân tích --</option>
-              <option value="REVENUE_PROFIT">Phân tích Doanh thu, Lợi nhuận gộp & Tăng trưởng MoM</option>
-              <option value="RETURNS_ANOMALIES">Kiểm toán Đổi trả, Thất thoát & Phát hiện Bất thường</option>
-              <option value="BRANCH_KPI">Đánh giá Hiệu năng Chi nhánh & Xếp hạng Ưu tiên Hỗ trợ</option>
-              <option value="INVENTORY_CATEGORY">Tối ưu Cơ cấu Danh mục Sản phẩm & Biên Lợi Nhuận</option>
-            </select>
+            <input type="text" id="inp-goal" list="list-goals" required oninput="syncCompanyAndIndustry()" value="" placeholder="Nhập hoặc chọn mục tiêu phân tích..." class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+            <datalist id="list-goals">
+              <option value="Phân tích Doanh thu, Lợi nhuận gộp & Tăng trưởng MoM"></option>
+              <option value="Kiểm toán Đổi trả, Thất thoát & Phát hiện Bất thường"></option>
+              <option value="Đánh giá Hiệu năng Chi nhánh & Xếp hạng Ưu tiên Hỗ trợ"></option>
+              <option value="Tối ưu Cơ cấu Danh mục Sản phẩm & Biên Lợi Nhuận"></option>
+              <option value="Kiểm soát Dòng tiền, Công nợ & Chi phí Vận hành"></option>
+              <option value="Đánh giá Hiệu quả Chiến dịch Marketing & Chuyển đổi"></option>
+            </datalist>
           </div>
         </div>
 
@@ -1317,8 +1323,8 @@
       const inpGoal = document.getElementById('inp-goal');
 
       COMPANY_NAME = (inpComp ? inpComp.value.trim() : '') || '';
-      CURRENT_INDUSTRY = inpInd ? inpInd.value : '';
-      CURRENT_GOAL = inpGoal ? inpGoal.value : '';
+      CURRENT_INDUSTRY = inpInd ? inpInd.value.trim() : '';
+      CURRENT_GOAL = inpGoal ? inpGoal.value.trim() : '';
 
       // Xóa viền báo lỗi ngay khi người dùng đã nhập/chọn
       if (inpComp && COMPANY_NAME) inpComp.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
@@ -1326,9 +1332,7 @@
       if (inpGoal && CURRENT_GOAL) inpGoal.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
 
       const displayComp = COMPANY_NAME || 'Chưa nhập tên công ty';
-      const displayInd = (inpInd && inpInd.value && inpInd.selectedOptions[0])
-        ? inpInd.selectedOptions[0].text.split('(')[0].trim()
-        : 'Chưa chọn ngành nghề';
+      const displayInd = CURRENT_INDUSTRY ? CURRENT_INDUSTRY.split('(')[0].trim() : 'Chưa nhập ngành nghề';
 
       document.getElementById('top-company-name').innerText = displayComp;
       document.getElementById('header-company-name').innerText = COMPANY_NAME || 'Doanh Nghiệp';
@@ -1438,7 +1442,30 @@
         }
       };
 
-      const cfg = industryConfig[CURRENT_INDUSTRY] || industryConfig.RETAIL;
+      const indLow = (CURRENT_INDUSTRY || '').toLowerCase();
+      let matchedKey = 'CUSTOM';
+      if (indLow.includes('bán lẻ') || indLow.includes('retail') || indLow.includes('fmcg')) matchedKey = 'RETAIL';
+      else if (indLow.includes('thương mại') || indLow.includes('ecommerce') || indLow.includes('d2c')) matchedKey = 'ECOMMERCE';
+      else if (indLow.includes('tài chính') || indLow.includes('ngân hàng') || indLow.includes('fintech')) matchedKey = 'FINANCE';
+      else if (indLow.includes('vận') || indLow.includes('logistics')) matchedKey = 'LOGISTICS';
+      else if (indLow.includes('phần mềm') || indLow.includes('saas') || indLow.includes('công nghệ')) matchedKey = 'SAAS';
+      else if (indLow.includes('sản xuất') || indLow.includes('manufacturing')) matchedKey = 'MANUFACTURING';
+
+      const customCfg = {
+        kpis: [
+          { code: "NET_REVENUE", name: `Doanh Thu Thuần (${CURRENT_INDUSTRY || 'Ngành Tùy Chỉnh'})`, desc: `Theo dõi doanh thu thực tế và tốc độ tăng trưởng MoM phục vụ mục tiêu: ${CURRENT_GOAL || 'Tối ưu tăng trưởng'}.`, target: "Tăng > 10% MoM" },
+          { code: "GROSS_MARGIN", name: "Biên Lợi Nhuận Gộp & Hiệu Quả Chi Phí", desc: "Đo lường phần lợi nhuận giữ lại sau khi khấu trừ giá vốn và các khoản giảm trừ.", target: "35% - 50%" },
+          { code: "RISK_ANOMALY", name: "Chỉ Số Rủi Ro & Bất Thường Vận Hành", desc: "Phát hiện sớm đơn vị hụt KPI, tỷ lệ hoàn trả cao hoặc xói mòn biên lợi nhuận.", target: "< 5.0% Rủi ro" }
+        ],
+        steps: [
+          `1. Chuẩn hóa dữ liệu riêng cho ngành ${CURRENT_INDUSTRY || 'Doanh nghiệp'}`,
+          `2. Khử trùng lặp, loại bỏ giao dịch hủy & doanh số ảo`,
+          `3. Tính toán các chỉ số cốt lõi bám sát mục tiêu: ${CURRENT_GOAL || 'Quản trị tổng thể'}`,
+          `4. Xuất BCTC chuẩn VAS & cảnh báo bất thường từng đơn vị`
+        ]
+      };
+
+      const cfg = industryConfig[matchedKey] || customCfg;
 
       kpiContainer.innerHTML = cfg.kpis.map(k => `
         <div class="bg-[#0b1222] border border-cyan-500/25 p-5 rounded-2xl relative hover:border-blue-500 transition">
