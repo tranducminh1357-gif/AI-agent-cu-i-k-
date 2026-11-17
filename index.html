@@ -479,23 +479,27 @@
           Khách hàng cung cấp thông tin định danh doanh nghiệp, tải lên các file dữ liệu thô (Excel, CSV, JSON) và xác định mục tiêu phân tích mong muốn. Hệ thống sẽ ghi nhận ngữ cảnh vào <strong>Session Memory</strong>.
         </p>
 
-        <!-- Form Thông Tin Doanh Nghiệp (Có Thể Chỉnh Sửa Tự Do) -->
+        <!-- Form Thông Tin Doanh Nghiệp (Bắt Buộc Điền) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-900/70 p-6 rounded-2xl border border-cyan-500/25">
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-bold text-[#00f5d4]">
                 1. Tên Công Ty / Doanh Nghiệp: <span class="text-pink-400">*</span>
               </label>
-              <span class="text-[10px] text-slate-400 italic">Có thể sửa bất cứ lúc nào</span>
+              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc</span>
             </div>
-            <input type="text" id="inp-company" oninput="syncCompanyAndIndustry()" value="Công ty Cổ phần Bán Lẻ An Phát" placeholder="Ví dụ: Công ty Cổ phần ABC, VinFast, An Phát..." class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+            <input type="text" id="inp-company" required oninput="syncCompanyAndIndustry()" value="" placeholder="Nhập tên công ty (Ví dụ: NovaTech, ABC...)" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
           </div>
 
           <div>
-            <label class="text-xs font-bold text-[#00f5d4] block mb-1.5">
-              2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-pink-400">*</span>
-            </label>
-            <select id="inp-industry" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-[#00f5d4]">
+                2. Lĩnh Vực / Ngành Nghề Hoạt Động: <span class="text-pink-400">*</span>
+              </label>
+              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc</span>
+            </div>
+            <select id="inp-industry" required onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+              <option value="" selected disabled>-- Chọn lĩnh vực / ngành nghề --</option>
               <option value="RETAIL">Bán Lẻ & Chuỗi Cửa Hàng (Retail & FMCG)</option>
               <option value="ECOMMERCE">Thương Mại Điện Tử & D2C (E-Commerce)</option>
               <option value="FINANCE">Tài Chính, Ngân Hàng & Đầu Tư (Fintech & Banking)</option>
@@ -506,10 +510,14 @@
           </div>
 
           <div>
-            <label class="text-xs font-bold text-[#00f5d4] block mb-1.5">
-              3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-pink-400">*</span>
-            </label>
-            <select id="inp-goal" onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-[#00f5d4]">
+                3. Mục Tiêu Phân Tích Mong Muốn: <span class="text-pink-400">*</span>
+              </label>
+              <span class="text-[10px] text-pink-400 font-semibold">Bắt buộc</span>
+            </div>
+            <select id="inp-goal" required onchange="syncCompanyAndIndustry()" class="w-full bg-slate-900 border border-cyan-500/35 rounded-xl p-3 text-xs text-slate-100 outline-none focus:border-[#00f5d4] font-bold">
+              <option value="" selected disabled>-- Chọn mục tiêu phân tích --</option>
               <option value="REVENUE_PROFIT">Phân tích Doanh thu, Lợi nhuận gộp & Tăng trưởng MoM</option>
               <option value="RETURNS_ANOMALIES">Kiểm toán Đổi trả, Thất thoát & Phát hiện Bất thường</option>
               <option value="BRANCH_KPI">Đánh giá Hiệu năng Chi nhánh & Xếp hạng Ưu tiên Hỗ trợ</option>
@@ -1219,7 +1227,41 @@
       window._omniToastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3500);
     }
 
+    function validateRequiredCompanyInputs() {
+      const inpComp = document.getElementById('inp-company');
+      const inpInd = document.getElementById('inp-industry');
+      const inpGoal = document.getElementById('inp-goal');
+
+      const fields = [
+        { el: inpComp, ok: !!(inpComp && inpComp.value.trim()), label: 'Tên Công Ty / Doanh Nghiệp' },
+        { el: inpInd, ok: !!(inpInd && inpInd.value), label: 'Lĩnh Vực / Ngành Nghề' },
+        { el: inpGoal, ok: !!(inpGoal && inpGoal.value), label: 'Mục Tiêu Phân Tích' }
+      ];
+
+      let firstBad = null;
+      const missingLabels = [];
+      fields.forEach(f => {
+        if (!f.el) return;
+        if (!f.ok) {
+          f.el.classList.add('border-rose-500', 'ring-2', 'ring-rose-500/40');
+          if (!firstBad) firstBad = f.el;
+          missingLabels.push(f.label);
+        } else {
+          f.el.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
+        }
+      });
+
+      if (firstBad) {
+        firstBad.focus();
+        firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast(`Bắt buộc điền đầy đủ: ${missingLabels.join(', ')}!`, true);
+        return false;
+      }
+      return true;
+    }
+
     function runInstantReport() {
+      if (!validateRequiredCompanyInputs()) return;
       const t0 = performance.now();
       syncCompanyAndIndustry();
       if (!isDataCleaned) runDataCleaningEngine();
@@ -1238,6 +1280,9 @@
     }
 
     function switchStep(stepNum) {
+      if (stepNum > 1 && !validateRequiredCompanyInputs()) {
+        stepNum = 1;
+      }
       for (let i = 1; i <= 6; i++) {
         const el = document.getElementById(`stage-${i}`);
         const btn = document.getElementById(`btn-step-${i}`);
@@ -1267,27 +1312,42 @@
     });
 
     function syncCompanyAndIndustry() {
-      COMPANY_NAME = document.getElementById('inp-company').value.trim() || "Doanh Nghiệp";
-      CURRENT_INDUSTRY = document.getElementById('inp-industry').value;
-      CURRENT_GOAL = document.getElementById('inp-goal').value;
+      const inpComp = document.getElementById('inp-company');
+      const inpInd = document.getElementById('inp-industry');
+      const inpGoal = document.getElementById('inp-goal');
 
-      document.getElementById('top-company-name').innerText = COMPANY_NAME;
-      document.getElementById('header-company-name').innerText = COMPANY_NAME;
-      document.getElementById('log-comp-name').innerText = COMPANY_NAME;
-      document.getElementById('top-industry').innerText = document.getElementById('inp-industry').selectedOptions[0].text.split('(')[0].trim();
-      document.getElementById('log-industry').innerText = document.getElementById('top-industry').innerText;
+      COMPANY_NAME = (inpComp ? inpComp.value.trim() : '') || '';
+      CURRENT_INDUSTRY = inpInd ? inpInd.value : '';
+      CURRENT_GOAL = inpGoal ? inpGoal.value : '';
+
+      // Xóa viền báo lỗi ngay khi người dùng đã nhập/chọn
+      if (inpComp && COMPANY_NAME) inpComp.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
+      if (inpInd && CURRENT_INDUSTRY) inpInd.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
+      if (inpGoal && CURRENT_GOAL) inpGoal.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/40');
+
+      const displayComp = COMPANY_NAME || 'Chưa nhập tên công ty';
+      const displayInd = (inpInd && inpInd.value && inpInd.selectedOptions[0])
+        ? inpInd.selectedOptions[0].text.split('(')[0].trim()
+        : 'Chưa chọn ngành nghề';
+
+      document.getElementById('top-company-name').innerText = displayComp;
+      document.getElementById('header-company-name').innerText = COMPANY_NAME || 'Doanh Nghiệp';
+      document.getElementById('log-comp-name').innerText = displayComp;
+      document.getElementById('top-industry').innerText = displayInd;
+      document.getElementById('log-industry').innerText = displayInd;
       
       const elS2 = document.getElementById('stage2-company-text');
-      if (elS2) elS2.innerText = COMPANY_NAME;
+      if (elS2) elS2.innerText = displayComp;
       const elS4 = document.getElementById('stage4-company-text');
-      if (elS4) elS4.innerText = COMPANY_NAME;
+      if (elS4) elS4.innerText = displayComp;
       const elS5 = document.getElementById('stage5-company-text');
-      if (elS5) elS5.innerText = COMPANY_NAME;
+      if (elS5) elS5.innerText = displayComp;
       const elChat = document.getElementById('chat-comp-mention');
-      if (elChat) elChat.innerText = COMPANY_NAME;
+      if (elChat) elChat.innerText = displayComp;
     }
 
     function proceedToStage2() {
+      if (!validateRequiredCompanyInputs()) return;
       syncCompanyAndIndustry();
       runDataCleaningEngine();
       switchStep(2);
@@ -2530,12 +2590,16 @@
             document.getElementById('session-records-badge').innerText = `${totalDataRows.toLocaleString()} dòng sẵn sàng`;
             document.getElementById('top-dataset-status').innerText = `${totalDataRows.toLocaleString()} Bản Ghi`;
 
-            saveCompanySession(COMPANY_NAME, CURRENT_INDUSTRY, CURRENT_GOAL, file.name, CURRENT_DATA);
             isDataCleaned = false;
-            runInstantReport();
             const totalSec = ((performance.now() - tStart) / 1000).toFixed(2);
-            updateEtaUI(100, `Hoàn tất tổng hợp ${totalDataRows.toLocaleString()} dòng!`, `${Math.round(totalDataRows / Math.max(0.01, parseFloat(totalSec))).toLocaleString()} dòng/s`, `Xong trong ${totalSec}s`);
-            showToast(`Nạp ${totalDataRows.toLocaleString()} dòng & tổng hợp xong trong ${totalSec} giây!`);
+            updateEtaUI(100, `Đã nạp ${totalDataRows.toLocaleString()} dòng!`, `${Math.round(totalDataRows / Math.max(0.01, parseFloat(totalSec))).toLocaleString()} dòng/s`, `Xong trong ${totalSec}s`);
+            if (COMPANY_NAME && CURRENT_INDUSTRY && CURRENT_GOAL) {
+              saveCompanySession(COMPANY_NAME, CURRENT_INDUSTRY, CURRENT_GOAL, file.name, CURRENT_DATA);
+              runInstantReport();
+              showToast(`Nạp ${totalDataRows.toLocaleString()} dòng & tổng hợp xong trong ${totalSec} giây!`);
+            } else {
+              validateRequiredCompanyInputs();
+            }
           } catch(err) {
             updateEtaUI(0, 'Lỗi đọc tệp!', '0 dòng/s', 'Thất bại');
             showToast("Lỗi khi đọc file: " + err.message, true);
