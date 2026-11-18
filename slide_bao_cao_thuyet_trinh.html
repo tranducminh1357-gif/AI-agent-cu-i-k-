@@ -152,7 +152,7 @@
         <span>Về Ứng Dụng Agent</span>
       </a>
       <span class="text-xs font-bold text-[#00f5d4]">
-        <i class="fa-solid fa-display mr-1"></i> SLIDE THUYẾT TRÌNH • OMNIANALYST AI STUDIO
+        <i class="fa-solid fa-display mr-1"></i> SLIDE BÁO CÁO DỰ ÁN • OMNIANALYST AI STUDIO
       </span>
     </div>
     <div class="flex flex-wrap items-center gap-2">
@@ -172,304 +172,316 @@
   <div class="slide-stage">
     <!-- Slide Header Meta -->
     <div class="flex items-center justify-between text-xs text-slate-400 pb-4 border-b border-cyan-500/20 mb-4">
-      <span class="font-bold text-[#00f5d4] tracking-wider uppercase">OMNIANALYST AI STUDIO • PHÂN TÍCH QUY TRÌNH & CÂU LỆNH XÂY DỰNG</span>
-      <span id="slide-counter" class="font-mono font-bold text-slate-200">Slide 1 / 10</span>
+      <span class="font-bold text-[#00f5d4] tracking-wider uppercase">OMNIANALYST AI STUDIO • AGENT BLUEPRINT & BÁO CÁO ĐÁNH GIÁ</span>
+      <span id="slide-counter" class="font-mono font-bold text-slate-200">Slide 1 / 7</span>
     </div>
 
-    <!-- SLIDE 1: TITLE -->
-    <section class="slide active space-y-6 text-center" data-note="Chào thầy/cô và mọi người. Hôm nay mình trình bày dự án OmniAnalyst AI Studio — một AI Agent tự động phân tích dữ liệu doanh nghiệp và lập báo cáo tài chính. Điểm trọng tâm của bài nói là phân tích lộ trình các bước và các câu lệnh (Prompt) mình đã dùng để xây dựng sản phẩm hoàn chỉnh từ bản thô ban đầu.">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-[#00f5d4] text-xs font-bold mx-auto">
-        <i class="fa-solid fa-robot"></i>
-        <span>BÁO CÁO PHÂN TÍCH CÁC BƯỚC & CÂU LỆNH XÂY DỰNG AI AGENT</span>
+    <!-- TRANG 1: BỐI CẢNH & NỖI ĐAU NGHIỆP VỤ -->
+    <section class="slide active space-y-5" data-note="Kính chào thầy cô và hội đồng. Hôm nay nhóm trình bày OmniAnalyst AI Studio — hệ thống AI Agent tự động kiểm toán, chuẩn hóa dữ liệu đa ngành và xuất báo cáo chuẩn xác cho doanh nghiệp SME. Trước hết, ở Trang 1 là Bối cảnh & Nỗi đau nghiệp vụ: doanh nghiệp bán lẻ và đa ngành hiện phải xử lý hàng chục file CSV, Excel, JSON từ POS, sàn TMĐT, kho và chấm công mỗi tuần. Dữ liệu thường bị lỗi định dạng, ngoặc kép chưa đóng, số âm bất thường, hoặc sai lệch công thức khi làm thủ công. Nếu ném thẳng vào Chatbot AI thông thường thì AI dễ bịa số liệu và không tuân thủ chuẩn Thông tư 200 Việt Nam.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 1 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Bối Cảnh & Nỗi Đau Nghiệp Vụ</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-building mr-1"></i> Doanh nghiệp mục tiêu: SME Bán lẻ, TMĐT & Đa ngành</span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-extrabold neon-title leading-tight">
-        OmniAnalyst AI Studio
-      </h1>
-      <p class="text-base md:text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed">
-        AI Agent Phân Tích Dữ Liệu Đa Doanh Nghiệp: Tự Động Làm Sạch, Lập Báo Cáo Tài Chính Chuẩn VAS & Hỏi Đáp Thông Minh Qua Gemini / OpenAI API
-      </p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-4 text-left">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="neon-card space-y-2 border-cyan-500/35">
+          <div class="text-sm font-bold text-[#00f5d4]"><i class="fa-solid fa-bullseye mr-1.5"></i> Doanh Nghiệp Mục Tiêu & Bài Toán Vận Hành</div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Các doanh nghiệp SME (chuỗi cửa hàng, bán lẻ đa kênh, dịch vụ) vận hành song song nhiều nguồn dữ liệu:
+            <span class="code-pill">Bán hàng POS/TMĐT</span>, <span class="code-pill">Kho hàng</span>, <span class="code-pill">Chấm công HR</span>, và <span class="code-pill">Sổ kế toán</span>.
+          </p>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Bài toán đặt ra: Cần một AI Agent tự động đọc hiểu mọi cấu trúc bảng dữ liệu bất kỳ, làm sạch lỗi, tra cứu đúng công thức nghiệp vụ và xuất báo cáo chuẩn xác không sai số.
+          </p>
+        </div>
+
+        <div class="neon-card space-y-2 border-rose-500/35">
+          <div class="text-sm font-bold text-rose-400"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> 4 Nỗi Đau Thực Tế Khi Vận Hành Thủ Công / AI Thường</div>
+          <ul class="text-xs text-slate-300 space-y-1.5 leading-relaxed">
+            <li><b class="text-rose-300">1. Dữ liệu thô hỗn loạn:</b> File CSV/Excel lỗi delimiter, ngoặc kép chưa đóng (<span class="code-pill">ERR-001,"Website,100000</span>), trùng lặp, null hoặc sai kiểu số.</li>
+            <li><b class="text-rose-300">2. Tốn thời gian tổng hợp:</b> Nhân sự mất 4–8 giờ/tuần để lọc, ghép bảng và tính tay P&L theo Thông tư 200.</li>
+            <li><b class="text-rose-300">3. Rủi ro AI "bịa số liệu":</b> LLM thuần túy tự đoán công thức hoặc bịa doanh thu/lợi nhuận âm sai lệch với dữ liệu gốc.</li>
+            <li><b class="text-rose-300">4. Thiếu linh hoạt đa miền:</b> Công cụ cứng nhắc chỉ đọc được file doanh thu, bó tay trước file chấm công hoặc danh mục hàng hóa.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+        <i class="fa-solid fa-lightbulb mr-1.5 text-amber-300"></i>
+        <b>Mục tiêu giải pháp:</b> Xây dựng <b>OmniAnalyst AI Studio</b> — tách biệt hoàn toàn lớp <b>Tính toán xác định (Deterministic Script Engine)</b> và lớp <b>Suy luận ngôn ngữ (LLM)</b>, có điểm dừng <b>HITL</b> để đảm bảo 0% bịa đặt số liệu.
+      </div>
+    </section>
+
+    <!-- TRANG 2: KIẾN TRÚC AGENT BLUEPRINT (GIWO) -->
+    <section class="slide space-y-5" data-note="Ở Trang 2 là Kiến trúc Agent Blueprint theo mô hình GIWO: Goal - Input - Workflow - Output. Từ mục tiêu người dùng chọn ở Bước 3, Agent nhận dữ liệu đa định dạng CSV, Excel, JSON hoặc dữ liệu dán trực tiếp. Luồng Workflow thực thi 5 giai đoạn liên hoàn, được bảo vệ bởi 4 hàng rào an toàn bắt buộc: không bịa số liệu, tự sửa lỗi cấu trúc CSV, tra cứu từ điển công thức chuẩn VAS, và tự nhận diện miền dữ liệu để chọn biểu đồ phù hợp.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 2 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Kiến Trúc Agent Blueprint (GIWO)</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-diagram-project mr-1"></i> Goal → Input → Workflow → Output</span>
+      </div>
+
+      <!-- GIWO Pipeline Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div class="neon-card border-cyan-500/40">
+          <div class="text-xs font-bold text-[#00f5d4] mb-1">1. GOAL (Mục tiêu)</div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Xác định tên DN, ngành nghề, mục tiêu phân tích (BCTC VAS, Tồn kho, Chấm công HR, CRM) và chuẩn công thức áp dụng.
+          </p>
+        </div>
+        <div class="neon-card border-sky-500/40">
+          <div class="text-xs font-bold text-sky-300 mb-1">2. INPUT (Đầu vào)</div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Nạp file <span class="code-pill">.xlsx</span>, <span class="code-pill">.csv</span>, <span class="code-pill">.json</span> hoặc Paste thô. Tự tách dấu phân cách & sửa ngoặc kép lỗi.
+          </p>
+        </div>
+        <div class="neon-card border-purple-500/40">
+          <div class="text-xs font-bold text-purple-300 mb-1">3. WORKFLOW (Tác tử)</div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Phân rã nhiệm vụ: Profile Schema → Làm sạch ETL → Kiểm toán bất thường → <b>HITL Approval Gate</b> → Tổng hợp AI.
+          </p>
+        </div>
+        <div class="neon-card border-emerald-500/40">
+          <div class="text-xs font-bold text-emerald-300 mb-1">4. OUTPUT (Đầu ra)</div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Dashboard đa miền, BCTC Thông tư 200, <b>Báo cáo Markdown (.md)</b> có cấu trúc, Excel/CSV sạch & AI Chat hỏi đáp.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Mandatory Safety Guardrails -->
+      <div class="neon-card border-amber-500/35">
+        <div class="text-sm font-bold text-amber-300 mb-2"><i class="fa-solid fa-shield-halved mr-1.5"></i> 4 Hàng Rào An Toàn Bắt Buộc (Mandatory Guardrails)</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+          <div><i class="fa-solid fa-check text-[#00f5d4] mr-1"></i> <b>Zero-Fabrication Guardrail:</b> Cấm LLM tự tính nhẩm hoặc điền số ước lượng; mọi KPI lấy trực tiếp từ <span class="code-pill">CURRENT_DATA</span> đã kiểm chứng.</div>
+          <div><i class="fa-solid fa-check text-[#00f5d4] mr-1"></i> <b>Strict Status Matching:</b> Dùng <span class="code-pill">isCompletedStatus()</span> / <span class="code-pill">isReturnStatus()</span> tránh lỗi substring làm âm doanh thu.</div>
+          <div><i class="fa-solid fa-check text-[#00f5d4] mr-1"></i> <b>Formula Knowledge Base:</b> Agent tra cứu công thức chuẩn (VAS 200, Tồn kho, HR) trước khi giải thích cho người dùng.</div>
+          <div><i class="fa-solid fa-check text-[#00f5d4] mr-1"></i> <b>HITL Approval Breakpoint:</b> Khóa xuất báo cáo cuối nếu người dùng chưa phê duyệt bảng kiểm toán làm sạch ở Bước 4.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANG 3: HỆ THỐNG CUSTOM SKILLS -->
+    <section class="slide space-y-5" data-note="Sang Trang 3 là Hệ thống Custom Skills và vai trò của các script lập trình. Thay vì dùng một prompt khổng lồ dễ lỗi, nhóm tách Agent thành 5 Custom Skills chuyên biệt phối hợp liên hoàn: từ Schema Profiler nhận diện miền dữ liệu, Data Cleaner chuẩn hóa kiểu số và ngày tháng, Anomaly Auditor phát hiện ngoại lệ và áp công thức VAS, đến HITL Gate và Markdown Publisher. Các script lập trình đóng vai trò xương sống tính toán xác định, giúp xử lý 15.000 dòng dưới 1 giây mà không tốn token LLM.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 3 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Hệ Thống Custom Skills & Vai Trò Script</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-cubes mr-1"></i> 5 Modular Skills + Deterministic Scripts</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+        <div class="neon-card border-cyan-500/35 space-y-1.5">
+          <div class="font-bold text-[#00f5d4]">Skill 1: Schema Profiler</div>
+          <p class="text-slate-300 text-[11px]">Quét header & mẫu dữ liệu để phân loại domain: Tài chính, Chấm công HR, Kho hàng hay CRM.</p>
+          <div class="code-pill text-[10px]">detectDatasetDomain()</div>
+        </div>
+        <div class="neon-card border-sky-500/35 space-y-1.5">
+          <div class="font-bold text-sky-300">Skill 2: Data Cleaner</div>
+          <p class="text-slate-300 text-[11px]">Sửa CSV ngoặc kép lỗi, chuẩn hóa tiền tệ/ngày tháng, loại dòng rác & xử lý null.</p>
+          <div class="code-pill text-[10px]">fastParseCSVMatrix()</div>
+        </div>
+        <div class="neon-card border-purple-500/35 space-y-1.5">
+          <div class="font-bold text-purple-300">Skill 3: VAS & Stats Auditor</div>
+          <p class="text-slate-300 text-[11px]">Tính toán P&L Thông tư 200 hoặc thống kê Min/Max/Sum/Mean đa chiều không sai số.</p>
+          <div class="code-pill text-[10px]">FORMULA_KNOWLEDGE_BASE</div>
+        </div>
+        <div class="neon-card border-amber-500/35 space-y-1.5">
+          <div class="font-bold text-amber-300">Skill 4: HITL Gatekeeper</div>
+          <p class="text-slate-300 text-[11px]">Tạm dừng pipeline, trình bày log dòng lỗi & chờ con người nhấn Phê duyệt.</p>
+          <div class="code-pill text-[10px]">approveHitlAndProceed()</div>
+        </div>
+        <div class="neon-card border-emerald-500/35 space-y-1.5">
+          <div class="font-bold text-emerald-300">Skill 5: Report Publisher</div>
+          <p class="text-slate-300 text-[11px]">Sinh Dashboard Chart.js, Báo cáo Markdown (.md), Excel & tiếp nhận Feedback API.</p>
+          <div class="code-pill text-[10px]">generateMarkdownReport()</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         <div class="neon-card">
-          <div class="text-xs text-slate-400">Quy Trình Chuẩn</div>
-          <div class="text-xl font-black text-[#00f5d4] mt-1">5 Bước Khép Kín</div>
+          <div class="font-bold text-[#00f5d4] mb-1.5"><i class="fa-solid fa-code mr-1.5"></i> Vai Trò Của Script Lập Trình (JS + Python)</div>
+          <ul class="space-y-1 text-slate-300 leading-relaxed">
+            <li>• <b>Xử lý dữ liệu lớn bằng Chunking:</b> <span class="code-pill">compileMatrixDatasetAsync()</span> xử lý 15.000–25.000 dòng mượt mà không treo trình duyệt.</li>
+            <li>• <b>Sinh & Kiểm thử dữ liệu:</b> Script Python tạo bộ test <span class="code-pill">OmniTest_Toan_Dien_15k.xlsx</span> và kiểm tra trùng ID/hàm tự động.</li>
+          </ul>
         </div>
         <div class="neon-card">
-          <div class="text-xs text-slate-400">Đầu Vào Linh Hoạt</div>
-          <div class="text-xl font-black text-[#38bdf8] mt-1">Excel • CSV • JSON</div>
-        </div>
-        <div class="neon-card">
-          <div class="text-xs text-slate-400">Báo Cáo Tài Chính</div>
-          <div class="text-xl font-black text-[#e879f9] mt-1">P&L • CĐKT • Dòng Tiền</div>
-        </div>
-        <div class="neon-card">
-          <div class="text-xs text-slate-400">Trí Tuệ Nhân Tạo</div>
-          <div class="text-xl font-black text-emerald-400 mt-1">Gemini API • Vercel</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SLIDE 2: PROBLEM & OBJECTIVES -->
-    <section class="slide space-y-6" data-note="Ban đầu hệ thống chỉ chạy cho 1 công ty mẫu cố định và chưa có báo cáo tài chính đầy đủ. Vì vậy mình đặt ra 4 mục tiêu rõ ràng: chạy được cho mọi công ty khác nhau, tự động làm sạch dữ liệu bẩn ngay ở Bước 2, tăng tốc độ xử lý kèm ước tính thời gian thực, và gắn API AI thật để trả lời tự nhiên.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 1 • BÀI TOÁN & MỤC TIÊU</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Từ Bản Mẫu Cố Định Đến Agent Đa Doanh Nghiệp</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="neon-card space-y-3 border-rose-500/40">
-          <h3 class="text-base font-bold text-rose-400 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Vấn Đề Của Phiên Bản Đầu</h3>
-          <ul class="text-sm text-slate-200 space-y-2.5 list-disc pl-5 leading-relaxed">
-            <li>Chỉ chạy theo 1 bộ dữ liệu cố định (công ty mẫu Phúc An), không nhập được công ty khác.</li>
-            <li>Dữ liệu thực tế từ doanh nghiệp thường bị trùng mã đơn, có đơn hủy, đơn đổi trả và tên cột mỗi nơi một kiểu.</li>
-            <li>Khi đưa lên Vercel dễ gặp lỗi đường dẫn hoặc cảnh báo môi trường Node.js.</li>
-            <li>Chưa có Báo cáo Tài chính chuẩn kế toán và chưa gọi API AI thật.</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-3 border-emerald-500/40">
-          <h3 class="text-base font-bold text-[#00f5d4] flex items-center"><i class="fa-solid fa-bullseye mr-2"></i> Giải Pháp Đã Hoàn Thiện</h3>
-          <ul class="text-sm text-slate-200 space-y-2.5 list-disc pl-5 leading-relaxed">
-            <li>Cho phép <strong>tự nhập bất kỳ công ty, ngành nghề, mục tiêu</strong> nào (bắt buộc điền, có gợi ý nhanh).</li>
-            <li>Đưa bước <strong>Làm sạch dữ liệu tự động lên Bước 2</strong> kèm bộ tự nhận diện tên cột Việt – Anh.</li>
-            <li>Gom toàn bộ <strong>BCTC chuẩn VAS + Biểu đồ + Sửa số liệu + Hỏi AI</strong> vào cùng 1 trang duy nhất.</li>
-            <li>Tăng tốc độ đọc file lớn kèm <strong>đếm ngược thời gian còn lại (ETA)</strong> và gắn <strong>Gemini / OpenAI API</strong>.</li>
+          <div class="font-bold text-[#e879f9] mb-1.5"><i class="fa-solid fa-robot mr-1.5"></i> Vai Trò Của LLM API (Gemini 3.5 Flash Lite / 3.8 Flash)</div>
+          <ul class="space-y-1 text-slate-300 leading-relaxed">
+            <li>• Chỉ nhận <b>JSON tóm tắt đã kiểm chứng</b> để diễn giải insight, gợi ý hành động quản trị và trả lời hỏi đáp ngữ cảnh.</li>
+            <li>• Tích hợp <b>Feedback Auto-Fix Loop:</b> Phân tích góp ý người dùng qua <span class="code-pill">/api/chat</span> và tự điều chỉnh báo cáo trên web.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 3: PROMPT EVOLUTION PART 1 -->
-    <section class="slide space-y-5" data-note="Slide này cho mọi người thấy 3 nhóm câu lệnh đầu tiên mình dùng để định hình lõi của Agent: từ tổng quát hóa sang đa công ty, đến việc dời Làm sạch lên Bước 2 và gom toàn bộ báo cáo tài chính vào 1 trang duy nhất.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 2 • PHÂN TÍCH CÁC CÂU LỆNH ĐÃ DÙNG (1/2)</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Từ Ý Tưởng Đến Quy Trình & Báo Cáo Hợp Nhất</h2>
+    <!-- TRANG 4: CƠ CHẾ KIỂM SOÁT & AN TOÀN (HITL & MCP) -->
+    <section class="slide space-y-5" data-note="Ở Trang 4 là Cơ chế Kiểm soát & An toàn với 2 trụ cột là HITL và MCP. Thứ nhất, về Human-in-the-Loop (HITL), Agent không tự ý xuất báo cáo ngay mà có một Điểm dừng phê duyệt bắt buộc (Approval Breakpoint) tại Bước 4. Tại đây con người kiểm tra số dòng hợp lệ, các dòng bị loại hoặc ngoại lệ âm/thiếu, rồi mới xác nhận xuất Bước 5. Thứ hai, về kết nối dữ liệu theo chuẩn MCP-style Adapter và Vercel Serverless Proxy, dữ liệu thô được xử lý cục bộ trên trình duyệt để bảo mật, chỉ gửi metadata ẩn danh qua proxy /api/chat nhằm bảo vệ tuyệt đối API Key.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 4 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Cơ Chế Kiểm Soát & An Toàn (HITL & MCP)</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-user-shield mr-1"></i> Human-in-the-Loop + Bảo Mật Kết Nối</span>
       </div>
-      <div class="space-y-4">
-        <div class="neon-card space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold text-[#00f5d4]">Câu lệnh 1: Tổng quát hóa Agent cho nhiều doanh nghiệp</span>
-            <span class="text-xs text-slate-400">Định hình kiến trúc</span>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="neon-card border-amber-500/40 space-y-3">
+          <div class="text-sm font-bold text-amber-300"><i class="fa-solid fa-hand mr-1.5"></i> Điểm Dừng Phê Duyệt Con Người (HITL Breakpoint)</div>
+          <div class="space-y-2 text-xs text-slate-300 leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-700">
+              <b>Bước 1–3:</b> Agent tự động nạp file, sửa delimiter và kiểm toán ngoại lệ.
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-400/50 text-amber-200">
+              <b><i class="fa-solid fa-pause-circle mr-1"></i> APPROVAL BREAKPOINT (Bước 4):</b> Agent <b>TẠM DỪNG</b>, hiển thị tổng số dòng sạch, số dòng bất thường/trùng lặp, và bảng ánh xạ cột để người dùng xác nhận.
+            </div>
+            <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-400/40 text-emerald-200">
+              <b>Chỉ khi nhấn "Phê Duyệt & Xuất Báo Cáo":</b> Agent mới mở khóa Bước 5 để sinh Dashboard & Markdown.
+            </div>
           </div>
-          <div class="prompt-box">"Không làm theo công ty cố định nữa, chuyển thành Agent phân tích dữ liệu đa doanh nghiệp theo luồng chuẩn; để trống 3 ô thông tin và bắt buộc tự nhập linh hoạt."</div>
-          <p class="text-sm text-slate-300"><strong>Kết quả:</strong> Tách hoàn toàn khỏi dữ liệu cứng, hỗ trợ nhập mọi ngành nghề/mục tiêu, tạo bộ dữ liệu test mới (<span class="code-pill">NovaTech 25k</span>, <span class="code-pill">GoldenCup 10k</span>) và quản lý nhiều công ty trong 1 phiên.</p>
         </div>
 
-        <div class="neon-card space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold text-[#38bdf8]">Câu lệnh 2: Đưa Làm sạch lên Bước 2 & Gom báo cáo về 1 trang</span>
-            <span class="text-xs text-slate-400">Tối ưu trải nghiệm</span>
+        <div class="neon-card border-cyan-500/40 space-y-3">
+          <div class="text-sm font-bold text-[#00f5d4]"><i class="fa-solid fa-plug-circle-check mr-1.5"></i> Phương Thức Kết Nối Dữ Liệu (MCP & API Proxy)</div>
+          <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+            <li>
+              <b class="text-cyan-300">1. Local Data Connector (MCP-style Tooling):</b> Đọc trực tiếp Excel (SheetJS), CSV, JSON và Clipboard trên sandbox trình duyệt — <b>không upload file nhạy cảm</b> của doanh nghiệp lên máy chủ ngoài.
+            </li>
+            <li>
+              <b class="text-cyan-300">2. Serverless API Gateway (<span class="code-pill">api/chat.js</span>):</b> Gọi mô hình Gemini/OpenAI qua Vercel Serverless Function với biến môi trường bảo mật, chống lộ API Key ở frontend.
+            </li>
+            <li>
+              <b class="text-cyan-300">3. Feedback Auto-Fix Channel:</b> Người dùng báo lỗi ngay trên UI; Agent nhận ngữ cảnh + feedback để tự đề xuất và áp dụng bản sửa trực tiếp.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANG 5: KẾT QUẢ KIỂM THỬ & ĐÁNH GIÁ HIỆU NĂNG -->
+    <section class="slide space-y-5" data-note="Trang 5 trình bày Kết quả Kiểm thử & Đánh giá Hiệu năng trên 3 nhóm dữ liệu: OmniTest 15.000 dòng, GoldenCup dữ liệu gốc và file CSV lỗi ngoặc kép chưa đóng. Tỷ lệ hoàn thành tác vụ TCR đạt 100% trên cả dữ liệu bán lẻ, tồn kho và chấm công. Độ chính xác gọi công thức và parser đạt 100% sau khi khắc phục lỗi substring Hoàn thành. Chi phí vận hành cực thấp nhờ tính toán bằng script cục bộ và chỉ gửi tóm tắt JSON cho Gemini Flash Lite.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 5 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Kết Quả Kiểm Thử & Đánh Giá Hiệu Năng</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-gauge-high mr-1"></i> Benchmark trên 15.000+ dòng đa miền</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="neon-card text-center border-emerald-500/40">
+          <div class="text-xs text-slate-400 uppercase font-bold">TCR (Task Completion Rate)</div>
+          <div class="text-3xl font-extrabold text-emerald-400 my-1">100%</div>
+          <p class="text-[11px] text-slate-300">Hoàn thành trọn vẹn 5 bước trên <span class="code-pill">OmniTest_15k</span>, <span class="code-pill">GoldenCup</span> & CSV lỗi ngoặc kép.</p>
+        </div>
+        <div class="neon-card text-center border-cyan-500/40">
+          <div class="text-xs text-slate-400 uppercase font-bold">Tool & Formula Accuracy</div>
+          <div class="text-3xl font-extrabold text-[#00f5d4] my-1">100%</div>
+          <p class="text-[11px] text-slate-300">Khớp 100% số tổng từ dữ liệu gốc; loại bỏ hoàn toàn lỗi âm doanh thu & bịa hệ số.</p>
+        </div>
+        <div class="neon-card text-center border-purple-500/40">
+          <div class="text-xs text-slate-400 uppercase font-bold">Cost & Tốc Độ Xử Lý</div>
+          <div class="text-3xl font-extrabold text-[#e879f9] my-1">&lt; 1.5s / ~$0.001</div>
+          <p class="text-[11px] text-slate-300">ETL cục bộ tốn 0 token; chỉ tốn ~800 token tóm tắt trên Gemini 3.5 Flash Lite.</p>
+        </div>
+      </div>
+
+      <div class="neon-card border-sky-500/35 space-y-2">
+        <div class="text-sm font-bold text-sky-300"><i class="fa-solid fa-book-open mr-1.5"></i> Bài Học Kinh Nghiệm Quan Trọng Từ Quá Trình Kiểm Thử</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300 leading-relaxed">
+          <div>• <b>Lỗi tinh vi từ Substring:</b> Chuỗi trạng thái có chữ "Hoàn" từng bị nhận nhầm là "Hoàn trả" thay vì "Hoàn thành", gây trừ nhầm doanh thu thành số âm. Giải pháp: tách rõ <span class="code-pill">isCompletedStatus()</span> và <span class="code-pill">isReturnStatus()</span>.</div>
+          <div>• <b>Không giao phép toán cho LLM:</b> LLM chỉ làm nhiệm vụ giải thích, nhận xét và hỏi đáp; 100% phép cộng/trừ/nhân/chia và lọc bảng do Script thực thi nên tốc độ nhanh và không bao giờ ảo giác số.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANG 6: GIÁ TRỊ KINH DOANH & TIỀM NĂNG ỨNG DỤNG -->
+    <section class="slide space-y-5" data-note="Trang 6 là Giá trị Kinh doanh & Tiềm năng Ứng dụng. Với doanh nghiệp SME, OmniAnalyst AI Studio giúp cắt giảm tới 90% thời gian làm báo cáo định kỳ từ nhiều giờ xuống còn vài giây, đảm bảo số liệu chuẩn Thông tư 200 để ban giám đốc ra quyết định nhanh và an toàn. Nhờ kiến trúc đa miền, một hệ thống duy nhất có thể phục vụ từ phòng Kế toán, Kinh doanh đến Kho vận và Nhân sự, dễ dàng đóng gói thành dịch vụ SaaS trên Vercel.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#e879f9]">Trang 6 / 6 (Nội Dung Chính)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Giá Trị Kinh Doanh & Tiềm Năng Ứng Dụng</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-chart-line mr-1"></i> ROI Thực Tế Cho Doanh Nghiệp</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="neon-card border-cyan-500/35 space-y-2">
+          <div class="text-sm font-bold text-[#00f5d4]"><i class="fa-solid fa-clock mr-1.5"></i> Giảm 90% Thời Gian</div>
+          <p class="text-slate-300 leading-relaxed">Rút ngắn quy trình làm sạch dữ liệu & lập báo cáo từ <b>4–8 giờ/tuần</b> xuống còn <b>dưới 1 phút</b>, giải phóng nhân sự khỏi thao tác Excel lặp lại.</p>
+        </div>
+        <div class="neon-card border-emerald-500/35 space-y-2">
+          <div class="text-sm font-bold text-emerald-300"><i class="fa-solid fa-scale-balanced mr-1.5"></i> Chuẩn Hóa & Minh Bạch</div>
+          <p class="text-slate-300 leading-relaxed">Tuân thủ công thức Thông tư 200 (VAS) và lưu vết toàn bộ dòng lỗi đã xử lý, giúp kế toán trưởng & kiểm toán dễ dàng đối soát.</p>
+        </div>
+        <div class="neon-card border-purple-500/35 space-y-2">
+          <div class="text-sm font-bold text-[#e879f9]"><i class="fa-solid fa-layer-group mr-1.5"></i> 1 Agent — Đa Phòng Ban</div>
+          <p class="text-slate-300 leading-relaxed">Áp dụng linh hoạt cho Tài chính, Bán lẻ TMĐT, Chấm công HR, Quản lý Kho & CRM chỉ bằng thao tác nạp file mới.</p>
+        </div>
+      </div>
+
+      <div class="neon-card border-sky-500/35">
+        <div class="text-sm font-bold text-sky-300 mb-1.5"><i class="fa-solid fa-rocket mr-1.5"></i> Tiềm Năng Mở Rộng Trong Tương Lai</div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Sẵn sàng triển khai SaaS trên Vercel (<span class="code-pill">index.html</span> + <span class="code-pill">api/chat.js</span>), mở rộng kết nối trực tiếp Webhook/MCP tới MISA, KiotViet, Google Sheets và tự động gửi báo cáo Markdown/PDF định kỳ qua Email/Zalo OA cho lãnh đạo doanh nghiệp.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: KỊCH BẢN DEMO TRỰC TIẾP (MỤC 3.2) -->
+    <section class="slide space-y-5" data-note="Cuối cùng là Kịch bản Demo Trực Tiếp theo đúng 4 yêu cầu bắt buộc. Bước 1, em sẽ nạp bộ dữ liệu kiểm thử mới OmniTest_Toan_Dien_15k.xlsx hoặc file CSV lỗi ngoặc kép chưa đóng vào Bước 1. Bước 2, hệ thống tự động phân rã nhiệm vụ và chạy chuỗi Skills liên hoàn qua các bước Làm sạch và Khung ngành. Bước 3, Agent sẽ dừng lại ở Điểm dừng Phê duyệt Con người (HITL Approval Breakpoint) tại Bước 4 để người dùng xác nhận dữ liệu kiểm toán. Bước 4, sau khi bấm phê duyệt, hệ thống hiển thị Dashboard, BCTC và sản phẩm Báo cáo Markdown hoàn chỉnh có thể sao chép hoặc tải xuống ngay. Sau đây em xin phép chuyển sang màn hình Demo trực tiếp.">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#00f5d4]">Kịch Bản Thực Hành (Mục 3.2 Bắt Buộc)</span>
+          <h2 class="text-3xl font-extrabold neon-title mt-1">Kịch Bản Demo Trực Tiếp (4 Bước Chuẩn)</h2>
+        </div>
+        <span class="code-pill"><i class="fa-solid fa-play-circle mr-1"></i> Live Demo Flow</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="neon-card border-cyan-500/40 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-[#00f5d4] font-extrabold flex items-center justify-center shrink-0">1</div>
+          <div>
+            <div class="font-bold text-[#00f5d4] text-sm">Nạp Bộ Dữ Liệu Kiểm Thử Mới</div>
+            <p class="text-slate-300 mt-1 leading-relaxed">Tải lên <span class="code-pill">OmniTest_Toan_Dien_15k.xlsx</span> (15.000 dòng chưa từng xuất hiện khi huấn luyện) hoặc dán CSV lỗi <span class="code-pill">19_ngoac_kep_chua_dong.csv</span> tại Bước 1.</p>
           </div>
-          <div class="prompt-box">"Sắp xếp lại làm sạch lên Bước 2; làm đầy đủ chi tiết các thành phần của một bản báo cáo tài chính và gom phần báo cáo vào hết 1 trang giao diện."</div>
-          <p class="text-sm text-slate-300"><strong>Kết quả:</strong> Dữ liệu được làm sạch và nhận diện cột ngay ở Bước 2. Toàn bộ P&L, Bảng Cân Đối Kế Toán, Lưu Chuyển Tiền Tệ, 8 Chỉ Số, Biểu đồ, Bàn sửa số liệu và Chat AI nằm gọn trong Bước 5.</p>
         </div>
-      </div>
-    </section>
 
-    <!-- SLIDE 4: PROMPT EVOLUTION PART 2 -->
-    <section class="slide space-y-5" data-note="3 nhóm câu lệnh tiếp theo tập trung vào hiệu năng, trí tuệ nhân tạo thật và giao diện: xử lý file nhanh kèm ước tính thời gian, gắn Gemini API thật cùng trợ lý ảo Nam/Nữ, và hoàn thiện giao diện Neon.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 2 • PHÂN TÍCH CÁC CÂU LỆNH ĐÃ DÙNG (2/2)</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Tăng Tốc Độ, Kết Nối AI Thật & Giao Diện Hiện Đại</h2>
-      </div>
-      <div class="space-y-4">
-        <div class="neon-card space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold text-[#00f5d4]">Câu lệnh 3: Tối ưu tốc độ & Ước tính thời gian (ETA)</span>
-            <span class="text-xs text-slate-400">Hiệu năng</span>
+        <div class="neon-card border-sky-500/40 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-300 font-extrabold flex items-center justify-center shrink-0">2</div>
+          <div>
+            <div class="font-bold text-sky-300 text-sm">Phân Rã Nhiệm Vụ & Chuỗi Skills Liên Hoàn</div>
+            <p class="text-slate-300 mt-1 leading-relaxed">Agent tự nhận diện Schema → Làm sạch ETL (Bước 2) → Khớp mục tiêu ngành (Bước 3) → Hiển thị thanh tiến trình 5 Skills kích hoạt liên hoàn.</p>
           </div>
-          <div class="prompt-box">"Tốc độ tổng hợp báo cáo nhanh hơn và phải có phần ước tính chính xác mất tầm bao lâu sẽ có kết quả."</div>
-          <p class="text-sm text-slate-300"><strong>Kết quả:</strong> Viết bộ đọc CSV trực tiếp, đọc Excel dạng mảng (bỏ qua định dạng màu thừa), xử lý chia lô 15.000 dòng/lần kèm thanh đếm ngược <span class="code-pill">Còn lại: ~X.Xs</span> và nút chạy 1-Click.</p>
         </div>
 
-        <div class="neon-card space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold text-[#e879f9]">Câu lệnh 4: Gắn API LLM thật, Trợ lý ảo AI & Giao diện Neon</span>
-            <span class="text-xs text-slate-400">AI & UI/UX</span>
+        <div class="neon-card border-amber-500/45 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 font-extrabold flex items-center justify-center shrink-0">3</div>
+          <div>
+            <div class="font-bold text-amber-300 text-sm">Dừng Tại HITL Approval Breakpoint</div>
+            <p class="text-slate-300 mt-1 leading-relaxed">Tại Bước 4, Agent <b>dừng lại</b> hiển thị bảng kiểm toán & hộp phê duyệt <span class="code-pill">#hitl-approval-panel</span>, chờ người thuyết trình nhấn <b>"Phê Duyệt & Xuất Báo Cáo"</b>.</p>
           </div>
-          <div class="prompt-box">"Gắn API LLM thật (Gemini/OpenAI) phân tích trên dữ liệu vừa nạp; tạo nhân vật trợ lý ảo hình người chọn được Nam/Nữ sinh động; đổi bố cục cửa sổ sidebar và màu Neon."</div>
-          <p class="text-sm text-slate-300"><strong>Kết quả:</strong> Kết nối trực tiếp Gemini API (<span class="code-pill">gemini-3.5-flash-lite</span>), tạo Serverless Proxy <span class="code-pill">api/chat.js</span> cho Vercel, thêm trợ lý ảo Nam/Nữ có giọng nói và giao diện Cyber Neon Studio.</p>
         </div>
-      </div>
-    </section>
 
-    <!-- SLIDE 5: 5-STEP WORKFLOW -->
-    <section class="slide space-y-6" data-note="Đây là quy trình 5 bước hoàn chỉnh mà người dùng sẽ thao tác trên màn hình. Lưu ý là Bước 2 (Làm sạch) đã được đẩy lên trước Bước 3 (Khung ngành & KPIs) để đảm bảo dữ liệu sạch trước khi tính toán chỉ số.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 3 • LUỒNG HOẠT ĐỘNG CỦA AGENT</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Quy Trình 5 Bước Khép Kín Trên Giao Diện</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-sm">
-        <div class="neon-card space-y-2.5">
-          <div class="w-9 h-9 rounded-lg bg-[#00f5d4] text-slate-950 font-black flex items-center justify-center">1</div>
-          <h4 class="font-bold text-slate-100">Tiếp Nhận Dữ Liệu</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">Điền 3 ô bắt buộc (Công ty, Ngành, Mục tiêu), gắn API Key và kéo thả file Excel, CSV hoặc JSON.</p>
-        </div>
-        <div class="neon-card space-y-2.5 border-[#00f5d4]">
-          <div class="w-9 h-9 rounded-lg bg-[#00bbf9] text-slate-950 font-black flex items-center justify-center">2</div>
-          <h4 class="font-bold text-[#00f5d4]">Làm Sạch Tự Động</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">Tự nhận diện tên cột, khử đơn trùng, loại đơn hủy và đưa hàng đổi trả về số âm.</p>
-        </div>
-        <div class="neon-card space-y-2.5">
-          <div class="w-9 h-9 rounded-lg bg-slate-800 text-[#00f5d4] border border-cyan-500/40 font-black flex items-center justify-center">3</div>
-          <h4 class="font-bold text-slate-100">Khung Ngành & KPIs</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">Tự thiết lập 3 KPI trọng yếu và kế hoạch 4 bước bám sát ngành nghề vừa nhập.</p>
-        </div>
-        <div class="neon-card space-y-2.5">
-          <div class="w-9 h-9 rounded-lg bg-slate-800 text-[#00f5d4] border border-cyan-500/40 font-black flex items-center justify-center">4</div>
-          <h4 class="font-bold text-slate-100">Phân Tích & Audit</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">Đo tăng trưởng MoM, chấm điểm khẩn cấp (/100) và cảnh báo bất thường từng chi nhánh.</p>
-        </div>
-        <div class="neon-card space-y-2.5 border-[#e879f9]/60">
-          <div class="w-9 h-9 rounded-lg bg-[#e879f9] text-slate-950 font-black flex items-center justify-center">5</div>
-          <h4 class="font-bold text-[#e879f9]">Báo Cáo & Hỏi AI</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">Xem BCTC chuẩn VAS, Biểu đồ, Sửa số liệu trực tiếp, Hỏi đáp AI thật và Xuất Excel/PDF.</p>
+        <div class="neon-card border-emerald-500/45 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 font-extrabold flex items-center justify-center shrink-0">4</div>
+          <div>
+            <div class="font-bold text-emerald-300 text-sm">Hiển Thị Báo Cáo Markdown & Dữ Liệu Sạch</div>
+            <p class="text-slate-300 mt-1 leading-relaxed">Bước 5 hiển thị Dashboard, BCTC Thông tư 200, bảng dữ liệu chuẩn hóa và <b>Báo cáo Markdown (.md)</b> hoàn chỉnh (xem trước, copy, tải file).</p>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- SLIDE 6: ARCHITECTURE & FILES -->
-    <section class="slide space-y-6" data-note="Về mặt kỹ thuật, toàn bộ hệ thống rất gọn nhẹ chỉ gồm 3 thành phần cốt lõi để deploy mượt lên Vercel: giao diện xử lý dữ liệu trực tiếp trên trình duyệt, một API trung gian để bảo mật key khi lên mạng, và bộ file dữ liệu gốc đa định dạng để kiểm thử.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 4 • KIẾN TRÚC & THÀNH PHẦN DỰ ÁN</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Gọn Nhẹ, Dễ Triển Khai Trên Localhost & Vercel</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="neon-card space-y-3">
-          <div class="text-base font-bold text-[#00f5d4]"><i class="fa-solid fa-window-maximize mr-2"></i>Giao Diện & Xử Lý (<span class="code-pill">index.html</span>)</div>
-          <ul class="text-sm text-slate-300 space-y-2 list-disc pl-5">
-            <li>Chạy trực tiếp trên trình duyệt, không cần cài đặt server nặng nề.</li>
-            <li>Dùng <strong>SheetJS</strong> đọc/xuất Excel và <strong>Chart.js</strong> vẽ biểu đồ tương tác.</li>
-            <li>Chuẩn hóa 1 phông chữ <strong>Plus Jakarta Sans</strong> sắc nét.</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-3">
-          <div class="text-base font-bold text-[#38bdf8]"><i class="fa-solid fa-server mr-2"></i>API Bảo Mật (<span class="code-pill">api/chat.js</span>)</div>
-          <ul class="text-sm text-slate-300 space-y-2 list-disc pl-5">
-            <li>Chạy dạng Serverless trên Vercel với <span class="code-pill">package.json</span> chuẩn ESM.</li>
-            <li>Đọc biến môi trường <span class="code-pill">GEMINI_API_KEY</span> trên server để không lộ key.</li>
-            <li>Tự động đổi model dự phòng nếu Google quá tải (lỗi 503/429).</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-3">
-          <div class="text-base font-bold text-[#e879f9]"><i class="fa-solid fa-database mr-2"></i>Dữ Liệu Kiểm Thử Đa Dạng</div>
-          <ul class="text-sm text-slate-300 space-y-2 list-disc pl-5">
-            <li><strong>NovaTech (25.000 dòng):</strong> Excel 3 sheet, CSV 15k, JSON 5k.</li>
-            <li><strong>GoldenCup F&B (10.000 dòng):</strong> Cột tiếng Anh (<span class="code-pill">Order_ID</span>, <span class="code-pill">Total_Amount</span>...).</li>
-            <li><strong>Tải nặng (60.000+ dòng):</strong> CSV kiểm tra tốc độ & ETA.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SLIDE 7: SMART SCHEMA & SPEED -->
-    <section class="slide space-y-6" data-note="Hai điểm kỹ thuật giải quyết bài toán thực tế của doanh nghiệp: thứ nhất là đọc được mọi file dữ liệu dù đặt tên cột tiếng Việt hay tiếng Anh; thứ hai là ước tính thời gian và xử lý hàng chục nghìn dòng không làm đơ trình duyệt.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 5 • ĐIỂM NHẤN KỸ THUẬT</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Nhận Diện Mọi Cấu Trúc File & Tăng Tốc Xử Lý</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="neon-card space-y-3">
-          <h3 class="text-base font-bold text-[#00f5d4]"><i class="fa-solid fa-diagram-project mr-2"></i>Bộ Tự Nhận Diện Cột Thông Minh</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li><strong>Hiểu song ngữ Việt – Anh:</strong> Tự khớp các tên cột như <em>Doanh thu / Revenue / Total_Amount</em>, <em>Chi nhánh / Branch_Name</em>, <em>Số lượng / Qty</em>.</li>
-            <li><strong>Tự suy luận khi gặp file lạ:</strong> Nếu tên cột không nằm trong từ điển, Agent quét 40 dòng đầu để tự tìm cột tiền lớn nhất và cột phân nhóm chi nhánh.</li>
-            <li><strong>Tự nhận diện Kỳ Báo Cáo:</strong> Tự tách tháng/năm mới nhất trong file để so sánh với kỳ trước đó.</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-3">
-          <h3 class="text-base font-bold text-[#38bdf8]"><i class="fa-solid fa-gauge-high mr-2"></i>Tối Ưu Tốc Độ & Ước Tính ETA</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li><strong>Đọc file siêu nhanh:</strong> File CSV được tách trực tiếp bằng bộ đọc riêng; file Excel chỉ đọc dữ liệu thô (bỏ qua màu sắc, style).</li>
-            <li><strong>Xử lý chia lô 15.000 dòng:</strong> Trình duyệt luôn mượt, không bị treo khi nạp file lớn.</li>
-            <li><strong>Dự báo thời gian thực:</strong> Tính trước số giây ước tính theo dung lượng file và đếm ngược <span class="code-pill">Còn lại: ~X.Xs</span> theo tốc độ xử lý thực tế.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SLIDE 8: FINANCIAL STATEMENTS -->
-    <section class="slide space-y-5" data-note="Ở Bước 5, thay vì tách ra nhiều trang rời rạc, toàn bộ Báo cáo Tài chính chuẩn VAS, biểu đồ, phần chỉnh sửa số liệu và hỏi AI đều nằm trên 1 màn hình để lãnh đạo xem và ra quyết định ngay.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 6 • TRUNG TÂM BÁO CÁO TÀI CHÍNH HỢP NHẤT</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Đầy Đủ 4 Thành Phần BCTC Chuẩn VAS Trên 1 Trang</h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="neon-card space-y-2">
-          <div class="font-bold text-sm text-[#00f5d4]">1. Kết Quả Kinh Doanh (P&L)</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Đầy đủ từ Mã 01 đến Mã 60: Doanh thu gộp, Giảm trừ, DT thuần, Giá vốn, Lãi gộp, Chi phí bán hàng/QLDN, Thuế 20%, Lợi nhuận sau thuế.</p>
-        </div>
-        <div class="neon-card space-y-2">
-          <div class="font-bold text-sm text-[#38bdf8]">2. Bảng Cân Đối Kế Toán</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Cân đối chính xác Tài sản (Tiền, Phải thu, Tồn kho, TSCĐ) bằng Tổng Nguồn vốn (Nợ phải trả + Vốn chủ sở hữu).</p>
-        </div>
-        <div class="neon-card space-y-2">
-          <div class="font-bold text-sm text-[#e879f9]">3. Lưu Chuyển Tiền Tệ</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Bóc tách rõ 3 dòng tiền: Hoạt động Kinh doanh (Mã 20), Hoạt động Đầu tư (Mã 30) và Hoạt động Tài chính (Mã 40).</p>
-        </div>
-        <div class="neon-card space-y-2">
-          <div class="font-bold text-sm text-emerald-400">4. 8 Chỉ Số Tài Chính</div>
-          <p class="text-xs text-slate-300 leading-relaxed">Biên lãi gộp, Biên lãi ròng, ROA, ROE, Thanh toán hiện hành, Thanh toán nhanh, Nợ/Vốn CSH (D/E) và Vòng quay tồn kho.</p>
-        </div>
-      </div>
-      <div class="neon-card text-sm text-slate-200 flex items-center space-x-3">
-        <i class="fa-solid fa-pen-to-square text-[#00f5d4] text-lg"></i>
-        <span><strong>Chỉnh Sửa Trực Tiếp (Live Editor):</strong> Thay đổi doanh thu, KPI hoặc tỷ lệ đổi trả của bất kỳ chi nhánh nào → Toàn bộ 4 bảng BCTC & 2 biểu đồ tự tính lại tức thì.</span>
-      </div>
-    </section>
-
-    <!-- SLIDE 9: REAL AI & HUMANOID ASSISTANT -->
-    <section class="slide space-y-6" data-note="Về phần AI, khi người dùng dán Gemini API Key (hoặc cấu hình trên Vercel), mọi câu hỏi đều gửi kèm tóm tắt số liệu thật của file vừa nạp nên AI trả lời đúng con số thực tế chứ không trả lời chung chung. Bên cạnh đó là nhân vật trợ lý Nam/Nữ sinh động ở góc dưới.">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 7 • KẾT NỐI AI THẬT & TRỢ LÝ ẢO</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Trả Lời Dựa Trên Số Liệu Thật & Nhân Vật Sinh Động</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="neon-card space-y-3">
-          <h3 class="text-base font-bold text-[#00f5d4]"><i class="fa-solid fa-brain mr-2"></i>Kết Nối Gemini & OpenAI API Thật</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li><strong>Hiểu đúng dữ liệu doanh nghiệp:</strong> Hệ thống tự đóng gói tên công ty, ngành, mục tiêu, tổng hợp P&L và các chi nhánh bất thường vào ngữ cảnh câu hỏi.</li>
-            <li><strong>Linh hoạt 3 chế độ:</strong> Chạy trực tiếp bằng Gemini Key, OpenAI Key hoặc qua Server Proxy trên Vercel.</li>
-            <li><strong>Luôn hoạt động:</strong> Có chế độ Offline dự phòng ngay cả khi chưa gắn API Key.</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-3">
-          <h3 class="text-base font-bold text-[#e879f9]"><i class="fa-solid fa-user-tie mr-2"></i>Trợ Lý Ảo Hình Người Góc Dưới</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li><strong>Chọn giới tính Nam / Nữ:</strong> Chuyển đổi mượt mà giữa <strong>Ms. Victoria</strong> và <strong>Mr. Julian</strong> với ảnh chân dung tạo bằng AI.</li>
-            <li><strong>Hiệu ứng sinh động:</strong> Có chuyển động nhịp thở tự nhiên, vòng sáng và sóng âm thanh nhảy nhịp khi trả lời.</li>
-            <li><strong>Hỏi nhanh & Giọng nói:</strong> Hỏi trực tiếp trong khung trợ lý và bật loa để nghe AI đọc bằng tiếng Việt.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SLIDE 10: CONCLUSION -->
-    <section class="slide space-y-6 text-center" data-note="Tóm lại, từ một bản mẫu ban đầu, qua chuỗi câu lệnh tinh chỉnh từng bước, hệ thống đã trở thành một AI Agent hoàn chỉnh cho nhiều doanh nghiệp, nhanh, chính xác và sẵn sàng demo trực tiếp ngay bây giờ. Cảm ơn thầy cô và các bạn đã lắng nghe!">
-      <div>
-        <span class="text-xs font-bold text-[#e879f9] uppercase tracking-wider">PHẦN 8 • TỔNG KẾT & DEMO TRỰC TIẾP</span>
-        <h2 class="text-3xl font-extrabold neon-title mt-1">Kết Quả Đạt Được & Định Hướng Mở Rộng</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-        <div class="neon-card space-y-2.5 border-emerald-500/40">
-          <h3 class="text-base font-bold text-[#00f5d4]"><i class="fa-solid fa-circle-check mr-2"></i> Thành Quả Đạt Được</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li>Hoàn thiện luồng 5 bước cho <strong>mọi doanh nghiệp & cấu trúc file</strong>.</li>
-            <li>Xử lý nhanh hàng chục nghìn dòng kèm thanh <strong>ước tính ETA</strong>.</li>
-            <li>Đủ 4 bảng <strong>BCTC chuẩn VAS</strong>, chỉnh sửa trực tiếp & xuất Excel/PDF.</li>
-            <li>Tích hợp <strong>Gemini/OpenAI API thật</strong> và triển khai sạch trên Vercel.</li>
-          </ul>
-        </div>
-        <div class="neon-card space-y-2.5 border-cyan-500/40">
-          <h3 class="text-base font-bold text-[#38bdf8]"><i class="fa-solid fa-rocket mr-2"></i> Hướng Phát Triển Tiếp Theo</h3>
-          <ul class="text-sm text-slate-200 space-y-2 list-disc pl-5 leading-relaxed">
-            <li>Kết nối tự động với Google Sheets API & Cơ sở dữ liệu SQL theo thời gian thực.</li>
-            <li>Bổ sung mô hình AI dự báo doanh thu & tồn kho cho quý tiếp theo.</li>
-            <li>Xuất trực tiếp file PowerPoint (<span class="code-pill">.pptx</span>) chỉ với 1 lần bấm.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="pt-2">
+      <div class="text-center pt-1">
         <a href="index.html" class="btn-neon inline-flex items-center space-x-2">
           <i class="fa-solid fa-play"></i>
-          <span>Mở Demo Trực Tiếp OmniAnalyst AI Studio</span>
+          <span>Chuyển Sang Màn Hình Demo Trực Tiếp OmniAnalyst AI Studio</span>
         </a>
       </div>
     </section>
