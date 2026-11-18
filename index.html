@@ -1531,7 +1531,7 @@
           <td class="p-3 text-right text-slate-400">${fmtNum(r.cost_price)} đ</td>
           <td class="p-3 text-right font-bold text-[#00f5d4]">${fmtNum(r.gross_profit)} đ</td>
           <td class="p-3 text-center">
-            <span class="${isRet ? 'bg-cyan-500/20 text-[#00f5d4]' : 'bg-emerald-950/400/20 text-emerald-400'} px-2 py-0.5 rounded text-xs font-bold">${r.status}</span>
+            <span class="${isRet ? 'bg-cyan-500/20 text-[#00f5d4]' : 'bg-emerald-500/20 text-emerald-400'} px-2 py-0.5 rounded text-xs font-bold">${r.status}</span>
           </td>
         `;
         tbody.appendChild(tr);
@@ -2858,7 +2858,18 @@
             canceledCount++; canceledVal += Math.abs(rawAmount); continue;
           }
 
-          const isRet = statusLow.includes('trả') || statusLow.includes('tra') || statusLow.includes('hoàn') || statusLow.includes('return') || statusLow.includes('refund') || rawQty < 0 || rawAmount < 0;
+          const isCompletedStatus = statusLow.includes('hoàn thành') || statusLow.includes('hoan thanh') || statusLow.includes('completed') || statusLow.includes('thành công') || statusLow.includes('thanh cong');
+          const isReturnStatus = !isCompletedStatus && (
+            statusLow.includes('đổi trả') || statusLow.includes('doi tra') ||
+            statusLow.includes('trả hàng') || statusLow.includes('tra hang') ||
+            statusLow.includes('hoàn tiền') || statusLow.includes('hoan tien') ||
+            statusLow.includes('hoàn trả') || statusLow.includes('hoan tra') ||
+            statusLow.includes('hoàn đơn') || statusLow.includes('hoan don') ||
+            statusLow.includes('bị hoàn') || statusLow.includes('bi hoan') ||
+            statusLow === 'trả' || statusLow === 'hoàn' ||
+            statusLow.includes('return') || statusLow.includes('refund') || statusLow.includes('chargeback')
+          );
+          const isRet = isReturnStatus || rawQty < 0 || rawAmount < 0;
           const cleanQty = isRet ? -Math.abs(rawQty) : Math.abs(rawQty);
           if (isRet) returnCount++;
 
