@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniAnalyst AI • Hệ Thống Phân Tích Dữ Liệu Doanh Nghiệp</title>
+  <title>TienBrystudio • Hệ Thống Phân Tích Dữ Liệu Doanh Nghiệp</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -372,7 +372,7 @@
     <header class="desktop-bar no-print">
       <a class="brand" href="#" onclick="switchStep(1); return false;">
         <span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>
-        <span>OmniAnalyst <span class="brand-studio">Studio</span></span>
+        <span>TienBry<span class="brand-studio">studio</span></span>
       </a>
       <div class="flex flex-wrap items-center gap-2">
         <button onclick="runInstantReport()" class="btn-gold text-xs px-3.5 py-2 rounded-lg flex items-center space-x-1.5">
@@ -637,7 +637,7 @@
             <div>• Thời gian tổng hợp dự kiến (ETA): <strong class="text-[#00f5d4]" id="log-eta-estimate">~0.05 giây (Dữ liệu đã tối ưu sẵn trong RAM)</strong></div>
           </div>
 
-          <!-- Live Progress & ETA Bar -->
+          <!-- Live Progress & ETA Bar (hiện khi đang đọc / tổng hợp file lớn) -->
           <div id="eta-progress-panel" class="hidden mt-4 pt-4 border-t border-cyan-500/25">
             <div class="flex flex-wrap items-center justify-between gap-2 text-xs mb-2">
               <span class="font-bold text-[#00f5d4] flex items-center">
@@ -651,7 +651,7 @@
               </div>
             </div>
             <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-cyan-500/25">
-              <div id="eta-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-yellow-300 to-emerald-400 transition-all duration-100" style="width: 0%"></div>
+              <div id="eta-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-yellow-300 to-emerald-400 transition-all duration-150" style="width: 0%"></div>
             </div>
           </div>
         </div>
@@ -1220,7 +1220,7 @@
           <!-- Chat History Stream -->
           <div class="space-y-3 max-h-80 overflow-y-auto custom-scroll pr-2 text-xs mb-4" id="chat-messages-container">
             <div class="bg-cyan-500/10 border border-cyan-500/25 p-3.5 rounded-xl text-slate-100">
-              <strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> 
+              <strong class="text-[#00f5d4] block mb-1 font-bold">TienBrystudio:</strong> 
               Xin chào! Tôi đã hoàn tất phân tích toàn bộ dữ liệu của <strong class="text-white" id="chat-comp-mention">Công ty</strong>. Bạn có thể bấm vào các câu hỏi gợi ý bên dưới hoặc tự nhập câu hỏi cần đào sâu để tôi bóc tách ngay lập tức!
             </div>
           </div>
@@ -1338,7 +1338,7 @@
 
     <footer class="desktop-footer no-print">
       <span><i class="fa-solid fa-shield-halved text-[#00f5d4] mr-1.5"></i> Dữ liệu phân tích đa doanh nghiệp được xử lý bảo mật trong phiên này</span>
-      <span class="font-semibold text-[#00f5d4]"><i class="fa-solid fa-globe text-[#00f5d4] mr-1"></i> OmniAnalyst Studio</span>
+      <span class="font-semibold text-[#00f5d4]"><i class="fa-solid fa-globe text-[#00f5d4] mr-1"></i> TienBrystudio</span>
     </footer>
   </div><!-- /.desktop -->
 
@@ -1767,6 +1767,7 @@
         document.getElementById('s4-lbl-4').innerText = 'Hiệu Năng Đạt Mục Tiêu';
         document.getElementById('s4-sub-4').innerText = 'So với chỉ tiêu kỳ';
 
+        const flags = CURRENT_DATA.data_flags || { has_real_cogs: true, has_real_prev: true, has_real_target: true, has_real_opex_bs: false };
         let totalRev = 0, totalProfit = 0, totalTarget = 0, totalRevPrev = 0;
         CURRENT_DATA.report.forEach(r => {
           totalRev += r.net_revenue;
@@ -1775,15 +1776,20 @@
           totalRevPrev += r.net_revenue_prev;
         });
 
-        const overallKPI = totalTarget > 0 ? (totalRev / totalTarget) * 100 : 0;
-        const overallMargin = totalRev > 0 ? (totalProfit / totalRev) * 100 : 0;
-        const overallMoM = totalRevPrev > 0 ? ((totalRev - totalRevPrev) / totalRevPrev) * 100 : 0;
+        const hasTarget = flags.has_real_target && totalTarget > 0;
+        const hasPrev = flags.has_real_prev && totalRevPrev > 0;
+        const hasCogs = !!flags.has_real_cogs;
+        const overallKPI = hasTarget ? (totalRev / totalTarget) * 100 : null;
+        const overallMargin = (hasCogs && totalRev > 0) ? (totalProfit / totalRev) * 100 : null;
+        const overallMoM = hasPrev ? ((totalRev - totalRevPrev) / totalRevPrev) * 100 : null;
 
         document.getElementById('s4-rev').innerText = fmtSmartMoney(totalRev);
-        document.getElementById('s4-rev-mom').innerText = (overallMoM > 0 ? '+' : '') + overallMoM.toFixed(1) + '% MoM';
-        document.getElementById('s4-profit').innerText = fmtSmartMoney(totalProfit);
-        document.getElementById('s4-margin').innerText = overallMargin.toFixed(1) + '%';
-        document.getElementById('s4-kpi').innerText = overallKPI.toFixed(1) + '%';
+        document.getElementById('s4-rev-mom').innerText = overallMoM !== null ? ((overallMoM > 0 ? '+' : '') + overallMoM.toFixed(1) + '% MoM') : 'N/A (1 kỳ dữ liệu)';
+        document.getElementById('s4-profit').innerText = hasCogs ? fmtSmartMoney(totalProfit) : 'N/A';
+        if (!hasCogs) document.getElementById('s4-sub-2').innerText = 'Chưa có cột Giá vốn (COGS)';
+        document.getElementById('s4-margin').innerText = overallMargin !== null ? overallMargin.toFixed(1) + '%' : 'N/A';
+        document.getElementById('s4-kpi').innerText = overallKPI !== null ? overallKPI.toFixed(1) + '%' : 'N/A';
+        if (!hasTarget) document.getElementById('s4-sub-4').innerText = 'Chưa có cột Mục tiêu';
       }
 
       const container = document.getElementById('anomalies-list-box');
@@ -1807,7 +1813,7 @@
           </div>
           <div class="text-right whitespace-nowrap">
             <span class="block text-slate-400">Tổng giá trị: <strong class="text-[#00f5d4]">${domain === 'SALES_FINANCE' ? fmtMil(r.net_revenue) + ' Tr' : fmtNum(r.net_revenue)}</strong></span>
-            <span class="block text-slate-400">Đạt chuẩn / KPI: <strong class="text-[#38bdf8]">${r.kpi_completion_pct}%</strong></span>
+            <span class="block text-slate-400">Đạt chuẩn / KPI: <strong class="text-[#38bdf8]">${r.kpi_completion_pct === 'N/A' || r.kpi_completion_pct === null ? 'N/A' : r.kpi_completion_pct + '%'}</strong></span>
           </div>
         `;
         container.appendChild(card);
@@ -1970,10 +1976,11 @@
       ['pnl-hdr-prev', 'bs-hdr-prev', 'cf-hdr-prev'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = `KỲ TRƯỚC (${pPrev})`; });
 
       // 1. Tính toán P&L STRICT ZERO-FABRICATION từ dữ liệu thực tế
-      const flags = CURRENT_DATA.data_flags || { has_real_cogs: true, has_real_prev: true, has_real_target: true, has_real_opex_bs: true };
+      const flags = CURRENT_DATA.data_flags || { has_real_cogs: true, has_real_prev: true, has_real_target: true, has_real_opex_bs: false };
       let grossSales = 0;
       let deductions = 0;
       let cogs = 0;
+      let cogsPrevReal = 0;
       let netRev = 0;
       let netRevPrev = 0;
 
@@ -1986,12 +1993,11 @@
           grossSales += r.gross_sales;
           deductions += (r.returns_deduction || 0);
         } else {
-          const retAmt = r.return_rate_revenue > 0 ? Math.round((rev / Math.max(1, 100 - r.return_rate_revenue)) * r.return_rate_revenue) : 0;
-          grossSales += (rev + retAmt);
-          deductions += retAmt;
+          grossSales += rev;
         }
         if (flags.has_real_cogs) {
           cogs += (r.cogs !== undefined ? r.cogs : Math.max(0, rev - profit));
+          cogsPrevReal += (r.cogs_prev || 0);
         }
       });
 
@@ -1999,27 +2005,28 @@
       const grossSalesPrev = hasPrev ? netRevPrev : null;
       const deductionsPrev = hasPrev ? 0 : null;
       const grossProfit = flags.has_real_cogs ? (netRev - cogs) : null;
-      const cogsPrev = (hasPrev && flags.has_real_cogs) ? Math.round(netRevPrev * (cogs / (netRev || 1))) : null;
-      const grossProfitPrev = (hasPrev && flags.has_real_cogs) ? (netRevPrev - cogsPrev) : null;
+      const hasPrevCogs = hasPrev && flags.has_real_cogs && cogsPrevReal > 0;
+      const cogsPrev = hasPrevCogs ? cogsPrevReal : null;
+      const grossProfitPrev = hasPrevCogs ? (netRevPrev - cogsPrev) : null;
 
-      // Chỉ tính OpEx / Tài sản / Thuế nếu tệp có dữ liệu hoặc dùng bộ Audit chuẩn (không bịa số cho file giao dịch thô!)
+      // Chỉ tính OpEx / Tài sản / Thuế nếu tệp có dữ liệu thực tế (tuyệt đối không bịa số hay tính tiếp từ số bịa!)
       const hasOpEx = !!flags.has_real_opex_bs;
-      const sellingExp = hasOpEx ? Math.round(netRev * 0.125) : null;
-      const sellingExpPrev = (hasOpEx && hasPrev) ? Math.round(netRevPrev * 0.128) : null;
-      const adminExp = hasOpEx ? Math.round(netRev * 0.075) : null;
-      const adminExpPrev = (hasOpEx && hasPrev) ? Math.round(netRevPrev * 0.077) : null;
-      const operatingProfit = (hasOpEx && grossProfit !== null) ? (grossProfit - sellingExp - adminExp) : null;
-      const operatingProfitPrev = (hasOpEx && grossProfitPrev !== null) ? (grossProfitPrev - sellingExpPrev - adminExpPrev) : null;
-      const finIncome = hasOpEx ? Math.round(netRev * 0.008) : null;
-      const finExpense = hasOpEx ? Math.round(netRev * 0.012) : null;
-      const finIncomePrev = (hasOpEx && hasPrev) ? Math.round(netRevPrev * 0.007) : null;
-      const finExpensePrev = (hasOpEx && hasPrev) ? Math.round(netRevPrev * 0.011) : null;
-      const profitBeforeTax = (hasOpEx && operatingProfit !== null) ? (operatingProfit + finIncome - finExpense) : null;
-      const profitBeforeTaxPrev = (hasOpEx && operatingProfitPrev !== null) ? (operatingProfitPrev + finIncomePrev - finExpensePrev) : null;
-      const tax = (hasOpEx && profitBeforeTax !== null) ? Math.round(profitBeforeTax * 0.20) : null;
-      const taxPrev = (hasOpEx && profitBeforeTaxPrev !== null) ? Math.round(profitBeforeTaxPrev * 0.20) : null;
-      const netProfit = (hasOpEx && profitBeforeTax !== null) ? (profitBeforeTax - tax) : null;
-      const netProfitPrev = (hasOpEx && profitBeforeTaxPrev !== null) ? (profitBeforeTaxPrev - taxPrev) : null;
+      const sellingExp = null;
+      const sellingExpPrev = null;
+      const adminExp = null;
+      const adminExpPrev = null;
+      const operatingProfit = null;
+      const operatingProfitPrev = null;
+      const finIncome = null;
+      const finExpense = null;
+      const finIncomePrev = null;
+      const finExpensePrev = null;
+      const profitBeforeTax = null;
+      const profitBeforeTaxPrev = null;
+      const tax = null;
+      const taxPrev = null;
+      const netProfit = null;
+      const netProfitPrev = null;
 
       const fmtCell = (v) => (v === null || v === undefined) ? '<span class="text-slate-500 italic">N/A (Chưa có trong tệp)</span>' : `${v.toLocaleString('vi-VN')} đ`;
       const fmtPct = (num, den) => (num === null || num === undefined || !den) ? 'N/A' : ((num / den) * 100).toFixed(1) + '%';
@@ -2067,77 +2074,33 @@
         }).join('');
       }
 
-      // 2. Render Bảng Cân Đối Kế Toán
-      const cash = Math.round(netRev * 0.22);
-      const cashPrev = Math.round(netRevPrev * 0.20);
-      const receivables = Math.round(netRev * 0.08);
-      const receivablesPrev = Math.round(netRevPrev * 0.075);
-      const inventory = Math.round(cogs * 0.35);
-      const inventoryPrev = Math.round(cogsPrev * 0.38);
-      const otherShortTerm = Math.round(netRev * 0.03);
-      const otherShortTermPrev = Math.round(netRevPrev * 0.03);
-      const totalShortTermAssets = cash + receivables + inventory + otherShortTerm;
-      const totalShortTermAssetsPrev = cashPrev + receivablesPrev + inventoryPrev + otherShortTermPrev;
-
-      const fixedAssets = Math.round(netRev * 0.45);
-      const fixedAssetsPrev = Math.round(netRevPrev * 0.46);
-      const depr = -Math.round(fixedAssets * 0.18);
-      const deprPrev = -Math.round(fixedAssetsPrev * 0.15);
-      const netFixedAssets = fixedAssets + depr;
-      const netFixedAssetsPrev = fixedAssetsPrev + deprPrev;
-      const longTermInvest = Math.round(netRev * 0.05);
-      const longTermInvestPrev = Math.round(netRevPrev * 0.05);
-      const totalLongTermAssets = netFixedAssets + longTermInvest;
-      const totalLongTermAssetsPrev = netFixedAssetsPrev + longTermInvestPrev;
-
-      const TOTAL_ASSETS = totalShortTermAssets + totalLongTermAssets;
-      const TOTAL_ASSETS_PREV = totalShortTermAssetsPrev + totalLongTermAssetsPrev;
-
-      // NGUỒN VỐN (Nợ + Vốn CSH)
-      const payables = Math.round(cogs * 0.25);
-      const payablesPrev = Math.round(cogsPrev * 0.26);
-      const shortTermDebt = Math.round(netRev * 0.15);
-      const shortTermDebtPrev = Math.round(netRevPrev * 0.16);
-      const otherLiabilities = Math.round(netRev * 0.05);
-      const otherLiabilitiesPrev = Math.round(netRevPrev * 0.05);
-      const totalLiabilities = payables + shortTermDebt + otherLiabilities;
-      const totalLiabilitiesPrev = payablesPrev + shortTermDebtPrev + otherLiabilitiesPrev;
-
-      const ownerEquity = Math.round(TOTAL_ASSETS * 0.50);
-      const ownerEquityPrev = Math.round(TOTAL_ASSETS_PREV * 0.50);
-      const retainedEarnings = TOTAL_ASSETS - totalLiabilities - ownerEquity;
-      const retainedEarningsPrev = TOTAL_ASSETS_PREV - totalLiabilitiesPrev - ownerEquityPrev;
-      const totalEquity = ownerEquity + retainedEarnings;
-      const totalEquityPrev = ownerEquityPrev + retainedEarningsPrev;
-
-      const TOTAL_LIAB_EQUITY = totalLiabilities + totalEquity;
-      const TOTAL_LIAB_EQUITY_PREV = totalLiabilitiesPrev + totalEquityPrev;
-
+      // 2. Render Bảng Cân Đối Kế Toán (STRICT ZERO-FABRICATION: Chỉ hiển thị nếu tệp có dữ liệu BCTC thực tế)
       const bsRows = [
-        { stt: 'A', code: '100', name: 'TÀI SẢN NGẮN HẠN (100 = 110 + 130 + 140 + 150)', cur: totalShortTermAssets, prev: totalShortTermAssetsPrev, isHeader: true, isBold: true, pct: ((totalShortTermAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '1', code: '110', name: 'Tiền và các khoản tương đương tiền (Tiền mặt tại quỹ + Ngân hàng)', cur: cash, prev: cashPrev, isBold: false, pct: ((cash/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '2', code: '130', name: 'Các khoản phải thu ngắn hạn (Khách hàng & Đối tác sàn TMĐT)', cur: receivables, prev: receivablesPrev, isBold: false, pct: ((receivables/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '3', code: '140', name: 'Hàng tồn kho (Trữ lượng hàng hóa tại hệ thống kho & showroom)', cur: inventory, prev: inventoryPrev, isBold: false, pct: ((inventory/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '4', code: '150', name: 'Tài sản ngắn hạn khác (Tạm ứng, thuế GTGT được khấu trừ)', cur: otherShortTerm, prev: otherShortTermPrev, isBold: false, pct: ((otherShortTerm/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: 'B', code: '200', name: 'TÀI SẢN DÀI HẠN (200 = 220 + 250)', cur: totalLongTermAssets, prev: totalLongTermAssetsPrev, isHeader: true, isBold: true, pct: ((totalLongTermAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '5', code: '220', name: 'Tài sản cố định thuần (Nguyên giá trừ hao mòn luỹ kế)', cur: netFixedAssets, prev: netFixedAssetsPrev, isBold: false, pct: ((netFixedAssets/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '6', code: '250', name: 'Đầu tư tài chính dài hạn & Tài sản dài hạn khác', cur: longTermInvest, prev: longTermInvestPrev, isBold: false, pct: ((longTermInvest/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '', code: '270', name: 'TỔNG CỘNG TÀI SẢN (270 = 100 + 200)', cur: TOTAL_ASSETS, prev: TOTAL_ASSETS_PREV, isHeader: true, isBold: true, highlight: true, pct: '100.0%' },
-        { stt: 'C', code: '300', name: 'NỢ PHẢI TRẢ (LIABILITIES)', cur: totalLiabilities, prev: totalLiabilitiesPrev, isHeader: true, isBold: true, pct: ((totalLiabilities/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '7', code: '310', name: 'Phải trả người bán ngắn hạn (Công nợ nhà cung cấp)', cur: payables, prev: payablesPrev, isBold: false, pct: ((payables/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '8', code: '320', name: 'Vay và nợ thuê tài chính ngắn hạn (Ngân hàng & Tín dụng)', cur: shortTermDebt, prev: shortTermDebtPrev, isBold: false, pct: ((shortTermDebt/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '9', code: '330', name: 'Phải trả người lao động & Thuế phải nộp Nhà nước', cur: otherLiabilities, prev: otherLiabilitiesPrev, isBold: false, pct: ((otherLiabilities/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: 'D', code: '400', name: 'VỐN CHỦ SỞ HỮU (OWNER\'S EQUITY)', cur: totalEquity, prev: totalEquityPrev, isHeader: true, isBold: true, pct: ((totalEquity/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '10', code: '411', name: 'Vốn góp của chủ sở hữu (Vốn điều lệ)', cur: ownerEquity, prev: ownerEquityPrev, isBold: false, pct: ((ownerEquity/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '11', code: '421', name: 'Lợi nhuận sau thuế chưa phân phối (Luỹ kế)', cur: retainedEarnings, prev: retainedEarningsPrev, isBold: false, pct: ((retainedEarnings/TOTAL_ASSETS)*100).toFixed(1)+'%' },
-        { stt: '', code: '440', name: 'TỔNG CỘNG NGUỒN VỐN (440 = 300 + 400)', cur: TOTAL_LIAB_EQUITY, prev: TOTAL_LIAB_EQUITY_PREV, isHeader: true, isBold: true, highlight: true, pct: '100.0%' }
+        { stt: 'A', code: '100', name: 'TÀI SẢN NGẮN HẠN (100 = 110 + 130 + 140 + 150)', cur: null, prev: null, isHeader: true, isBold: true, pct: 'N/A' },
+        { stt: '1', code: '110', name: 'Tiền và các khoản tương đương tiền', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '2', code: '130', name: 'Các khoản phải thu ngắn hạn', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '3', code: '140', name: 'Hàng tồn kho', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '4', code: '150', name: 'Tài sản ngắn hạn khác', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: 'B', code: '200', name: 'TÀI SẢN DÀI HẠN (200 = 220 + 250)', cur: null, prev: null, isHeader: true, isBold: true, pct: 'N/A' },
+        { stt: '5', code: '220', name: 'Tài sản cố định thuần', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '6', code: '250', name: 'Đầu tư tài chính dài hạn & Tài sản dài hạn khác', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '', code: '270', name: 'TỔNG CỘNG TÀI SẢN (270 = 100 + 200)', cur: null, prev: null, isHeader: true, isBold: true, highlight: true, pct: 'N/A' },
+        { stt: 'C', code: '300', name: 'NỢ PHẢI TRẢ (LIABILITIES)', cur: null, prev: null, isHeader: true, isBold: true, pct: 'N/A' },
+        { stt: '7', code: '310', name: 'Phải trả người bán ngắn hạn', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '8', code: '320', name: 'Vay và nợ thuê tài chính ngắn hạn', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '9', code: '330', name: 'Phải trả người lao động & Thuế phải nộp', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: 'D', code: '400', name: 'VỐN CHỦ SỞ HỮU (OWNER\'S EQUITY)', cur: null, prev: null, isHeader: true, isBold: true, pct: 'N/A' },
+        { stt: '10', code: '411', name: 'Vốn góp của chủ sở hữu', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '11', code: '421', name: 'Lợi nhuận sau thuế chưa phân phối', cur: null, prev: null, isBold: false, pct: 'N/A' },
+        { stt: '', code: '440', name: 'TỔNG CỘNG NGUỒN VỐN (440 = 300 + 400)', cur: null, prev: null, isHeader: true, isBold: true, highlight: true, pct: 'N/A' }
       ];
 
       const bsBody = document.getElementById('bs-table-body');
       if (bsBody) {
         bsBody.innerHTML = bsRows.map(row => {
-          const change = row.prev > 0 ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : '0.0';
-          const changeClass = Number(change) >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
+          const hasBoth = row.cur !== null && row.prev !== null && row.prev > 0;
+          const change = hasBoth ? (((row.cur - row.prev) / row.prev) * 100).toFixed(1) : null;
+          const changeClass = change === null ? 'text-slate-500' : (Number(change) >= 0 ? 'text-[#00f5d4]' : 'text-pink-400');
           const bgClass = row.highlight ? 'bg-cyan-500/10 text-slate-100 font-extrabold border-y border-cyan-500/25' :
                          row.isHeader ? 'bg-slate-900 font-bold text-[#00f5d4]' :
                          'hover:bg-[#0b1222] text-slate-300';
@@ -2146,36 +2109,27 @@
               <td class="p-3 text-center text-slate-400">${row.stt}</td>
               <td class="p-3 text-center font-mono font-bold text-[#00f5d4]">${row.code}</td>
               <td class="p-3 ${row.isBold ? 'font-bold' : ''}">${row.name}</td>
-              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-[#00f5d4] text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-right font-mono text-slate-400">${row.prev.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-center font-mono font-bold ${changeClass}">${Number(change) >= 0 ? '+' : ''}${change}%</td>
+              <td class="p-3 text-right font-mono font-bold ${row.highlight ? 'text-[#00f5d4] text-sm' : ''}">${fmtCell(row.cur)}</td>
+              <td class="p-3 text-right font-mono text-slate-400">${fmtCell(row.prev)}</td>
+              <td class="p-3 text-center font-mono font-bold ${changeClass}">${change === null ? 'N/A' : (Number(change) >= 0 ? '+' : '') + change + '%'}</td>
               <td class="p-3 text-center font-mono text-slate-400">${row.pct}</td>
             </tr>
           `;
         }).join('');
       }
 
-      // 3. Render Báo Cáo Lưu Chuyển Tiền Tệ
-      const opCashFlow = Math.round(operatingProfit * 0.85);
-      const opCashFlowPrev = Math.round(operatingProfitPrev * 0.82);
-      const invCashFlow = -Math.round(netRev * 0.06);
-      const invCashFlowPrev = -Math.round(netRevPrev * 0.05);
-      const finCashFlow = -Math.round(shortTermDebt * 0.2);
-      const finCashFlowPrev = -Math.round(shortTermDebtPrev * 0.18);
-      const netCashChange = opCashFlow + invCashFlow + finCashFlow;
-      const netCashChangePrev = opCashFlowPrev + invCashFlowPrev + finCashFlowPrev;
-
+      // 3. Render Báo Cáo Lưu Chuyển Tiền Tệ (STRICT ZERO-FABRICATION)
       const cfRows = [
-        { stt: 'I', code: '20', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH (OPERATING CASH FLOW)', cur: opCashFlow, prev: opCashFlowPrev, isHeader: true, desc: 'Dòng tiền dương mạnh mẽ, khẳng định năng lực tạo tiền từ lõi bán lẻ' },
-        { stt: '1', code: '01', name: 'Tiền thu từ bán hàng, cung cấp dịch vụ và doanh thu khác', cur: Math.round(grossSales * 0.98), prev: Math.round(grossSalesPrev * 0.97), desc: 'Dòng tiền vào chủ lực' },
-        { stt: '2', code: '02', name: 'Tiền chi trả cho người cung cấp hàng hóa và dịch vụ', cur: -Math.round(cogs * 0.95), prev: -Math.round(cogsPrev * 0.94), desc: 'Thanh toán công nợ NCC đều đặn' },
-        { stt: '3', code: '03', name: 'Tiền chi trả cho người lao động (Lương, thưởng, phúc lợi)', cur: -Math.round(sellingExp * 0.65), prev: -Math.round(sellingExpPrev * 0.65), desc: 'Chi trả chế độ nhân sự' },
-        { stt: '4', code: '04', name: 'Tiền chi nộp thuế TNDN và các nghĩa vụ ngân sách nhà nước', cur: -tax, prev: -taxPrev, desc: 'Nộp ngân sách đầy đủ' },
-        { stt: 'II', code: '30', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG ĐẦU TƯ (INVESTING CASH FLOW)', cur: invCashFlow, prev: invCashFlowPrev, isHeader: true, desc: 'Chi đầu tư tài sản, nâng cấp cửa hàng và hệ thống CNTT' },
-        { stt: '5', code: '21', name: 'Tiền chi để mua sắm, xây dựng TSCĐ và các tài sản dài hạn khác', cur: invCashFlow, prev: invCashFlowPrev, desc: 'Tái đầu tư mở rộng chuỗi' },
-        { stt: 'III', code: '40', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG TÀI CHÍNH (FINANCING CASH FLOW)', cur: finCashFlow, prev: finCashFlowPrev, isHeader: true, desc: 'Trả bớt nợ gốc vay ngân hàng và tối ưu đòn bẩy' },
-        { stt: '6', code: '33', name: 'Tiền chi trả nợ gốc vay & chi phí lãi vay', cur: finCashFlow, prev: finCashFlowPrev, desc: 'Giảm gánh nặng lãi suất' },
-        { stt: 'IV', code: '50', name: 'LƯU CHUYỂN TIỀN THUẦN TRONG KỲ (50 = 20 + 30 + 40)', cur: netCashChange, prev: netCashChangePrev, isHeader: true, highlight: true, desc: 'Thặng dư tiền ròng bổ sung vào quỹ dự trữ thanh khoản' }
+        { stt: 'I', code: '20', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG KINH DOANH', cur: null, prev: null, isHeader: true, desc: 'Chưa có dữ liệu dòng tiền thực thu/chi trong tệp' },
+        { stt: '1', code: '01', name: 'Tiền thu từ bán hàng, cung cấp dịch vụ và doanh thu khác', cur: null, prev: null, desc: 'Cần sổ quỹ / sao kê ngân hàng để tính chính xác' },
+        { stt: '2', code: '02', name: 'Tiền chi trả cho người cung cấp hàng hóa và dịch vụ', cur: null, prev: null, desc: 'Chưa có dữ liệu chi trả NCC trong tệp' },
+        { stt: '3', code: '03', name: 'Tiền chi trả cho người lao động', cur: null, prev: null, desc: 'Chưa có dữ liệu quỹ lương thực chi trong tệp' },
+        { stt: '4', code: '04', name: 'Tiền chi nộp thuế TNDN và các nghĩa vụ ngân sách', cur: null, prev: null, desc: 'Chưa có chứng từ nộp thuế trong tệp' },
+        { stt: 'II', code: '30', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG ĐẦU TƯ', cur: null, prev: null, isHeader: true, desc: 'Chưa có dữ liệu đầu tư TSCĐ trong tệp' },
+        { stt: '5', code: '21', name: 'Tiền chi mua sắm, xây dựng TSCĐ', cur: null, prev: null, desc: 'Chưa có trong tệp' },
+        { stt: 'III', code: '40', name: 'LƯU CHUYỂN TIỀN THUẦN TỪ HOẠT ĐỘNG TÀI CHÍNH', cur: null, prev: null, isHeader: true, desc: 'Chưa có dữ liệu vay/trả nợ gốc trong tệp' },
+        { stt: '6', code: '33', name: 'Tiền chi trả nợ gốc vay & lãi vay', cur: null, prev: null, desc: 'Chưa có trong tệp' },
+        { stt: 'IV', code: '50', name: 'LƯU CHUYỂN TIỀN THUẦN TRONG KỲ (50 = 20 + 30 + 40)', cur: null, prev: null, isHeader: true, highlight: true, desc: 'Không ước lượng dòng tiền từ doanh thu bán hàng' }
       ];
 
       const cfBody = document.getElementById('cf-table-body');
@@ -2184,40 +2138,34 @@
           const bgClass = row.highlight ? 'bg-cyan-500/10 text-slate-100 font-extrabold border-y border-cyan-500/25' :
                          row.isHeader ? 'bg-slate-900 font-bold text-[#00f5d4]' :
                          'hover:bg-[#0b1222] text-slate-300';
-          const curClass = row.cur >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
-          const prevClass = row.prev >= 0 ? 'text-[#00f5d4]' : 'text-pink-400';
+          const curClass = row.cur === null ? 'text-slate-500' : (row.cur >= 0 ? 'text-[#00f5d4]' : 'text-pink-400');
+          const prevClass = row.prev === null ? 'text-slate-500' : (row.prev >= 0 ? 'text-[#00f5d4]' : 'text-pink-400');
           return `
             <tr class="${bgClass}">
               <td class="p-3 text-center text-slate-400">${row.stt}</td>
               <td class="p-3 text-center font-mono font-bold text-[#00f5d4]">${row.code}</td>
               <td class="p-3 font-semibold">${row.name}</td>
-              <td class="p-3 text-right font-mono font-bold ${curClass} ${row.highlight ? 'text-sm' : ''}">${row.cur.toLocaleString('vi-VN')} đ</td>
-              <td class="p-3 text-right font-mono ${prevClass}">${row.prev.toLocaleString('vi-VN')} đ</td>
+              <td class="p-3 text-right font-mono font-bold ${curClass} ${row.highlight ? 'text-sm' : ''}">${fmtCell(row.cur)}</td>
+              <td class="p-3 text-right font-mono ${prevClass}">${fmtCell(row.prev)}</td>
               <td class="p-3 text-center text-slate-400 text-xs">${row.desc}</td>
             </tr>
           `;
         }).join('');
       }
 
-      // 4. Render 8 Chỉ Số Tài Chính Cốt Lõi
-      const grossMarginPct = ((grossProfit / netRev) * 100).toFixed(1);
-      const netMarginPct = ((netProfit / netRev) * 100).toFixed(1);
-      const roaPct = ((netProfit / TOTAL_ASSETS) * 100).toFixed(1);
-      const roePct = ((netProfit / totalEquity) * 100).toFixed(1);
-      const currentRatio = (totalShortTermAssets / (payables + shortTermDebt)).toFixed(2);
-      const quickRatio = ((cash + receivables) / (payables + shortTermDebt)).toFixed(2);
-      const debtToEquity = (totalLiabilities / totalEquity).toFixed(2);
-      const inventoryTurnover = (cogs / inventory).toFixed(1);
+      // 4. Render Chỉ Số Tài Chính Cốt Lõi (CHỈ tính từ số liệu thực có trong tệp)
+      const grossMarginPct = (grossProfit !== null && netRev > 0) ? ((grossProfit / netRev) * 100).toFixed(1) : null;
+      const returnRatePct = grossSales > 0 ? ((deductions / grossSales) * 100).toFixed(1) : null;
 
       const ratiosData = [
-        { title: 'Biên Lợi Nhuận Gộp (Gross Margin)', val: `${grossMarginPct}%`, benchmark: 'Ngành: 40-45%', status: 'Vượt chuẩn ngành', color: 'emerald', icon: 'fa-chart-pie' },
-        { title: 'Biên Lợi Nhuận Ròng (Net Margin)', val: `${netMarginPct}%`, benchmark: 'Ngành: 15-18%', status: 'Hiệu quả sinh lời cao', color: 'emerald', icon: 'fa-coins' },
-        { title: 'Tỷ Suất Sinh Lời Trên Tài Sản (ROA)', val: `${roaPct}%`, benchmark: 'Chuẩn: > 10%', status: 'Sử dụng vốn tối ưu', color: 'amber', icon: 'fa-building-columns' },
-        { title: 'Tỷ Suất Sinh Lời Vốn CSH (ROE)', val: `${roePct}%`, benchmark: 'Chuẩn: > 20%', status: 'Tỷ suất cổ đông hấp dẫn', color: 'amber', icon: 'fa-gem' },
-        { title: 'Hệ Số Thanh Toán Hiện Hành', val: `${currentRatio}x`, benchmark: 'Ngưỡng an toàn: > 1.5x', status: 'An toàn thanh khoản', color: 'emerald', icon: 'fa-shield-halved' },
-        { title: 'Hệ Số Thanh Toán Nhanh', val: `${quickRatio}x`, benchmark: 'Ngưỡng chuẩn: > 1.0x', status: 'Khả năng trả nợ ngay', color: 'cyan', icon: 'fa-bolt' },
-        { title: 'Hệ Số Nợ / Vốn CSH (D/E)', val: `${debtToEquity}x`, benchmark: 'Ngưỡng an toàn: < 1.2x', status: 'Cơ cấu vốn lành mạnh', color: 'emerald', icon: 'fa-scale-balanced' },
-        { title: 'Vòng Quay Tồn Kho (Turnover)', val: `${inventoryTurnover} vòng`, benchmark: 'Ngành: 2.5 - 3.5 vòng', status: 'Tốc độ giải phóng hàng tốt', color: 'cyan', icon: 'fa-boxes-packing' }
+        { title: 'Biên Lợi Nhuận Gộp (Gross Margin)', val: grossMarginPct !== null ? `${grossMarginPct}%` : 'N/A', benchmark: 'Công thức: LN Gộp / DT Thuần', status: grossMarginPct !== null ? 'Tính từ số thực tế' : 'Thiếu cột Giá vốn', color: grossMarginPct !== null ? 'emerald' : 'slate', icon: 'fa-chart-pie' },
+        { title: 'Tỷ Lệ Giảm Trừ / Đổi Trả', val: returnRatePct !== null ? `${returnRatePct}%` : 'N/A', benchmark: 'Công thức: Giảm trừ / DT Gộp', status: returnRatePct !== null ? 'Tính từ số thực tế' : 'Không có dữ liệu', color: returnRatePct !== null ? 'cyan' : 'slate', icon: 'fa-rotate-left' },
+        { title: 'Biên Lợi Nhuận Ròng (Net Margin)', val: 'N/A', benchmark: 'Cần Chi phí BH/QLDN & Thuế', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-coins' },
+        { title: 'Tỷ Suất Sinh Lời Trên Tài Sản (ROA)', val: 'N/A', benchmark: 'Cần LN Sau Thuế & Tổng Tài Sản', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-building-columns' },
+        { title: 'Tỷ Suất Sinh Lời Vốn CSH (ROE)', val: 'N/A', benchmark: 'Cần LN Sau Thuế & Vốn CSH', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-gem' },
+        { title: 'Hệ Số Thanh Toán Hiện Hành', val: 'N/A', benchmark: 'Cần Tài Sản NH & Nợ NH', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-shield-halved' },
+        { title: 'Hệ Số Nợ / Vốn CSH (D/E)', val: 'N/A', benchmark: 'Cần Tổng Nợ & Vốn CSH', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-scale-balanced' },
+        { title: 'Vòng Quay Tồn Kho (Turnover)', val: 'N/A', benchmark: 'Cần Giá Vốn & Tồn Kho BQ', status: 'Chưa có trong tệp', color: 'slate', icon: 'fa-boxes-packing' }
       ];
 
       const ratiosContainer = document.getElementById('ratios-cards-container');
@@ -2269,6 +2217,7 @@
         `;
       } else {
         switchFinancialTab('pnl');
+        const flags = CURRENT_DATA.data_flags || { has_real_cogs: true, has_real_prev: true, has_real_target: true, has_real_opex_bs: false };
         let totalRev = 0, totalProfit = 0, totalTarget = 0, totalRevPrev = 0;
         CURRENT_DATA.report.forEach(r => {
           totalRev += r.net_revenue;
@@ -2277,15 +2226,18 @@
           totalRevPrev += r.net_revenue_prev;
         });
 
-        const overallKPI = totalTarget > 0 ? (totalRev / totalTarget) * 100 : 0;
-        const overallMargin = totalRev > 0 ? (totalProfit / totalRev) * 100 : 0;
-        const overallMoM = totalRevPrev > 0 ? ((totalRev - totalRevPrev) / totalRevPrev) * 100 : 0;
+        const hasTarget = flags.has_real_target && totalTarget > 0;
+        const hasPrev = flags.has_real_prev && totalRevPrev > 0;
+        const hasCogs = !!flags.has_real_cogs;
+        const overallKPI = hasTarget ? ((totalRev / totalTarget) * 100).toFixed(1) + '%' : 'N/A (Chưa có cột Mục tiêu)';
+        const overallMargin = (hasCogs && totalRev > 0) ? ((totalProfit / totalRev) * 100).toFixed(1) + '%' : 'N/A';
+        const overallMoM = hasPrev ? ((((totalRev - totalRevPrev) / totalRevPrev) * 100 > 0 ? '+' : '') + (((totalRev - totalRevPrev) / totalRevPrev) * 100).toFixed(1) + '% so với kỳ trước (MoM)') : 'N/A (Dữ liệu chỉ có 1 kỳ)';
 
         const p1Stores = CURRENT_DATA.ranking.filter(r => r.priority_level.includes('Ưu tiên 1')).map(r => r.store_name);
 
         document.getElementById('executive-narrative-text').innerHTML = `
           <p>
-            Dựa trên kết quả phân tích dữ liệu chuyên sâu của <strong>${COMPANY_NAME}</strong>, tổng doanh thu thuần toàn chuỗi trong kỳ ghi nhận đạt <strong class="text-[#00f5d4]">${fmtBil(totalRev)} Tỷ VNĐ</strong>, tăng trưởng <strong class="text-[#00f5d4]">${overallMoM > 0 ? '+' : ''}${overallMoM.toFixed(1)}% so với kỳ trước (MoM)</strong> và hoàn thành <strong class="text-[#38bdf8]">${overallKPI.toFixed(1)}% mục tiêu KPI</strong> đã đề ra. Tổng lợi nhuận gộp toàn hệ thống đạt <strong class="text-[#00f5d4]">${fmtBil(totalProfit)} Tỷ VNĐ</strong> với biên lợi nhuận trung bình đạt mức <strong class="text-[#00f5d4]">${overallMargin.toFixed(1)}%</strong>.
+            Dựa trên kết quả phân tích dữ liệu thực tế của <strong>${COMPANY_NAME}</strong>, tổng doanh thu thuần toàn chuỗi trong kỳ ghi nhận đạt <strong class="text-[#00f5d4]">${fmtSmartMoney(totalRev)}</strong>, biến động kỳ: <strong class="text-[#00f5d4]">${overallMoM}</strong> và tỷ lệ hoàn thành mục tiêu KPI: <strong class="text-[#38bdf8]">${overallKPI}</strong>. Tổng lợi nhuận gộp ghi nhận: <strong class="text-[#00f5d4]">${hasCogs ? fmtSmartMoney(totalProfit) : 'N/A (Tệp chưa có cột Giá vốn)'}</strong> (biên gộp: <strong class="text-[#00f5d4]">${overallMargin}</strong>).
           </p>
           <p>
             Tuy nhiên, qua thuật toán đối soát <strong>AI Cross-check Audit</strong>, hệ thống phát hiện <strong class="text-pink-400 font-bold">${p1Stores.length} đơn vị có dấu hiệu suy thoái nghiêm trọng</strong> (${p1Stores.length > 0 ? p1Stores.join(', ') : 'Không có'}). Các đơn vị này cần rà soát lại biên lợi nhuận và tỷ lệ hoàn/đổi trả.
@@ -2601,7 +2553,7 @@
       }
 
       const sysPrompt = customSystemPrompt || (
-        `Bạn là Giám Đốc Tài Chính & Chuyên Gia Phân Tích Dữ Liệu (OmniAnalyst AI) của doanh nghiệp "${COMPANY_NAME}". ` +
+        `Bạn là Giám Đốc Tài Chính & Chuyên Gia Phân Tích Dữ Liệu (TienBrystudio) của doanh nghiệp "${COMPANY_NAME}". ` +
         `QUY TẮC TUYỆT ĐỐI: KHÔNG ĐƯỢC BỊA SỐ LIỆU. Chỉ sử dụng các con số thực tế có trong JSON dữ liệu sau; nếu một chỉ tiêu có giá trị null hoặc N/A (do tệp dữ liệu chưa cung cấp cột đó), phải nói rõ là tệp chưa có dữ liệu này. Trả lời bằng tiếng Việt chuyên nghiệp, kèm công thức tính khi cần:\n` +
         buildFinancialContextForLLM()
       );
@@ -2687,7 +2639,7 @@
       }
       showResult(true, '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Đang gửi yêu cầu kiểm tra kết nối tới LLM API...');
       try {
-        const res = await callRealLLM('Trả lời ngắn gọn 1 câu xác nhận kết nối thành công với OmniAnalyst AI.');
+        const res = await callRealLLM('Trả lời ngắn gọn 1 câu xác nhận kết nối thành công với TienBrystudio.');
         showResult(true, `<strong>🟢 Kết nối thành công!</strong> Phản hồi từ AI: <em>"${formatAIMarkdown(res)}"</em>`);
         showToast('Kết nối LLM API thành công!');
       } catch (err) {
@@ -2811,7 +2763,7 @@
           const margin = totalRev > 0 ? ((totalProfit / totalRev) * 100).toFixed(1) : 'N/A';
           return `📐 Tra cứu chuẩn mực: **${matchedFormula.name}**\n• Công thức: ${matchedFormula.formula}\n• Áp dụng thực tế trên tệp "${COMPANY_NAME}": Doanh thu thuần = ${fmtSmartMoney(totalRev)}, Lợi nhuận gộp = ${CURRENT_DATA.data_flags && !CURRENT_DATA.data_flags.has_real_cogs ? 'N/A (Chưa có cột Giá vốn)' : fmtSmartMoney(totalProfit)}, Biên lãi gộp = ${CURRENT_DATA.data_flags && !CURRENT_DATA.data_flags.has_real_cogs ? 'N/A' : margin + '%'}.`;
         }
-        return `📐 Kho công thức chuẩn của OmniAnalyst AI:\n` + FORMULA_KNOWLEDGE_BASE.slice(0, 5).map(f => `• **${f.name}:** ${f.formula}`).join('\n');
+        return `📐 Kho công thức chuẩn của TienBrystudio:\n` + FORMULA_KNOWLEDGE_BASE.slice(0, 5).map(f => `• **${f.name}:** ${f.formula}`).join('\n');
       }
       const audit = CURRENT_DATA.audit || {};
       const up = CURRENT_DATA.universal_profile;
@@ -2901,7 +2853,7 @@
 
     function updateChatAnswerElement(aDiv, answerText) {
       if (!aDiv) return;
-      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answerText)}`;
+      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">TienBrystudio:</strong> ${formatAIMarkdown(answerText)}`;
       const container = document.getElementById('chat-messages-container');
       if (container) container.scrollTop = container.scrollHeight;
     }
@@ -2915,7 +2867,7 @@
 
       const aDiv = document.createElement('div');
       aDiv.className = "bg-cyan-500/10 border border-cyan-500/25 p-3.5 rounded-xl text-slate-100 whitespace-pre-line";
-      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">OmniAnalyst AI:</strong> ${formatAIMarkdown(answer)}`;
+      aDiv.innerHTML = `<strong class="text-[#00f5d4] block mb-1 font-bold">TienBrystudio:</strong> ${formatAIMarkdown(answer)}`;
       container.appendChild(aDiv);
 
       container.scrollTop = container.scrollHeight;
@@ -2989,18 +2941,24 @@
           totalProfit += r.gross_profit;
           totalTarget += r.target_revenue;
         });
-        const margin = totalRev > 0 ? ((totalProfit / totalRev) * 100).toFixed(1) : '0.0';
-        const kpi = totalTarget > 0 ? ((totalRev / totalTarget) * 100).toFixed(1) : '0.0';
+        const flags = CURRENT_DATA.data_flags || { has_real_cogs: true, has_real_prev: true, has_real_target: true, has_real_opex_bs: false };
+        const hasCogs = !!flags.has_real_cogs;
+        const hasTarget = flags.has_real_target && totalTarget > 0;
+        const margin = (hasCogs && totalRev > 0) ? ((totalProfit / totalRev) * 100).toFixed(1) + '%' : 'N/A';
+        const kpi = hasTarget ? ((totalRev / totalTarget) * 100).toFixed(1) + '%' : 'N/A (Chưa có cột Mục tiêu)';
         lines.push('## 2. Chỉ Số Tài Chính Tổng Hợp (Chuẩn Thông Tư 200 / VAS)');
         lines.push(`- **Doanh thu thuần thực tế:** ${fmtSmartMoney(totalRev)}`);
-        lines.push(`- **Lợi nhuận gộp:** ${fmtSmartMoney(totalProfit)} (Biên gộp: ${margin}%)`);
-        lines.push(`- **Tỷ lệ hoàn thành KPI:** ${kpi}%`);
+        lines.push(`- **Lợi nhuận gộp:** ${hasCogs ? `${fmtSmartMoney(totalProfit)} (Biên gộp: ${margin})` : 'N/A (Tệp chưa có cột Giá vốn)'}`);
+        lines.push(`- **Tỷ lệ hoàn thành KPI:** ${kpi}`);
         lines.push('');
         lines.push('## 3. Chi Tiết Theo Đơn Vị / Nhóm');
-        lines.push('| Mã | Đơn vị / Nhóm | Doanh thu thuần | Lợi nhuận gộp | KPI (%) | Mức ưu tiên |');
+        lines.push('| Mã | Đơn vị / Nhóm | Doanh thu thuần | Lợi nhuận gộp | KPI | Mức ưu tiên |');
         lines.push('| :--- | :--- | ---: | ---: | ---: | :--- |');
         CURRENT_DATA.ranking.slice(0, 12).forEach(r => {
-          lines.push(`| ${r.store_id} | ${r.store_name} | ${fmtNum(r.net_revenue)} | ${fmtNum(r.gross_profit)} | ${r.kpi_completion_pct}% | ${r.priority_level} |`);
+          const repItem = CURRENT_DATA.report.find(x => x.store_id === r.store_id);
+          const gpText = hasCogs ? fmtNum(repItem ? repItem.gross_profit : 0) : 'N/A';
+          const kpiText = (r.kpi_completion_pct === 'N/A' || r.kpi_completion_pct === null) ? 'N/A' : `${r.kpi_completion_pct}%`;
+          lines.push(`| ${r.store_id} | ${r.store_name} | ${fmtNum(r.net_revenue)} | ${gpText} | ${kpiText} | ${r.priority_level} |`);
         });
       } else if (up && up.columnStats) {
         lines.push(`## 2. Thống Kê Đa Miền (${up.domainLabel})`);
@@ -3527,7 +3485,7 @@
           let curObj = storeAggCur[storeId];
           if (!curObj) { curObj = { rev: 0, gross: 0, ret: 0, profit: 0, cogs: 0 }; storeAggCur[storeId] = curObj; }
           let cmpObj = storeAggCmp[storeId];
-          if (!cmpObj) { cmpObj = { rev: 0, profit: 0 }; storeAggCmp[storeId] = cmpObj; }
+          if (!cmpObj) { cmpObj = { rev: 0, profit: 0, cogs: 0 }; storeAggCmp[storeId] = cmpObj; }
 
           const isCurrentPeriod = singlePeriodMode ? true : (period === curPeriodKey);
           if (isCurrentPeriod) {
@@ -3539,6 +3497,7 @@
           } else {
             cmpObj.rev += netAmount;
             cmpObj.profit += grossProfit;
+            cmpObj.cogs += totalCogs;
           }
         }
 
@@ -3560,17 +3519,17 @@
 
       storeList.forEach(s => {
         const cur = storeAggCur[s.sid] || { rev: 0, gross: 0, ret: 0, profit: 0, cogs: 0 };
-        const cmp = storeAggCmp[s.sid] || { rev: 0, profit: 0 };
+        const cmp = storeAggCmp[s.sid] || { rev: 0, profit: 0, cogs: 0 };
         if (cur.rev === 0 && cmp.rev === 0) return;
         const hasRealTarget = s.target > 0;
         const tgt = hasRealTarget ? s.target : 0;
-        const kpi = hasRealTarget ? (cur.rev / tgt) * 100 : 100;
+        const kpi = hasRealTarget ? (cur.rev / tgt) * 100 : null;
         const margin = (hasRealCogs && cur.rev > 0) ? (cur.profit / cur.rev) * 100 : 0;
         const revMom = (hasRealPrevPeriod && cmp.rev > 0) ? ((cur.rev - cmp.rev) / cmp.rev) * 100 : 0;
         const pftMom = (hasRealPrevPeriod && hasRealCogs && cmp.profit > 0) ? ((cur.profit - cmp.profit) / cmp.profit) * 100 : 0;
         const retRate = cur.gross > 0 ? (cur.ret / cur.gross) * 100 : 0;
 
-        reports.push({ store_id: s.sid, store_name: s.name, region: s.region, tier: s.tier, target_revenue: tgt, gross_sales: Math.round(cur.gross), returns_deduction: Math.round(cur.ret), net_revenue: Math.round(cur.rev), net_revenue_prev: Math.round(cmp.rev), gross_profit: hasRealCogs ? Math.round(cur.profit) : 0, cogs: hasRealCogs ? Math.round(cur.cogs) : 0, kpi_completion_pct: Math.round(kpi * 10) / 10, gross_margin_pct: Math.round(margin * 10) / 10, revenue_growth_mom: Math.round(revMom * 10) / 10, profit_growth_mom: Math.round(pftMom * 10) / 10, return_rate_revenue: Math.round(retRate * 10) / 10 });
+        reports.push({ store_id: s.sid, store_name: s.name, region: s.region, tier: s.tier, target_revenue: tgt, gross_sales: Math.round(cur.gross), returns_deduction: Math.round(cur.ret), net_revenue: Math.round(cur.rev), net_revenue_prev: Math.round(cmp.rev), gross_profit: hasRealCogs ? Math.round(cur.profit) : 0, cogs: hasRealCogs ? Math.round(cur.cogs) : 0, cogs_prev: hasRealCogs ? Math.round(cmp.cogs) : 0, kpi_completion_pct: kpi !== null ? Math.round(kpi * 10) / 10 : null, gross_margin_pct: Math.round(margin * 10) / 10, revenue_growth_mom: Math.round(revMom * 10) / 10, profit_growth_mom: Math.round(pftMom * 10) / 10, return_rate_revenue: Math.round(retRate * 10) / 10 });
 
         const anomalies = [];
         const recs = [];
@@ -3587,13 +3546,14 @@
           recs.push("Hỗ trợ ngân sách marketing khu vực và tối ưu chuyển đổi.");
         }
 
-        const score = Math.min(100, Math.max(0, 100 - kpi) * 0.4 + Math.max(0, -revMom) * 0.25 + Math.max(0, -pftMom) * 0.20 + Math.max(0, retRate - 4) * 3.5);
+        const kpiForScore = kpi !== null ? kpi : 100;
+        const score = Math.min(100, Math.max(0, 100 - kpiForScore) * 0.4 + Math.max(0, -revMom) * 0.25 + Math.max(0, -pftMom) * 0.20 + Math.max(0, retRate - 4) * 3.5);
         let plevel = 'Ưu tiên 3: Vận hành ổn định';
         if (score >= 40) plevel = 'Ưu tiên 1: Hỗ trợ khẩn cấp';
         else if (score >= 20) plevel = 'Ưu tiên 2: Cần can thiệp theo dõi';
         if (recs.length === 0) recs.push("Duy trì nhịp độ vận hành hiện tại.");
 
-        rankings.push({ store_id: s.sid, store_name: s.name, tier: s.tier, region: s.region, priority_score: Math.round(score * 10) / 10, priority_level: plevel, kpi_completion_pct: Math.round(kpi * 10) / 10, net_revenue: Math.round(cur.rev), return_rate_revenue: Math.round(retRate * 10) / 10, anomalies, recommendations: recs });
+        rankings.push({ store_id: s.sid, store_name: s.name, tier: s.tier, region: s.region, priority_score: Math.round(score * 10) / 10, priority_level: plevel, kpi_completion_pct: kpi !== null ? Math.round(kpi * 10) / 10 : 'N/A', net_revenue: Math.round(cur.rev), return_rate_revenue: Math.round(retRate * 10) / 10, anomalies, recommendations: recs });
       });
 
       rankings.sort((a,b) => b.priority_score - a.priority_score);
@@ -4069,7 +4029,7 @@
 
       // Gọi API LLM thật nếu đã gắn Key hoặc Server Proxy
       try {
-        const sys = `Bạn là Kỹ sư AI Tự Sửa Lỗi (Self-Healing Web Agent) cho OmniAnalyst Studio. ` +
+        const sys = `Bạn là Kỹ sư AI Tự Sửa Lỗi (Self-Healing Web Agent) cho TienBrystudio. ` +
           `Người dùng gửi feedback loại "${fbType}": "${fbText}". ` +
           `Hãy phân tích ngắn gọn nguyên nhân bằng tiếng Việt và trả về DUY NHẤT 1 JSON hợp lệ dạng: ` +
           `{"diagnosis":"Giải thích ngắn","actions":[{"type":"UPDATE_FONT_SCALE|RECALCULATE_AND_REFRESH|SWITCH_REPORT_TAB|UPDATE_COMPANY_NAME|INJECT_NOTICE_BANNER","value":"..."}]}. ` +
